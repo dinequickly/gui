@@ -1,0 +1,185 @@
+{
+  "widgets": [
+    {
+      "id": "top-nav",
+      "type": "topNav",
+      "column": 2,
+      "order": 0,
+      "width": 500,
+      "height": 44,
+      "group": "chrome",
+      "props": {
+        "items": ["Overview", "AM Brief", "News", "To-Do's"],
+        "active": "Overview"
+      }
+    },
+    {
+      "id": "top-corner-icons",
+      "type": "topCornerIcons",
+      "column": 4,
+      "order": 0,
+      "width": 500,
+      "height": 40,
+      "group": "chrome",
+      "props": {}
+    },
+    {
+      "id": "btc-chart",
+      "type": "chartCard",
+      "column": 1,
+      "order": 1,
+      "width": 500,
+      "height": 250,
+      "props": {
+        "title": "BTC",
+        "labels": ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+        "series": [12, 18, 56, 14, 26, 65, 88]
+      }
+    },
+    {
+      "id": "btc-reminders",
+      "type": "reminderList",
+      "column": 1,
+      "order": 2,
+      "width": 500,
+      "height": 170,
+      "props": {
+        "rows": [
+          { "title": "Title", "subtitle": "Description", "time": "9:41 AM" },
+          { "title": "Title", "subtitle": "Description", "time": "9:41 AM" },
+          { "title": "Title", "subtitle": "Description", "time": "9:41 AM" }
+        ]
+      }
+    },
+    {
+      "id": "left-reader",
+      "type": "readerCard",
+      "column": 1,
+      "order": 3,
+      "width": 500,
+      "height": 440,
+      "props": {
+        "subtitle": "Subtitle",
+        "title": "Title",
+        "body": "A window that breathes before it becomes a window, light rehearsing the idea of glass. The cursor hovers like a diving rod over static, and the page trembles with. A window that breathes before it becomes a window, light rehearsing the idea of glass. The cursor hovers like a diving rod over static, and the page trembles with. A window that breathes before it becomes a window, light rehearsing the idea of glass.",
+        "cta": "Call to action"
+      }
+    },
+    {
+      "id": "quick-actions",
+      "type": "quickActionsGrid",
+      "column": 2,
+      "order": 1,
+      "width": 500,
+      "height": 110,
+      "props": {
+        "actions": ["Block Off an Hour", "Take a Break", "Make GIF", "New Note with Date"]
+      }
+    },
+    {
+      "id": "finance-card",
+      "type": "financeCard",
+      "column": 2,
+      "order": 2,
+      "width": 500,
+      "height": 170,
+      "props": {
+        "kicker": "Finance Agent",
+        "title": "A data driven perspective",
+        "button": "Read"
+      }
+    },
+    {
+      "id": "left-calendar",
+      "type": "calendarCard",
+      "column": 2,
+      "order": 3,
+      "width": 500,
+      "height": 360,
+      "props": {
+        "title": "Calendar Conflict",
+        "description": "You have dinner scheduled for 7pm with Hannah tonight, but Matt just emailed asking if you can stay late to get quarterly reports done...",
+        "items": ["Confirm working late with Matt & reschedule with Hannah", "Tell Matt you can't work late.", "Resolve with an agent"]
+      }
+    },
+    {
+      "id": "appl-chart",
+      "type": "chartCard",
+      "column": 3,
+      "order": 1,
+      "width": 500,
+      "height": 250,
+      "props": {
+        "title": "APPL",
+        "labels": ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+        "series": [10, 19, 58, 13, 27, 70, 90]
+      }
+    },
+    {
+      "id": "appl-reminders",
+      "type": "reminderList",
+      "column": 3,
+      "order": 2,
+      "width": 500,
+      "height": 170,
+      "props": {
+        "rows": [
+          { "title": "Title", "subtitle": "Description", "time": "9:41 AM" },
+          { "title": "Title", "subtitle": "Description", "time": "9:41 AM" },
+          { "title": "Title", "subtitle": "Description", "time": "9:41 AM" }
+        ]
+      }
+    },
+    {
+      "id": "right-reader",
+      "type": "readerCard",
+      "column": 3,
+      "order": 3,
+      "width": 500,
+      "height": 440,
+      "props": {
+        "subtitle": "Subtitle",
+        "title": "Title",
+        "body": "A window that breathes before it becomes a window, light rehearsing the idea of glass. The cursor hovers like a diving rod over static, and the page trembles with. A window that breathes before it becomes a window, light rehearsing the idea of glass. The cursor hovers like a diving rod over static, and the page trembles with. A window that breathes before it becomes a window, light rehearsing the idea of glass.",
+        "cta": "Call to action"
+      }
+    },
+    {
+      "id": "video-card",
+      "type": "videoCard",
+      "column": 4,
+      "order": 1,
+      "width": 500,
+      "height": 350,
+      "props": {
+        "title": "A space for showing video content",
+        "subtitle": "Subtitle",
+        "label": "IFRAME"
+      }
+    },
+    {
+      "id": "right-calendar",
+      "type": "calendarCard",
+      "column": 4,
+      "order": 2,
+      "width": 500,
+      "height": 360,
+      "props": {
+        "title": "Calendar Conflict",
+        "description": "You have dinner scheduled for 7pm with Hannah tonight, but Matt just emailed asking if you can stay late to get quarterly reports done...",
+        "items": ["Confirm working late with Matt & reschedule with Hannah", "Tell Matt you can't work late.", "Resolve with an agent"]
+      }
+    },
+    {
+      "id": "mini-actions",
+      "type": "miniActionStack",
+      "column": 4,
+      "order": 3,
+      "width": 500,
+      "height": 210,
+      "props": {
+        "actions": ["Make GIF", "New Note with Date", "Text Running Late", "Make GIF", "New Note with Date", "Text Running Late"]
+      }
+    }
+  ]
+}
