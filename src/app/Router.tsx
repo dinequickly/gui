@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { Layout } from './Layout';
 import { WidgetDashboard } from '../features/widget-dashboard/WidgetDashboard';
 import { FilePage } from '../features/editor/FilePage';
@@ -11,6 +11,12 @@ import { SimpleWidgetsPage } from '../features/widget-dashboard/SimpleWidgetsPag
 import { useFileStore } from '../shared/store/fileStore';
 import { useAuthStore } from '../shared/store/authStore';
 import { db } from '../shared/store/db';
+
+function WidgetViewRoute() {
+  const { viewId } = useParams();
+  const dashboardKey = viewId ? `dashboard-view-${viewId}` : undefined;
+  return <WidgetDashboard dashboardKey={dashboardKey} />;
+}
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuthStore();
@@ -63,6 +69,7 @@ function AppContent() {
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       <Route path="/" element={<ProtectedRoute><Navigate to="/widgets" replace /></ProtectedRoute>} />
       <Route path="/widgets" element={<ProtectedRoute><WidgetDashboard /></ProtectedRoute>} />
+      <Route path="/widgets/view/:viewId" element={<ProtectedRoute><WidgetViewRoute /></ProtectedRoute>} />
       <Route path="/widgets/simple" element={<ProtectedRoute><SimpleWidgetsPage /></ProtectedRoute>} />
       <Route path="/widgets/iframe-theater" element={<ProtectedRoute><IframeTheaterPage /></ProtectedRoute>} />
       <Route path="/page" element={<NewDesignPage />} />

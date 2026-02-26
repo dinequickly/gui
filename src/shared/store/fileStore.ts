@@ -104,8 +104,12 @@ export async function getPage(id: string): Promise<PageDocument | undefined> {
 }
 
 export async function updatePage(id: string, blocks: Block[]): Promise<void> {
+  await updatePageDocument(id, { blocks });
+}
+
+export async function updatePageDocument(id: string, patch: Partial<PageDocument>): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  await (db.pages as any).update(id, { blocks });
+  await (db.pages as any).update(id, patch);
   await db.files.update(id, { updatedAt: now() });
 }
 

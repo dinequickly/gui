@@ -87,10 +87,18 @@ export type Block =
   | ImageBlock
   | DatabaseEmbedBlock;
 
+export interface PageCitation {
+  id: string;
+  source: string;
+  title: string;
+  url?: string;
+}
+
 // ─── Page document ─────────────────────────────────────────────────────────────
 export interface PageDocument {
   id: string; // matches WorkspaceFile.id
   blocks: Block[];
+  citations?: PageCitation[];
 }
 
 // ─── Spreadsheet ───────────────────────────────────────────────────────────────

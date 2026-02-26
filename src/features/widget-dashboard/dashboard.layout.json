@@ -154,7 +154,8 @@
       "props": {
         "title": "A space for showing video content",
         "subtitle": "Subtitle",
-        "label": "IFRAME"
+        "label": "IFRAME",
+        "embedUrl": "https://www.youtube.com/embed/knsHR4Z_LcM?si=aWzVZ641wvGYJinL"
       }
     },
     {

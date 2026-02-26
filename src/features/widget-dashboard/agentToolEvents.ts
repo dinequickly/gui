@@ -24,6 +24,21 @@ export type WidgetAgentEvent =
       props_patch?: Record<string, unknown>;
       affected_order?: Array<{ uuid: string; column: number; order: number }>;
     };
+  }
+  | {
+    type: 'generated_components_applied';
+    payload: {
+      widgets: Array<{
+        id: string;
+        type: string;
+        column: number;
+        order: number;
+        width: number;
+        height: number;
+        props: Record<string, unknown>;
+      }>;
+      uuidByLocalWidgetId: Record<string, string>;
+    };
   };
 
 const EVENT_NAME = 'widget-agent-tool-event';

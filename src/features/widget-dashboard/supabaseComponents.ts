@@ -1,7 +1,7 @@
 import { supabase } from '../../shared/store/supabase';
 import type { DashboardLayout, WidgetLayoutItem } from './types';
 
-const DEFAULT_DASHBOARD_KEY = 'dashboard-2';
+export const DEFAULT_DASHBOARD_KEY = 'dashboard-2';
 
 type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
@@ -75,6 +75,29 @@ type EditPageResult =
     affected_order: Array<{ uuid: string; column: number; order: number }>;
   };
 
+type GeneratedAgentComponentSlot = 'page_creator_a' | 'page_creator_b' | 'citation_creator';
+
+export interface GeneratedAgentComponent {
+  slot: GeneratedAgentComponentSlot;
+  title: string;
+  subtitle?: string;
+  body: string;
+}
+
+export interface UpsertGeneratedComponentsResult {
+  widgets: WidgetLayoutItem[];
+  uuidByLocalWidgetId: Record<string, string>;
+}
+
+const GENERATED_COMPONENT_LAYOUT: Record<
+  GeneratedAgentComponentSlot,
+  { id: string; column: 1 | 2 | 3 | 4; order: number; width: number; height: number }
+> = {
+  page_creator_a: { id: 'agent-page-1', column: 1, order: 1, width: 500, height: 420 },
+  page_creator_b: { id: 'agent-page-2', column: 2, order: 1, width: 500, height: 420 },
+  citation_creator: { id: 'agent-citations-1', column: 3, order: 1, width: 500, height: 420 },
+};
+
 function defaultPropsForComponentType(componentType: string): Record<string, unknown> {
   if (componentType === 'calendarCard') {
     return {
@@ -88,7 +111,7 @@ function defaultPropsForComponentType(componentType: string): Record<string, unk
       title: 'Video content',
       subtitle: '',
       label: 'No video configured',
-      embedUrl: '',
+      embedUrl: 'https://www.youtube.com/embed/knsHR4Z_LcM?si=aWzVZ641wvGYJinL',
     };
   }
   if (componentType === 'readerCard') {
@@ -142,6 +165,51 @@ export async function fetchUserDashboardComponents(userId: string, dashboardKey 
 
   if (error) throw error;
   return (data ?? []) as UserDashboardComponentRow[];
+}
+
+export async function fetchUserDashboardKeys(userId: string): Promise<string[]> {
+  const { data, error } = await supabase
+    .from('user_dashboard_components')
+    .select('dashboard_key')
+    .eq('user_id', userId);
+
+  if (error) throw error;
+  const unique = new Set<string>();
+  for (const row of data ?? []) {
+    if (row.dashboard_key && typeof row.dashboard_key === 'string') {
+      unique.add(row.dashboard_key);
+    }
+  }
+  unique.add(DEFAULT_DASHBOARD_KEY);
+  return Array.from(unique);
+}
+
+export async function renameDashboardView(
+  userId: string,
+  fromDashboardKey: string,
+  toDashboardKey: string,
+): Promise<void> {
+  if (!fromDashboardKey || !toDashboardKey || fromDashboardKey === toDashboardKey) return;
+
+  const sourceRows = await fetchUserDashboardComponents(userId, fromDashboardKey);
+  if (sourceRows.length === 0) return;
+
+  const reassignedRows = sourceRows.map((row) => ({
+    ...row,
+    dashboard_key: toDashboardKey,
+  }));
+
+  const { error: upsertError } = await supabase
+    .from('user_dashboard_components')
+    .upsert(reassignedRows, { onConflict: 'id' });
+  if (upsertError) throw upsertError;
+
+  const { error: deleteError } = await supabase
+    .from('user_dashboard_components')
+    .delete()
+    .eq('user_id', userId)
+    .eq('dashboard_key', fromDashboardKey);
+  if (deleteError) throw deleteError;
 }
 
 export async function syncLayoutToSupabase(
@@ -417,5 +485,95 @@ export async function applyEditPageOperation(
       column: entry.widget.column,
       order: entry.widget.order,
     })),
+  };
+}
+
+export async function upsertGeneratedAgentComponents(
+  userId: string,
+  dashboardKey: string,
+  components: GeneratedAgentComponent[],
+): Promise<UpsertGeneratedComponentsResult> {
+  if (!components.length) {
+    return { widgets: [], uuidByLocalWidgetId: {} };
+  }
+
+  const existingRows = await fetchUserDashboardComponents(userId, dashboardKey);
+  const byLocalId = new Map<string, UserDashboardComponentRow>();
+  for (const row of existingRows) {
+    const metadata = (row.metadata ?? {}) as ComponentMetadata;
+    if (typeof metadata.local_widget_id === 'string' && metadata.local_widget_id) {
+      byLocalId.set(metadata.local_widget_id, row);
+    }
+  }
+
+  const upserts = components.map((component) => {
+    const layout = GENERATED_COMPONENT_LAYOUT[component.slot];
+    const existing = byLocalId.get(layout.id);
+    const widget: WidgetLayoutItem = {
+      id: layout.id,
+      type: 'readerCard',
+      column: layout.column,
+      order: layout.order,
+      width: layout.width,
+      height: layout.height,
+      props: {
+        subtitle: component.subtitle ?? '',
+        title: component.title,
+        body: component.body,
+        cta: 'Open',
+      },
+    };
+
+    return {
+      id: existing?.id ?? crypto.randomUUID(),
+      user_id: userId,
+      dashboard_key: dashboardKey,
+      component_type: 'readerCard',
+      title: component.title,
+      body: component.body,
+      position: 100 + layout.order + layout.column * 10,
+      metadata: {
+        local_widget_id: layout.id,
+        local_widget: widget as unknown as Json,
+      } satisfies ComponentMetadata,
+    };
+  });
+
+  const { error } = await supabase
+    .from('user_dashboard_components')
+    .upsert(upserts, { onConflict: 'id' });
+  if (error) throw error;
+
+  const widgets: WidgetLayoutItem[] = components.map((component) => {
+    const layout = GENERATED_COMPONENT_LAYOUT[component.slot];
+    return {
+      id: layout.id,
+      type: 'readerCard',
+      column: layout.column,
+      order: layout.order,
+      width: layout.width,
+      height: layout.height,
+      props: {
+        subtitle: component.subtitle ?? '',
+        title: component.title,
+        body: component.body,
+        cta: 'Open',
+      },
+    };
+  });
+
+  const uuidByLocalWidgetId: Record<string, string> = {};
+  const refreshedRows = await fetchUserDashboardComponents(userId, dashboardKey);
+  for (const row of refreshedRows) {
+    const metadata = (row.metadata ?? {}) as ComponentMetadata;
+    const localId = metadata.local_widget_id;
+    if (typeof localId === 'string' && localId) {
+      uuidByLocalWidgetId[localId] = row.id;
+    }
+  }
+
+  return {
+    widgets,
+    uuidByLocalWidgetId,
   };
 }

@@ -594,8 +594,15 @@ async function syncWidgetPageFiles() {
     const link = linkFieldId ? readRecordString(rec, linkFieldId) : '';
 
     const existingFile = await db.files.get(pageId);
+    const existingPage = await db.pages.get(pageId);
+
+    // Preserve user edits on existing widget pages; only create missing pages.
+    if (existingFile && existingPage) {
+      continue;
+    }
+
     const createdAt = existingFile?.createdAt ?? now();
-    const updatedAt = now();
+    const updatedAt = existingFile?.updatedAt ?? now();
 
     const file: WorkspaceFile = {
       id: pageId,

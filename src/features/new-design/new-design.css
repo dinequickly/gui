@@ -114,6 +114,7 @@ button.side-btn {
   padding: 80px 100px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
   margin-bottom: 20px;
+  overflow: visible;
 }
 
 .new-design-content-surface.second-surface {
@@ -324,4 +325,204 @@ button.side-btn {
 .chart-grid-line {
   stroke: rgba(0, 0, 0, 0.05);
   stroke-dasharray: 4;
+}
+
+.citation-card {
+  padding: 14px 16px;
+  border-radius: 18px;
+}
+
+.citation-card .subtitle {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.citation-card .title {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.citation-card .glass-cta {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.citation-card .glass-card-img {
+  width: 92px;
+  height: 92px;
+  border-radius: 0;
+}
+
+.citation-logo-wrap {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.citation-logo-image {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  display: block;
+}
+
+.doc-layout {
+  display: grid;
+  gap: 8px;
+  overflow: visible;
+}
+
+.doc-row {
+  position: relative;
+  overflow: visible;
+}
+
+.doc-main {
+  position: relative;
+  z-index: 1;
+}
+
+.doc-side {
+  position: absolute;
+  top: 0;
+  width: 170px;
+  min-height: 1px;
+  z-index: 2;
+}
+
+.doc-side-left {
+  right: calc(100% + 118px);
+}
+
+.doc-side-right {
+  left: calc(100% + 118px);
+}
+
+.doc-citation-stack {
+  display: grid;
+  gap: 8px;
+}
+
+.doc-citation-note {
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.52);
+  border-radius: 10px;
+  padding: 8px 10px;
+  text-decoration: none;
+  color: inherit;
+  backdrop-filter: blur(8px);
+}
+
+.doc-citation-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(25, 28, 42, 0.56);
+}
+
+.doc-citation-title {
+  font-size: 12px;
+  line-height: 1.3;
+  color: rgba(25, 28, 42, 0.88);
+}
+
+.inline-citation-chip {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(30, 34, 50, 0.8);
+  margin-left: 2px;
+}
+
+@media (max-width: 1200px) {
+  .doc-side {
+    display: none;
+  }
+}
+
+.new-design-root .dashboard-chatbar-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(440px, calc(100vw - 32px));
+  display: grid;
+  gap: 10px;
+}
+
+.new-design-root .dashboard-chat-inline-reply {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(12px) saturate(1.08);
+  -webkit-backdrop-filter: blur(12px) saturate(1.08);
+  box-shadow:
+    0 10px 24px rgba(30, 32, 45, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.38;
+  color: rgba(40, 46, 64, 0.9);
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.new-design-root .dashboard-chatbar {
+  height: 50px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background:
+    linear-gradient(126deg, rgba(255, 255, 255, 0.35) 0%, rgba(237, 237, 240, 0.31) 58%, rgba(229, 227, 236, 0.35) 100%);
+  backdrop-filter: blur(16px) saturate(1.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  box-shadow:
+    0 10px 24px rgba(30, 32, 45, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.new-design-root .chatbar-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(236, 236, 239, 0.46);
+  color: rgba(150, 156, 170, 0.9);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.new-design-root .chatbar-icon-btn:hover {
+  background: rgba(238, 238, 242, 0.54);
+}
+
+.new-design-root .chatbar-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.new-design-root .chatbar-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(62, 66, 79, 0.88);
+}
+
+.new-design-root .chatbar-input::placeholder {
+  color: rgba(110, 116, 132, 0.88);
 }

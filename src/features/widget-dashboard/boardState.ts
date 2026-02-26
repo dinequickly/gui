@@ -27,6 +27,7 @@ export interface WidgetToolContext {
   iframes: WidgetIframeTarget[];
   pages: WidgetPageTarget[];
   editable: WidgetBoardStateItem[];
+  nav_items: string[];
 }
 
 const SUMMARY_KEYS = ['title', 'subtitle', 'kicker', 'description', 'body', 'label', 'cta'];
@@ -80,6 +81,7 @@ export function buildWidgetToolContext(
   const iframes: WidgetIframeTarget[] = [];
   const pages: WidgetPageTarget[] = [];
   const editable = buildWidgetBoardState(widgets, uuidByLocalWidgetId);
+  const navItems: string[] = [];
 
   for (const widget of widgets) {
     const uuid = uuidByLocalWidgetId[widget.id] ?? '';
@@ -106,7 +108,14 @@ export function buildWidgetToolContext(
         slug: fileId,
       });
     }
+
+    if (widget.type === 'topNav' && Array.isArray(widget.props.items)) {
+      for (const raw of widget.props.items) {
+        const label = getString(raw);
+        if (label) navItems.push(label);
+      }
+    }
   }
 
-  return { iframes, pages, editable };
+  return { iframes, pages, editable, nav_items: Array.from(new Set(navItems)) };
 }

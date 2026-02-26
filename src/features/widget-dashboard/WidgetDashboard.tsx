@@ -16,19 +16,30 @@ import {
 } from '../../shared/constants/widgetContent';
 import type { DashboardLayout } from './types';
 import type { DatabaseDocument, DatabaseRecord } from '../../shared/types';
-import { syncLayoutToSupabase } from './supabaseComponents';
+import {
+  DEFAULT_DASHBOARD_KEY,
+  fetchUserDashboardComponents,
+  fetchUserDashboardKeys,
+  syncLayoutToSupabase,
+} from './supabaseComponents';
 import { buildWidgetBoardState, buildWidgetToolContext } from './boardState';
 import { WidgetChatBar } from './WidgetChatBar';
 import { subscribeWidgetAgentEvents } from './agentToolEvents';
+import { labelFromDashboardKey, navItemsFromDashboardKeys } from './viewRoutes';
 import './dashboard.css';
 import './widgets.css';
 
-export function WidgetDashboard() {
+interface WidgetDashboardProps {
+  dashboardKey?: string;
+}
+
+export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: WidgetDashboardProps) {
   const navigate = useNavigate();
   const { loaded } = useFileStore();
   const { user } = useAuthStore();
   const [layout, setLayout] = useState<DashboardLayout>(layoutData as DashboardLayout);
   const [uuidByLocalWidgetId, setUuidByLocalWidgetId] = useState<Record<string, string>>({});
+  const [topNavItems, setTopNavItems] = useState<string[]>(['Overview', 'AM Brief', 'News', "To-Do's"]);
   const localIdByUuid = useMemo(() => {
     return Object.fromEntries(Object.entries(uuidByLocalWidgetId).map(([localId, uuid]) => [uuid, localId]));
   }, [uuidByLocalWidgetId]);
@@ -39,6 +50,11 @@ export function WidgetDashboard() {
   const toolContext = useMemo(() => {
     return buildWidgetToolContext(layout.widgets, uuidByLocalWidgetId);
   }, [layout, uuidByLocalWidgetId]);
+  const isEmptyView = useMemo(() => {
+    return layout.widgets.every((widget) => widget.group === 'chrome');
+  }, [layout.widgets]);
+  const activeNavLabel = useMemo(() => labelFromDashboardKey(dashboardKey), [dashboardKey]);
+  const chatMode = dashboardKey === DEFAULT_DASHBOARD_KEY ? 'default' : 'new_view';
 
   useEffect(() => {
     return subscribeWidgetAgentEvents((event) => {
@@ -93,6 +109,24 @@ export function WidgetDashboard() {
           return next;
         });
       }
+
+      if (event.type === 'generated_components_applied') {
+        setLayout((prev) => {
+          const next = structuredClone(prev) as DashboardLayout;
+          const incomingById = new Map(event.payload.widgets.map((widget) => [widget.id, widget]));
+          const filtered = next.widgets.filter((widget) => !incomingById.has(widget.id));
+          next.widgets = [...filtered, ...event.payload.widgets.map((widget) => ({
+            ...widget,
+            column: Math.min(4, Math.max(1, widget.column)) as 1 | 2 | 3 | 4,
+            order: Math.max(0, widget.order),
+          }))];
+          return next;
+        });
+        setUuidByLocalWidgetId((prev) => ({
+          ...prev,
+          ...event.payload.uuidByLocalWidgetId,
+        }));
+      }
     });
   }, [localIdByUuid, navigate]);
 
@@ -117,9 +151,82 @@ export function WidgetDashboard() {
         calendarDb,
         mediaDb,
       });
-      setLayout(hydrated);
+
+      if (!user?.id) {
+        setLayout(applyTopNav(hydrated, topNavItems, activeNavLabel));
+        return;
+      }
+
+      let dashboardKeys: string[] = [];
+      try {
+        dashboardKeys = await fetchUserDashboardKeys(user.id);
+      } catch (error) {
+        console.error('[WidgetDashboard] Failed to fetch dashboard keys:', error);
+      }
+      if (!dashboardKeys.includes(dashboardKey)) dashboardKeys.push(dashboardKey);
+      const computedNavItems = navItemsFromDashboardKeys(dashboardKeys);
+      if (!cancelled) setTopNavItems(computedNavItems);
+
+      const existingRows = await fetchUserDashboardComponents(user.id, dashboardKey);
+      if (cancelled) return;
+
+      if (existingRows.length > 0) {
+        const restoredWidgets: DashboardLayout['widgets'] = [];
+        const seenWidgetIds = new Set<string>();
+        for (const row of existingRows) {
+          const metadata = (row.metadata ?? {}) as { local_widget?: unknown };
+          const localWidget = metadata.local_widget as {
+            id?: unknown;
+            type?: unknown;
+            column?: unknown;
+            order?: unknown;
+            width?: unknown;
+            height?: unknown;
+            props?: unknown;
+            group?: unknown;
+          } | undefined;
+          if (!localWidget) continue;
+          if (typeof localWidget.id !== 'string' || typeof localWidget.type !== 'string') continue;
+          if (seenWidgetIds.has(localWidget.id)) continue;
+          seenWidgetIds.add(localWidget.id);
+          restoredWidgets.push({
+            id: localWidget.id,
+            type: localWidget.type,
+            column: Number(localWidget.column ?? 1) as 1 | 2 | 3 | 4,
+            order: Number(localWidget.order ?? 0),
+            width: Number(localWidget.width ?? 500),
+            height: Number(localWidget.height ?? 180),
+            props: (localWidget.props && typeof localWidget.props === 'object')
+              ? (localWidget.props as Record<string, unknown>)
+              : {},
+            group: typeof localWidget.group === 'string' ? localWidget.group : undefined,
+          });
+        }
+
+        const restored: DashboardLayout = {
+          widgets: restoredWidgets,
+        };
+        setLayout(applyTopNav(restored.widgets.length > 0 ? restored : hydrated, computedNavItems, activeNavLabel));
+        const map: Record<string, string> = {};
+        for (const row of existingRows) {
+          const metadata = (row.metadata ?? {}) as { local_widget_id?: unknown };
+          if (typeof metadata.local_widget_id === 'string' && metadata.local_widget_id) {
+            map[metadata.local_widget_id] = row.id;
+          }
+        }
+        setUuidByLocalWidgetId(map);
+        return;
+      }
+
+      const initialForView = dashboardKey === DEFAULT_DASHBOARD_KEY
+        ? hydrated
+        : {
+          widgets: hydrated.widgets.filter((widget) => widget.group === 'chrome'),
+        };
+
+      setLayout(applyTopNav(initialForView, computedNavItems, activeNavLabel));
       if (user?.id) {
-        void syncLayoutToSupabase(user.id, hydrated)
+        void syncLayoutToSupabase(user.id, initialForView, dashboardKey)
           .then((synced) => {
             if (!cancelled) setUuidByLocalWidgetId(synced.uuidByLocalWidgetId);
           })
@@ -131,13 +238,36 @@ export function WidgetDashboard() {
 
     void hydrateFromWorkspace();
     return () => { cancelled = true; };
-  }, [loaded, user?.id]);
+  }, [activeNavLabel, dashboardKey, loaded, user?.id]);
 
   return (
-    <div className="widget-dashboard-root">
+    <div className={`widget-dashboard-root ${isEmptyView ? 'is-empty-view' : ''}`}>
       <div className="widget-dashboard-bg" style={{ backgroundImage: `url(${waterlilies})` }} />
+      {isEmptyView ? (
+        <section className="dashboard-empty-theater" aria-live="polite">
+          <div className="dashboard-empty-theater-card">
+            <p className="dashboard-empty-kicker">New View</p>
+            <h2>What do you want this page to show?</h2>
+            <p>Describe the intent and I can add cards, move sections, and shape this dashboard for you.</p>
+          </div>
+        </section>
+      ) : null}
       <DashboardRenderer layout={layout} />
-      <WidgetChatBar boardState={boardState} toolContext={toolContext} userId={user?.id ?? ''} />
+      <WidgetChatBar
+        boardState={boardState}
+        toolContext={toolContext}
+        userId={user?.id ?? ''}
+        dashboardKey={dashboardKey}
+        chatMode={chatMode}
+        theaterMode={isEmptyView}
+        starterPrompt={
+          isEmptyView
+            ? (chatMode === 'new_view'
+              ? 'Ahoy matey, what should this fresh view show?'
+              : 'What do you want this page to show?')
+            : ''
+        }
+      />
     </div>
   );
 }
@@ -167,6 +297,18 @@ function upsertProps(base: DashboardLayout, id: string, patch: Record<string, un
   const widget = base.widgets.find((item) => item.id === id);
   if (!widget) return;
   widget.props = { ...widget.props, ...patch };
+}
+
+function applyTopNav(base: DashboardLayout, items: string[], active: string): DashboardLayout {
+  const next = structuredClone(base) as DashboardLayout;
+  const topNav = next.widgets.find((widget) => widget.type === 'topNav');
+  if (!topNav) return next;
+  topNav.props = {
+    ...topNav.props,
+    items,
+    active,
+  };
+  return next;
 }
 
 export function buildHydratedLayout(baseLayout: DashboardLayout, sources: DashboardSources): DashboardLayout {

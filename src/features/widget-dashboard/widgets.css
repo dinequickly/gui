@@ -41,8 +41,36 @@
 }
 
 .chart-label {
-  fill: rgba(80, 86, 102, 0.72);
+  fill: rgba(255, 255, 255, 0.9);
   font-size: 11px;
+}
+
+.chart-live-status {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.chart-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 2px;
+}
+
+.chart-price {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.98);
+  font-weight: 700;
+}
+
+.chart-price-label {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .reminder-card-shell {

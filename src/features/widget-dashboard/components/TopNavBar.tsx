@@ -1,4 +1,6 @@
 import type { WidgetComponentProps } from '../types';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { activeLabelForPath, pathForTopNavLabel } from '../viewRoutes';
 
 interface TopNavProps {
   items: string[];
@@ -15,12 +17,23 @@ function SearchIcon() {
 }
 
 export function TopNavBar({ item }: WidgetComponentProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { items, active } = item.props as unknown as TopNavProps;
+  const routeActive = activeLabelForPath(location.pathname);
+  const activeLabel = routeActive || active;
 
   return (
     <nav className="dashboard-top-nav">
       {items.map((label) => (
-        <button key={label} className={label === active ? 'is-active' : ''}>{label}</button>
+        <button
+          key={label}
+          className={label === activeLabel ? 'is-active' : ''}
+          onClick={() => navigate(pathForTopNavLabel(label))}
+          type="button"
+        >
+          {label}
+        </button>
       ))}
       <span className="search">
         <SearchIcon />
