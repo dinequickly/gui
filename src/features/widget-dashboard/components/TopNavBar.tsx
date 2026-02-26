@@ -18,7 +18,7 @@ export function TopNavBar({ item }: WidgetComponentProps) {
   const { items, active } = item.props as unknown as TopNavProps;
 
   return (
-    <nav className="dashboard-top-nav" style={{ width: item.width }}>
+    <nav className="dashboard-top-nav">
       {items.map((label) => (
         <button key={label} className={label === active ? 'is-active' : ''}>{label}</button>
       ))}

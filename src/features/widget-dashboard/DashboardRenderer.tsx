@@ -60,8 +60,8 @@ export function DashboardRenderer({ layout }: DashboardRendererProps) {
 
       const padding = 20;
       const widthScale = (viewport.clientWidth - padding * 2) / baseWidth;
-      const heightScale = (viewport.clientHeight - padding * 2) / baseHeight;
-      const nextScale = Math.min(widthScale, heightScale, 1);
+      // Keep scale stable on content reorders: fit to width, and let height scroll.
+      const nextScale = Math.min(widthScale, 1);
 
       if (Number.isFinite(nextScale) && nextScale > 0) {
         setScale(nextScale);

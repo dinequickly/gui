@@ -1,4 +1,5 @@
 import cardAbstract from '../../../assets/card-abstract.png';
+import { useNavigate } from 'react-router-dom';
 import { GlassCardShell } from './GlassCardShell';
 import type { WidgetComponentProps } from '../types';
 
@@ -6,17 +7,19 @@ interface FinanceProps {
   kicker: string;
   title: string;
   button: string;
+  fileId?: string;
 }
 
 export function FinanceCard({ item }: WidgetComponentProps) {
-  const { kicker, title, button } = item.props as unknown as FinanceProps;
+  const navigate = useNavigate();
+  const { kicker, title, button, fileId } = item.props as unknown as FinanceProps;
   return (
     <GlassCardShell width={item.width} height={item.height}>
       <div className="finance-card">
         <div>
           <p className="kicker">{kicker}</p>
           <h3>{title}</h3>
-          <button className="dashboard-liquid-btn">{button}</button>
+          <button className="dashboard-liquid-btn" onClick={() => navigate(fileId ? `/page?fileId=${fileId}` : '/page')}>{button}</button>
         </div>
         <img src={cardAbstract} alt="abstract art" />
       </div>

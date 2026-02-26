@@ -5,6 +5,9 @@ import { WidgetDashboard } from '../features/widget-dashboard/WidgetDashboard';
 import { FilePage } from '../features/editor/FilePage';
 import { LoginPage } from '../features/auth/LoginPage';
 import { AuthCallbackPage } from '../features/auth/AuthCallbackPage';
+import { NewDesignPage } from '../features/new-design/NewDesignPage';
+import { IframeTheaterPage } from '../features/widget-dashboard/IframeTheaterPage';
+import { SimpleWidgetsPage } from '../features/widget-dashboard/SimpleWidgetsPage';
 import { useFileStore } from '../shared/store/fileStore';
 import { useAuthStore } from '../shared/store/authStore';
 import { db } from '../shared/store/db';
@@ -60,6 +63,9 @@ function AppContent() {
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       <Route path="/" element={<ProtectedRoute><Navigate to="/widgets" replace /></ProtectedRoute>} />
       <Route path="/widgets" element={<ProtectedRoute><WidgetDashboard /></ProtectedRoute>} />
+      <Route path="/widgets/simple" element={<ProtectedRoute><SimpleWidgetsPage /></ProtectedRoute>} />
+      <Route path="/widgets/iframe-theater" element={<ProtectedRoute><IframeTheaterPage /></ProtectedRoute>} />
+      <Route path="/page" element={<NewDesignPage />} />
       <Route path="/file/:fileId" element={<ProtectedRoute><Layout><FilePage /></Layout></ProtectedRoute>} />
     </Routes>
   );

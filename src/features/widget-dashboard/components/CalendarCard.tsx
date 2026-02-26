@@ -16,15 +16,16 @@ function CheckboxIcon() {
 }
 
 export function CalendarCard({ item }: WidgetComponentProps) {
-  const { title, description, items } = item.props as unknown as CalendarProps;
+  const { title, description, items } = item.props as unknown as Partial<CalendarProps>;
+  const safeItems = Array.isArray(items) ? items : [];
 
   return (
     <GlassCardShell width={item.width} height={item.height}>
       <div className="calendar-card">
-        <h3>{title}</h3>
-        <p className="description">{description}</p>
+        <h3>{title ?? 'Calendar'}</h3>
+        <p className="description">{description ?? 'No details yet.'}</p>
         <div className="calendar-actions">
-          {items.map((action, idx) => (
+          {safeItems.map((action, idx) => (
             <button key={`${action}-${idx}`} className="calendar-action-btn">
               <CheckboxIcon />
               {action}

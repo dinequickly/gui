@@ -10,6 +10,7 @@ import type {
 import {
   ALLOWED_DATABASE_IDS,
   CALENDAR_DB_ID,
+  WIDGET_MEDIA_DB_ID,
   WIDGET_PAGES_DB_ID,
   WIDGET_REMINDERS_DB_ID,
   WIDGET_TODOS_DB_ID,
@@ -63,13 +64,13 @@ const PROJECT_FIELDS: DatabaseField[] = [
 ];
 
 const PROJECT_RECORDS = [
-  { id: 'r1', fields: { f1: 'Redesign homepage', f2: 'In progress', f3: 'High', f4: '2026-02-28', f5: 'Alice' } },
-  { id: 'r2', fields: { f1: 'Write blog post', f2: 'Not started', f3: 'Medium', f4: '2026-03-05', f5: 'Bob' } },
-  { id: 'r3', fields: { f1: 'Fix login bug', f2: 'Done', f3: 'High', f4: '2026-02-18', f5: 'Alice' } },
-  { id: 'r4', fields: { f1: 'Update dependencies', f2: 'Not started', f3: 'Low', f4: '2026-03-10', f5: 'Charlie' } },
-  { id: 'r5', fields: { f1: 'Launch beta', f2: 'In progress', f3: 'High', f4: '2026-03-01', f5: 'Bob' } },
-  { id: 'r6', fields: { f1: 'User interviews', f2: 'Done', f3: 'Medium', f4: '2026-02-15', f5: 'Charlie' } },
-  { id: 'r7', fields: { f1: 'Analytics setup', f2: 'Not started', f3: 'Low', f4: '2026-03-15', f5: 'Alice' } },
+  { id: 'r1', fields: { f1: 'Finalize edge-runtime migration guide', f2: 'In progress', f3: 'High', f4: '2026-03-02', f5: 'Maya' } },
+  { id: 'r2', fields: { f1: 'Publish RAG eval benchmark write-up', f2: 'Not started', f3: 'Medium', f4: '2026-03-06', f5: 'Noah' } },
+  { id: 'r3', fields: { f1: 'Patch OAuth callback race condition', f2: 'Done', f3: 'High', f4: '2026-02-24', f5: 'Ari' } },
+  { id: 'r4', fields: { f1: 'Upgrade to React 19.2 + router audit', f2: 'In progress', f3: 'Medium', f4: '2026-03-08', f5: 'Lena' } },
+  { id: 'r5', fields: { f1: 'Draft launch checklist for API beta', f2: 'Not started', f3: 'High', f4: '2026-03-10', f5: 'Devon' } },
+  { id: 'r6', fields: { f1: 'Refactor dashboard hydration layer', f2: 'Done', f3: 'Medium', f4: '2026-02-21', f5: 'Maya' } },
+  { id: 'r7', fields: { f1: 'Set up synthetic uptime monitors', f2: 'Not started', f3: 'Low', f4: '2026-03-14', f5: 'Noah' } },
 ];
 
 const WIDGET_REMINDER_FIELDS: DatabaseField[] = [
@@ -88,10 +89,12 @@ const WIDGET_REMINDER_FIELDS: DatabaseField[] = [
 ];
 
 const WIDGET_REMINDER_RECORDS: DatabaseRecord[] = [
-  { id: 'wrr1', fields: { 'wr-f1': 'Block Off an...', 'wr-f2': 'block' } },
-  { id: 'wrr2', fields: { 'wr-f1': 'Take a Break', 'wr-f2': 'timer' } },
-  { id: 'wrr3', fields: { 'wr-f1': 'Make GIF', 'wr-f2': 'gif' } },
-  { id: 'wrr4', fields: { 'wr-f1': 'New Note wit...', 'wr-f2': 'note' } },
+  { id: 'wrr1', fields: { 'wr-f1': 'Deep work: architecture pass (90m)', 'wr-f2': 'block' } },
+  { id: 'wrr2', fields: { 'wr-f1': 'Stand up and reset focus', 'wr-f2': 'timer' } },
+  { id: 'wrr3', fields: { 'wr-f1': 'Capture 20s product demo clip', 'wr-f2': 'gif' } },
+  { id: 'wrr4', fields: { 'wr-f1': 'Write follow-up note with date', 'wr-f2': 'note' } },
+  { id: 'wrr5', fields: { 'wr-f1': 'Send running-late text to PM', 'wr-f2': 'note' } },
+  { id: 'wrr6', fields: { 'wr-f1': 'Block release-retro prep slot', 'wr-f2': 'block' } },
 ];
 
 const WIDGET_TODO_FIELDS: DatabaseField[] = [
@@ -101,9 +104,55 @@ const WIDGET_TODO_FIELDS: DatabaseField[] = [
 ];
 
 const WIDGET_TODO_RECORDS: DatabaseRecord[] = [
-  { id: 'wtr1', fields: { 'wt-f1': 'User interviews', 'wt-f2': 'Charlie', 'wt-f3': '2026-02-15' } },
-  { id: 'wtr2', fields: { 'wt-f1': 'Fix login bug', 'wt-f2': 'Alice', 'wt-f3': '2026-02-18' } },
-  { id: 'wtr3', fields: { 'wt-f1': 'Redesign homepage', 'wt-f2': 'Alice', 'wt-f3': '2026-02-28' } },
+  { id: 'wtr1', fields: { 'wt-f1': 'Ship semantic caching to staging', 'wt-f2': 'Ari', 'wt-f3': '2026-03-01' } },
+  { id: 'wtr2', fields: { 'wt-f1': 'Tune eval set for retrieval drift', 'wt-f2': 'Noah', 'wt-f3': '2026-03-03' } },
+  { id: 'wtr3', fields: { 'wt-f1': 'Fix mobile nav hydration mismatch', 'wt-f2': 'Lena', 'wt-f3': '2026-03-04' } },
+  { id: 'wtr4', fields: { 'wt-f1': 'Write release notes for v0.9.2', 'wt-f2': 'Maya', 'wt-f3': '2026-03-06' } },
+  { id: 'wtr5', fields: { 'wt-f1': 'QA OAuth across Safari + Firefox', 'wt-f2': 'Devon', 'wt-f3': '2026-03-07' } },
+  { id: 'wtr6', fields: { 'wt-f1': 'Publish post: context engineering 101', 'wt-f2': 'Ari', 'wt-f3': '2026-03-09' } },
+  { id: 'wtr7', fields: { 'wt-f1': 'Record changelog walkthrough video', 'wt-f2': 'Noah', 'wt-f3': '2026-03-11' } },
+];
+
+const WIDGET_PAGE_RECORDS: DatabaseRecord[] = [
+  {
+    id: 'wpr1',
+    fields: {
+      'wp-f1': 'The Day We Replaced Standup with a Lighthouse',
+      'wp-f2': 'Field Notes from Team Orbit',
+      'wp-f3': 'Every morning at 9:03, the team gathered under a fake brass lighthouse in the corner of the office. Instead of saying what we did yesterday, we announced one risk, one weird signal, and one bet for today. Velocity did not magically double, but panic dropped, handoffs got cleaner, and blockers surfaced before lunch. The lesson was simple: progress sounds less like status and more like navigation.',
+      'wp-f4': 'Maxwell Moroz',
+      'wp-f5': 'https://example.com/lighthouse-standup',
+      'wp-f6': 'small',
+    },
+  },
+  {
+    id: 'wpr2',
+    fields: {
+      'wp-f1': 'How to Train a Product Roadmap Like a Bonsai Tree',
+      'wp-f2': 'Saturday Systems Essay',
+      'wp-f3': 'Most roadmaps fail from overgrowth, not neglect. We treated ours like bonsai: prune anything without a user story attached to a measurable behavior, wire branches to quarterly constraints, and repot once priorities start choking each other. The pretty part was accidental; the useful part was discipline. By month three, planning felt less like wishful gardening and more like deliberate architecture.',
+      'wp-f4': 'Maxwell Moroz',
+      'wp-f5': 'https://example.com/roadmap-bonsai',
+      'wp-f6': 'large',
+    },
+  },
+];
+
+const WIDGET_MEDIA_FIELDS: DatabaseField[] = [
+  { id: 'wm-f1', name: 'Title', type: 'text', options: [] },
+  { id: 'wm-f2', name: 'Subtitle', type: 'text', options: [] },
+  { id: 'wm-f3', name: 'Embed URL', type: 'url', options: [] },
+];
+
+const WIDGET_MEDIA_RECORDS: DatabaseRecord[] = [
+  {
+    id: 'wmr1',
+    fields: {
+      'wm-f1': 'House Mix',
+      'wm-f2': 'by yakatori',
+      'wm-f3': 'https://www.youtube.com/embed/knsHR4Z_LcM?si=aWzVZ641wvGYJinL',
+    },
+  },
 ];
 
 export async function seedData() {
@@ -314,11 +363,7 @@ export async function seedWidgetDatabases() {
   };
   const wpDoc: DatabaseDocument = {
     id: wpId, viewKind: 'table', schema: wpFields,
-    records: [
-      { id: 'wpr1', fields: { 'wp-f1': 'Text Heading', 'wp-f2': '', 'wp-f3': 'A window that breathes before it becomes a window\u2014light rehearsing the idea of glass. The cursor hovers like a divining rod over static, and the page trembles with unborn weather. Buttons bloom where intention condenses. Color is not chosen;', 'wp-f4': 'Maxwell Moroz', 'wp-f5': 'https://example.com/article-1', 'wp-f6': 'small' } },
-      { id: 'wpr2', fields: { 'wp-f1': 'Title', 'wp-f2': 'Subtitle', 'wp-f3': 'A window that breathes before it becomes a window\u2014light rehearsing the idea of glass. The cursor hovers like a divining rod over static, and the page trembles with...', 'wp-f4': 'Maxwell Moroz', 'wp-f5': 'https://example.com/article-2', 'wp-f6': 'large' } },
-      { id: 'wpr3', fields: { 'wp-f1': 'Title', 'wp-f2': 'Subtitle', 'wp-f3': 'A window that breathes before it becomes a window\u2014light rehearsing the idea of glass. The cursor hovers like a divining rod over static, and the page trembles with...', 'wp-f4': 'Maxwell Moroz', 'wp-f5': 'https://example.com/article-3', 'wp-f6': 'large' } },
-    ],
+    records: WIDGET_PAGE_RECORDS,
   };
   await db.files.put(wpFile);
   await db.databases.put(wpDoc);
@@ -373,6 +418,20 @@ export async function seedWidgetDatabases() {
   };
   await db.files.put(wtFile);
   await db.databases.put(wtDoc);
+
+  // ── 12. Widget Media database ────────────────────────────────────────────
+  const wmId = WIDGET_MEDIA_DB_ID;
+  const wmFile: WorkspaceFile = {
+    id: wmId, kind: 'database', title: 'Widget Media', viewKind: 'table',
+    author: 'System', createdAt: ts(94), updatedAt: ts(95),
+    tags: ['widgets'],
+  };
+  const wmDoc: DatabaseDocument = {
+    id: wmId, viewKind: 'table', schema: WIDGET_MEDIA_FIELDS,
+    records: WIDGET_MEDIA_RECORDS,
+  };
+  await db.files.put(wmFile);
+  await db.databases.put(wmDoc);
 }
 
 function readRecordString(rec: DatabaseRecord, fieldId: string) {
@@ -384,8 +443,6 @@ function readRecordString(rec: DatabaseRecord, fieldId: string) {
 
 async function ensureCalendarDatabase() {
   const calFile = await db.files.get(CALENDAR_DB_ID);
-  const calDoc = await db.databases.get(CALENDAR_DB_ID);
-  if (calFile && calDoc) return;
 
   const file: WorkspaceFile = {
     id: CALENDAR_DB_ID,
@@ -393,8 +450,8 @@ async function ensureCalendarDatabase() {
     title: 'Calendar',
     viewKind: 'calendar',
     author: 'Bob',
-    createdAt: ts(40),
-    updatedAt: ts(41),
+    createdAt: calFile?.createdAt ?? ts(40),
+    updatedAt: now(),
     tags: ['calendar', 'schedule'],
   };
   const doc: DatabaseDocument = {
@@ -409,17 +466,41 @@ async function ensureCalendarDatabase() {
   await db.databases.put(doc);
 }
 
+async function ensureWidgetPagesDatabase() {
+  const existingFile = await db.files.get(WIDGET_PAGES_DB_ID);
+  const wpFields: DatabaseField[] = [
+    { id: 'wp-f1', name: 'Title', type: 'text', options: [] },
+    { id: 'wp-f2', name: 'Subtitle', type: 'text', options: [] },
+    { id: 'wp-f3', name: 'Body', type: 'text', options: [] },
+    { id: 'wp-f4', name: 'Author', type: 'text', options: [] },
+    { id: 'wp-f5', name: 'Link', type: 'url', options: [] },
+    { id: 'wp-f6', name: 'Size', type: 'select', options: [
+      { id: 'wps1', label: 'small', color: '#bfdbfe' },
+      { id: 'wps2', label: 'large', color: '#e9d5ff' },
+    ]},
+  ];
+  const file: WorkspaceFile = {
+    id: WIDGET_PAGES_DB_ID,
+    kind: 'database',
+    title: 'Widget Pages',
+    viewKind: 'table',
+    author: 'System',
+    createdAt: existingFile?.createdAt ?? ts(70),
+    updatedAt: now(),
+    tags: ['widgets'],
+  };
+  const doc: DatabaseDocument = {
+    id: WIDGET_PAGES_DB_ID,
+    viewKind: 'table',
+    schema: wpFields,
+    records: WIDGET_PAGE_RECORDS,
+  };
+  await db.files.put(file);
+  await db.databases.put(doc);
+}
+
 async function ensureWidgetRemindersDatabase() {
   const existingFile = await db.files.get(WIDGET_REMINDERS_DB_ID);
-  const existingDoc = await db.databases.get(WIDGET_REMINDERS_DB_ID);
-
-  const hasReminderSchema = Boolean(
-    existingDoc
-    && existingDoc.schema.some(f => f.name === 'Label')
-    && existingDoc.schema.some(f => f.name === 'Icon')
-  );
-
-  if (hasReminderSchema) return;
 
   const file: WorkspaceFile = {
     id: WIDGET_REMINDERS_DB_ID,
@@ -444,16 +525,6 @@ async function ensureWidgetRemindersDatabase() {
 
 async function ensureWidgetTodosDatabase() {
   const existingFile = await db.files.get(WIDGET_TODOS_DB_ID);
-  const existingDoc = await db.databases.get(WIDGET_TODOS_DB_ID);
-
-  const hasTodoSchema = Boolean(
-    existingDoc
-    && existingDoc.schema.some(f => f.name === 'Title')
-    && existingDoc.schema.some(f => f.name === 'Assignee')
-    && existingDoc.schema.some(f => f.name === 'Date')
-  );
-
-  if (hasTodoSchema) return;
 
   const file: WorkspaceFile = {
     id: WIDGET_TODOS_DB_ID,
@@ -472,6 +543,28 @@ async function ensureWidgetTodosDatabase() {
     records: WIDGET_TODO_RECORDS,
   };
 
+  await db.files.put(file);
+  await db.databases.put(doc);
+}
+
+async function ensureWidgetMediaDatabase() {
+  const existingFile = await db.files.get(WIDGET_MEDIA_DB_ID);
+  const file: WorkspaceFile = {
+    id: WIDGET_MEDIA_DB_ID,
+    kind: 'database',
+    title: 'Widget Media',
+    viewKind: 'table',
+    author: 'System',
+    createdAt: existingFile?.createdAt ?? ts(94),
+    updatedAt: now(),
+    tags: ['widgets'],
+  };
+  const doc: DatabaseDocument = {
+    id: WIDGET_MEDIA_DB_ID,
+    viewKind: 'table',
+    schema: WIDGET_MEDIA_FIELDS,
+    records: WIDGET_MEDIA_RECORDS,
+  };
   await db.files.put(file);
   await db.databases.put(doc);
 }
@@ -545,13 +638,16 @@ function now() {
 
 export async function enforceWidgetCalendarOnlyContent() {
   await ensureCalendarDatabase();
+  await ensureWidgetPagesDatabase();
   await ensureWidgetRemindersDatabase();
   await ensureWidgetTodosDatabase();
+  await ensureWidgetMediaDatabase();
 
   const hasWidgetPages = await db.files.get(WIDGET_PAGES_DB_ID);
   const hasWidgetReminders = await db.files.get(WIDGET_REMINDERS_DB_ID);
   const hasWidgetTodos = await db.files.get(WIDGET_TODOS_DB_ID);
-  if (!hasWidgetPages || !hasWidgetReminders || !hasWidgetTodos) {
+  const hasWidgetMedia = await db.files.get(WIDGET_MEDIA_DB_ID);
+  if (!hasWidgetPages || !hasWidgetReminders || !hasWidgetTodos || !hasWidgetMedia) {
     await seedWidgetDatabases();
   }
 
