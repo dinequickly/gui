@@ -6,6 +6,7 @@ import { MiniActionStack } from './components/MiniActionStack';
 import { QuickActionsGrid } from './components/QuickActionsGrid';
 import { ReaderCard } from './components/ReaderCard';
 import { ReminderList } from './components/ReminderList';
+import { SourceLinkCard } from './components/SourceLinkCard';
 import { TopCornerIcons } from './components/TopCornerIcons';
 import { TopNavBar } from './components/TopNavBar';
 import { VideoCard } from './components/VideoCard';
@@ -18,6 +19,7 @@ export const widgetRegistry: Record<string, ComponentType<WidgetComponentProps>>
   calendarCard: CalendarCard,
   videoCard: VideoCard,
   reminderList: ReminderList,
+  sourceLinkCard: SourceLinkCard,
   quickActionsGrid: QuickActionsGrid,
   miniActionStack: MiniActionStack,
   topNav: TopNavBar,

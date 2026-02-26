@@ -511,6 +511,15 @@ button.side-btn {
   cursor: not-allowed;
 }
 
+.new-design-root .chatbar-send-spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(55, 58, 69, 0.25);
+  border-top-color: rgba(55, 58, 69, 0.9);
+  animation: nd-chatbar-spin 720ms linear infinite;
+}
+
 .new-design-root .chatbar-input {
   width: 100%;
   height: 100%;
@@ -525,4 +534,10 @@ button.side-btn {
 
 .new-design-root .chatbar-input::placeholder {
   color: rgba(110, 116, 132, 0.88);
+}
+
+@keyframes nd-chatbar-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

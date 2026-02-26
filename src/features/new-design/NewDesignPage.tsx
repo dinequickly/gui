@@ -3,12 +3,15 @@ import './new-design.css';
 import { Icon } from '../../shared/components/Icon';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { nanoid } from '../../shared/utils/nanoid';
-import { useFileStore, getPage, updatePage, updatePageDocument } from '../../shared/store/fileStore';
-import { db } from '../../shared/store/db';
+import { useFileStore, getDatabase, getFileById, getPage, updateDatabase, updatePage, updatePageDocument } from '../../shared/store/fileStore';
+import { useAuthStore } from '../../shared/store/authStore';
 import type { Block, PageCitation } from '../../shared/types';
 import { BlockEditor } from '../editor/BlockEditor';
 import { PageChatBar } from './PageChatBar';
 import type { PageAgentContext, PageAgentEdit } from './pageChatbot';
+import { fetchUserDashboardKeys } from '../widget-dashboard/supabaseComponents';
+import { labelFromDashboardKey, navItemsFromDashboardKeys, pathForTopNavLabel } from '../widget-dashboard/viewRoutes';
+import { isWidgetPageFileId, WIDGET_PAGES_DB_ID } from '../../shared/constants/widgetContent';
 
 function getCitationHostname(rawUrl?: string): string {
   const value = (rawUrl ?? '').trim();
@@ -125,6 +128,33 @@ function renderInlineRichText(text: string, citations: PageCitation[]) {
   return nodes;
 }
 
+function textFromBlock(block: Block): string {
+  switch (block.type) {
+    case 'title':
+    case 'heading1':
+    case 'heading2':
+    case 'heading3':
+    case 'paragraph':
+    case 'bullet':
+    case 'numbered':
+    case 'quote':
+    case 'todo':
+    case 'callout':
+      return block.text.trim();
+    case 'toggle': {
+      const childText = block.children.map(textFromBlock).filter(Boolean).join('\n');
+      return [block.text.trim(), childText].filter(Boolean).join('\n');
+    }
+    case 'image':
+      return block.caption?.trim() ?? '';
+    case 'divider':
+    case 'database_embed':
+      return '';
+    default:
+      return '';
+  }
+}
+
 function CitationSideNotes({
   citations,
   allCitations,
@@ -223,7 +253,11 @@ function PageReadDocument({ blocks, citations }: { blocks: Block[]; citations: P
 export function NewDesignPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { user } = useAuthStore();
   const fileId = searchParams.get('fileId');
+  const dashboardKey = searchParams.get('dashboardKey') ?? 'dashboard-2';
+  const activeTopNavLabel = labelFromDashboardKey(dashboardKey);
+  const [topNavItems, setTopNavItems] = useState<string[]>(['Overview']);
   const [blocks, setBlocks] = useState<Block[] | null>(null);
   const [citations, setCitations] = useState<PageCitation[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -238,6 +272,45 @@ export function NewDesignPage() {
   const chartWidth = 900;
   const chartHeight = 200;
 
+  const syncWidgetPageRecord = useCallback(async (nextTitle: string, nextAuthor: string, nextBlocks: Block[]) => {
+    if (!fileId || !isWidgetPageFileId(fileId)) return;
+    const recordId = fileId.replace('widget-page-', '');
+    if (!recordId) return;
+
+    const dbDoc = await getDatabase(WIDGET_PAGES_DB_ID);
+    if (!dbDoc) return;
+    const titleField = dbDoc.schema.find((field) => field.name === 'Title')?.id;
+    const subtitleField = dbDoc.schema.find((field) => field.name === 'Subtitle')?.id;
+    const bodyField = dbDoc.schema.find((field) => field.name === 'Body')?.id;
+    const authorField = dbDoc.schema.find((field) => field.name === 'Author')?.id;
+    if (!titleField || !bodyField || !authorField) return;
+
+    const recordIndex = dbDoc.records.findIndex((record) => record.id === recordId);
+    if (recordIndex < 0) return;
+    const existing = dbDoc.records[recordIndex];
+
+    const textLines = nextBlocks
+      .map(textFromBlock)
+      .map((text) => text.trim())
+      .filter(Boolean);
+    const subtitleCandidate = textLines[1] ?? '';
+    const body = textLines.join('\n\n').trim();
+
+    const nextRecord = {
+      ...existing,
+      fields: {
+        ...existing.fields,
+        [titleField]: nextTitle.trim() || 'Untitled article',
+        [bodyField]: body,
+        [authorField]: nextAuthor.trim() || 'Unknown author',
+        ...(subtitleField ? { [subtitleField]: subtitleCandidate } : {}),
+      },
+    };
+    const nextRecords = [...dbDoc.records];
+    nextRecords[recordIndex] = nextRecord;
+    await updateDatabase(WIDGET_PAGES_DB_ID, { records: nextRecords });
+  }, [fileId]);
+
   useEffect(() => {
     let cancelled = false;
     async function loadArticle() {
@@ -246,7 +319,7 @@ export function NewDesignPage() {
         return;
       }
       const [fileRec, pageDoc] = await Promise.all([
-        db.files.get(fileId),
+        getFileById(fileId),
         getPage(fileId),
       ]);
       if (cancelled) return;
@@ -283,9 +356,12 @@ export function NewDesignPage() {
     }
     fileMetaSaveTimerRef.current = window.setTimeout(() => {
       fileMetaSaveTimerRef.current = null;
-      void updateFileMeta(fileId, { title: normalizedTitle, author: normalizedAuthor });
+      void Promise.all([
+        updateFileMeta(fileId, { title: normalizedTitle, author: normalizedAuthor }),
+        syncWidgetPageRecord(normalizedTitle, normalizedAuthor, blocks ?? []),
+      ]);
     }, 150);
-  }, [fileId, updateFileMeta]);
+  }, [blocks, fileId, syncWidgetPageRecord, updateFileMeta]);
 
   const handleBlocksChange = useCallback((nextBlocks: Block[]) => {
     if (!fileId) return;
@@ -295,9 +371,12 @@ export function NewDesignPage() {
     }
     blockSaveTimerRef.current = window.setTimeout(() => {
       blockSaveTimerRef.current = null;
-      void updatePage(fileId, nextBlocks);
+      void Promise.all([
+        updatePage(fileId, nextBlocks),
+        syncWidgetPageRecord(titleValue, authorValue, nextBlocks),
+      ]);
     }, 150);
-  }, [fileId]);
+  }, [authorValue, fileId, syncWidgetPageRecord, titleValue]);
 
   const handleCitationsChange = useCallback((nextCitations: PageCitation[]) => {
     if (!fileId) return;
@@ -330,7 +409,12 @@ export function NewDesignPage() {
       title: titleValue.trim() || 'Untitled article',
       author: authorValue.trim() || 'Unknown author',
     });
-  }, [fileId, blocks, citations, titleValue, authorValue, updateFileMeta]);
+    void syncWidgetPageRecord(
+      titleValue.trim() || 'Untitled article',
+      authorValue.trim() || 'Unknown author',
+      blocks ?? [],
+    );
+  }, [fileId, blocks, citations, titleValue, authorValue, updateFileMeta, syncWidgetPageRecord]);
 
   const showBtcChart = useMemo(() => {
     return (blocks ?? []).some((block) => ('text' in block) && /(?:\bbtc\b|\bbitcoin\b)/i.test(block.text));
@@ -379,8 +463,9 @@ export function NewDesignPage() {
     await Promise.all([
       updateFileMeta(fileId, { title: nextTitle, author: nextAuthor }),
       updatePageDocument(fileId, { blocks: nextBlocks, citations: nextCitations }),
+      syncWidgetPageRecord(nextTitle, nextAuthor, nextBlocks),
     ]);
-  }, [fileId, titleValue, authorValue, blocks, citations, updateFileMeta]);
+  }, [fileId, titleValue, authorValue, blocks, citations, updateFileMeta, syncWidgetPageRecord]);
 
   const addCitation = useCallback(() => {
     handleCitationsChange([
@@ -412,14 +497,39 @@ export function NewDesignPage() {
   
   const areaPoints = `0,${chartHeight} ${points} ${chartWidth},${chartHeight}`;
 
+  useEffect(() => {
+    let cancelled = false;
+    async function loadTopNavItems() {
+      if (!user?.id) {
+        setTopNavItems(['Overview']);
+        return;
+      }
+      try {
+        const keys = await fetchUserDashboardKeys(user.id);
+        if (cancelled) return;
+        const withActive = keys.includes(dashboardKey) ? keys : [...keys, dashboardKey];
+        setTopNavItems(navItemsFromDashboardKeys(withActive));
+      } catch {
+        if (!cancelled) setTopNavItems(['Overview']);
+      }
+    }
+    void loadTopNavItems();
+    return () => { cancelled = true; };
+  }, [dashboardKey, user?.id]);
+
   return (
     <div className="new-design-root">
       <div className="new-design-nav-container">
         <nav className="new-design-nav">
-          <button className="active" onClick={() => navigate('/widgets')}>Overview</button>
-          <button>Data Focus</button>
-          <button>TLDR</button>
-          <button>Deep Dive</button>
+          {topNavItems.map((label) => (
+            <button
+              key={label}
+              className={label === activeTopNavLabel ? 'active' : ''}
+              onClick={() => navigate(pathForTopNavLabel(label))}
+            >
+              {label}
+            </button>
+          ))}
           <button className="search-btn"><Icon name="search" size={18} /></button>
         </nav>
       </div>

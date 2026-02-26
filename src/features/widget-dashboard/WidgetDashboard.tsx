@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import waterlilies from '../../assets/waterlilies.webp';
 import layoutData from './dashboard.layout.json';
 import { DashboardRenderer } from './DashboardRenderer';
-import { getDatabase } from '../../shared/store/fileStore';
+import { getDatabase, getPage } from '../../shared/store/fileStore';
 import { useFileStore } from '../../shared/store/fileStore';
 import { useAuthStore } from '../../shared/store/authStore';
 import {
@@ -12,10 +12,10 @@ import {
   WIDGET_PAGES_DB_ID,
   WIDGET_REMINDERS_DB_ID,
   WIDGET_TODOS_DB_ID,
-  widgetPageFileId,
+  isWidgetPageFileId,
 } from '../../shared/constants/widgetContent';
 import type { DashboardLayout } from './types';
-import type { DatabaseDocument, DatabaseRecord } from '../../shared/types';
+import type { DatabaseDocument, DatabaseRecord, PageDocument, WorkspaceFile } from '../../shared/types';
 import {
   DEFAULT_DASHBOARD_KEY,
   fetchUserDashboardComponents,
@@ -35,11 +35,16 @@ interface WidgetDashboardProps {
 
 export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: WidgetDashboardProps) {
   const navigate = useNavigate();
-  const { loaded } = useFileStore();
+  const location = useLocation();
+  const { loaded, files } = useFileStore();
   const { user } = useAuthStore();
-  const [layout, setLayout] = useState<DashboardLayout>(layoutData as DashboardLayout);
+  const [layout, setLayout] = useState<DashboardLayout>(() => (
+    applyTopNav(layoutData as DashboardLayout, ['Overview'], 'Overview')
+  ));
   const [uuidByLocalWidgetId, setUuidByLocalWidgetId] = useState<Record<string, string>>({});
-  const [topNavItems, setTopNavItems] = useState<string[]>(['Overview', 'AM Brief', 'News', "To-Do's"]);
+  const [topNavItems, setTopNavItems] = useState<string[]>(['Overview']);
+  const [autoRunPrompt, setAutoRunPrompt] = useState('');
+  const [autoCollapseChat, setAutoCollapseChat] = useState(false);
   const localIdByUuid = useMemo(() => {
     return Object.fromEntries(Object.entries(uuidByLocalWidgetId).map(([localId, uuid]) => [uuid, localId]));
   }, [uuidByLocalWidgetId]);
@@ -48,13 +53,40 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
     return buildWidgetBoardState(layout.widgets, uuidByLocalWidgetId);
   }, [layout, uuidByLocalWidgetId]);
   const toolContext = useMemo(() => {
-    return buildWidgetToolContext(layout.widgets, uuidByLocalWidgetId);
-  }, [layout, uuidByLocalWidgetId]);
+    return buildWidgetToolContext(layout.widgets, uuidByLocalWidgetId, dashboardKey);
+  }, [dashboardKey, layout, uuidByLocalWidgetId]);
   const isEmptyView = useMemo(() => {
     return layout.widgets.every((widget) => widget.group === 'chrome');
   }, [layout.widgets]);
   const activeNavLabel = useMemo(() => labelFromDashboardKey(dashboardKey), [dashboardKey]);
   const chatMode = dashboardKey === DEFAULT_DASHBOARD_KEY ? 'default' : 'new_view';
+
+  useEffect(() => {
+    setAutoRunPrompt('');
+    setAutoCollapseChat(false);
+  }, [dashboardKey]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('auto_generate') !== '1') return;
+    const prompt = params.get('auto_prompt')?.trim() ?? '';
+    if (!prompt) return;
+    setAutoRunPrompt(prompt);
+    setAutoCollapseChat(params.get('auto_collapse_chat') === '1');
+
+    const nextParams = new URLSearchParams(location.search);
+    nextParams.delete('auto_generate');
+    nextParams.delete('auto_prompt');
+    nextParams.delete('auto_collapse_chat');
+    const nextSearch = nextParams.toString();
+    navigate(
+      {
+        pathname: location.pathname,
+        search: nextSearch ? `?${nextSearch}` : '',
+      },
+      { replace: true },
+    );
+  }, [location.pathname, location.search, navigate]);
 
   useEffect(() => {
     return subscribeWidgetAgentEvents((event) => {
@@ -113,8 +145,10 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
       if (event.type === 'generated_components_applied') {
         setLayout((prev) => {
           const next = structuredClone(prev) as DashboardLayout;
-          const incomingById = new Map(event.payload.widgets.map((widget) => [widget.id, widget]));
-          const filtered = next.widgets.filter((widget) => !incomingById.has(widget.id));
+          const legacyIds = new Set(['page_creator_a', 'page_creator_b', 'citation_creator', 'agent-citations-1']);
+          const filtered = next.widgets.filter(
+            (widget) => !widget.id.startsWith('agent-') && !legacyIds.has(widget.id),
+          );
           next.widgets = [...filtered, ...event.payload.widgets.map((widget) => ({
             ...widget,
             column: Math.min(4, Math.max(1, widget.column)) as 1 | 2 | 3 | 4,
@@ -142,6 +176,15 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
         getDatabase(CALENDAR_DB_ID),
         getDatabase(WIDGET_MEDIA_DB_ID),
       ]);
+      const widgetPageFiles = files
+        .filter((file) => file.kind === 'page' && isWidgetPageFileId(file.id))
+        .sort((a, b) => a.id.localeCompare(b.id));
+      const widgetPageEntries = await Promise.all(
+        widgetPageFiles.map(async (file) => ({
+          file,
+          page: await getPage(file.id),
+        })),
+      );
 
       if (cancelled) return;
       const hydrated = buildHydratedLayout(layoutData as DashboardLayout, {
@@ -150,6 +193,7 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
         todosDb,
         calendarDb,
         mediaDb,
+        widgetPageEntries,
       });
 
       if (!user?.id) {
@@ -206,7 +250,11 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
         const restored: DashboardLayout = {
           widgets: restoredWidgets,
         };
-        setLayout(applyTopNav(restored.widgets.length > 0 ? restored : hydrated, computedNavItems, activeNavLabel));
+        const baseLayout = restored.widgets.length > 0 ? restored : hydrated;
+        const mergedForOverview = dashboardKey === DEFAULT_DASHBOARD_KEY
+          ? mergeWithHydratedDefaults(hydrated, baseLayout)
+          : baseLayout;
+        setLayout(applyTopNav(mergedForOverview, computedNavItems, activeNavLabel));
         const map: Record<string, string> = {};
         for (const row of existingRows) {
           const metadata = (row.metadata ?? {}) as { local_widget_id?: unknown };
@@ -238,7 +286,7 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
 
     void hydrateFromWorkspace();
     return () => { cancelled = true; };
-  }, [activeNavLabel, dashboardKey, loaded, user?.id]);
+  }, [activeNavLabel, dashboardKey, files, loaded, user?.id]);
 
   return (
     <div className={`widget-dashboard-root ${isEmptyView ? 'is-empty-view' : ''}`}>
@@ -252,7 +300,11 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
           </div>
         </section>
       ) : null}
-      <DashboardRenderer layout={layout} />
+      <DashboardRenderer
+        layout={layout}
+        collapseSourceLinks={dashboardKey !== DEFAULT_DASHBOARD_KEY}
+        compactTwoColumn={dashboardKey !== DEFAULT_DASHBOARD_KEY}
+      />
       <WidgetChatBar
         boardState={boardState}
         toolContext={toolContext}
@@ -260,6 +312,8 @@ export function WidgetDashboard({ dashboardKey = DEFAULT_DASHBOARD_KEY }: Widget
         dashboardKey={dashboardKey}
         chatMode={chatMode}
         theaterMode={isEmptyView}
+        autoRunPrompt={autoRunPrompt}
+        autoCollapseOnAutoRun={autoCollapseChat}
         starterPrompt={
           isEmptyView
             ? (chatMode === 'new_view'
@@ -278,6 +332,7 @@ type DashboardSources = {
   todosDb?: DatabaseDocument;
   calendarDb?: DatabaseDocument;
   mediaDb?: DatabaseDocument;
+  widgetPageEntries?: Array<{ file: WorkspaceFile; page?: PageDocument }>;
 };
 
 function getField(record: DatabaseRecord, fieldId?: string): string {
@@ -309,6 +364,50 @@ function applyTopNav(base: DashboardLayout, items: string[], active: string): Da
     active,
   };
   return next;
+}
+
+function mergeWithHydratedDefaults(hydrated: DashboardLayout, restored: DashboardLayout): DashboardLayout {
+  const restoredById = new Map(restored.widgets.map((widget) => [widget.id, widget]));
+  const hydratedDataPropsByWidgetId: Record<string, string[]> = {
+    'left-reader': ['title', 'subtitle', 'body', 'fileId'],
+    'right-reader': ['title', 'subtitle', 'body', 'fileId'],
+    'finance-card': ['kicker', 'title', 'fileId'],
+  };
+  const merged: DashboardLayout['widgets'] = [];
+
+  for (const fallbackWidget of hydrated.widgets) {
+    const restoredWidget = restoredById.get(fallbackWidget.id);
+    if (!restoredWidget) {
+      merged.push(fallbackWidget);
+      continue;
+    }
+
+    const hydratedDataProps = hydratedDataPropsByWidgetId[fallbackWidget.id];
+    if (!hydratedDataProps || !fallbackWidget.props) {
+      merged.push(restoredWidget);
+      continue;
+    }
+
+    const syncedProps = { ...restoredWidget.props };
+    for (const propName of hydratedDataProps) {
+      if (Object.prototype.hasOwnProperty.call(fallbackWidget.props, propName)) {
+        syncedProps[propName] = fallbackWidget.props[propName];
+      }
+    }
+
+    merged.push({
+      ...restoredWidget,
+      props: syncedProps,
+    });
+  }
+
+  for (const restoredWidget of restored.widgets) {
+    if (!hydrated.widgets.some((widget) => widget.id === restoredWidget.id)) {
+      merged.push(restoredWidget);
+    }
+  }
+
+  return { widgets: merged };
 }
 
 export function buildHydratedLayout(baseLayout: DashboardLayout, sources: DashboardSources): DashboardLayout {
@@ -348,40 +447,84 @@ export function buildHydratedLayout(baseLayout: DashboardLayout, sources: Dashbo
     upsertProps(next, 'appl-chart', { series: [...todoSeries].reverse() });
   }
 
-  const pagesFieldMap = fieldMapByName(sources.pagesDb);
-  const pageRecords = sources.pagesDb?.records ?? [];
-  if (pageRecords.length > 0) {
-    const getPageContent = (index: number) => {
-      const fallback = pageRecords[0];
-      const record = pageRecords[index] ?? fallback;
+  const widgetPageEntries = sources.widgetPageEntries ?? [];
+  if (widgetPageEntries.length > 0) {
+    const summarizePageDoc = (doc: PageDocument | undefined, title: string) => {
+      const lines = (doc?.blocks ?? [])
+        .flatMap((block) => {
+          switch (block.type) {
+            case 'paragraph':
+            case 'bullet':
+            case 'numbered':
+            case 'quote':
+            case 'todo':
+            case 'callout':
+              return [block.text.trim()];
+            case 'toggle': {
+              const childrenText = block.children
+                .flatMap((child) => ('text' in child ? [child.text.trim()] : []));
+              return [block.text.trim(), ...childrenText];
+            }
+            case 'image':
+              return [block.caption?.trim() ?? ''];
+            case 'divider':
+            case 'database_embed':
+              return [];
+            default:
+              return [];
+          }
+        })
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .filter((line) => line.toLowerCase() !== title.trim().toLowerCase())
+        .filter((line) => !/^by\s+/i.test(line))
+        .filter((line) => !/^link:\s*/i.test(line));
       return {
-        title: getField(record, pagesFieldMap['Title']) || 'Title',
-        subtitle: getField(record, pagesFieldMap['Subtitle']) || 'Subtitle',
-        body: getField(record, pagesFieldMap['Body']) || '',
-        fileId: widgetPageFileId(record.id),
+        body: lines.join('\n\n').trim(),
       };
     };
 
-    const leftPage = getPageContent(0);
-    const rightPage = getPageContent(1);
-    const financePage = getPageContent(0);
+    const getEntry = (index: number) => widgetPageEntries[index] ?? widgetPageEntries[0];
+    const leftEntry = getEntry(0);
+    const rightEntry = getEntry(1);
+    const financeEntry = getEntry(0);
+    const leftText = summarizePageDoc(leftEntry.page, leftEntry.file.title || '');
+    const rightText = summarizePageDoc(rightEntry.page, rightEntry.file.title || '');
 
     upsertProps(next, 'left-reader', {
-      title: leftPage.title,
-      subtitle: leftPage.subtitle,
-      body: leftPage.body,
-      fileId: leftPage.fileId,
+      title: leftEntry.file.title || 'Title',
+      subtitle: leftEntry.file.author ? `By ${leftEntry.file.author}` : 'By Author',
+      body: leftText.body,
+      fileId: leftEntry.file.id,
     });
     upsertProps(next, 'right-reader', {
-      title: rightPage.title,
-      subtitle: rightPage.subtitle,
-      body: rightPage.body,
-      fileId: rightPage.fileId,
+      title: rightEntry.file.title || 'Title',
+      subtitle: rightEntry.file.author ? `By ${rightEntry.file.author}` : 'By Author',
+      body: rightText.body,
+      fileId: rightEntry.file.id,
     });
     upsertProps(next, 'finance-card', {
-      kicker: financePage.subtitle || 'Finance Agent',
-      title: financePage.title || 'A data driven perspective',
-      fileId: financePage.fileId,
+      kicker: financeEntry.file.author ? `By ${financeEntry.file.author}` : 'Finance Agent',
+      title: financeEntry.file.title || 'A data driven perspective',
+      fileId: financeEntry.file.id,
+    });
+  } else {
+    upsertProps(next, 'left-reader', {
+      title: 'No linked page',
+      subtitle: 'By Author',
+      body: '',
+      fileId: '',
+    });
+    upsertProps(next, 'right-reader', {
+      title: 'No linked page',
+      subtitle: 'By Author',
+      body: '',
+      fileId: '',
+    });
+    upsertProps(next, 'finance-card', {
+      kicker: 'Finance Agent',
+      title: 'No linked page',
+      fileId: '',
     });
   }
 

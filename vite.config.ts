@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const perplexityKey = env.VITE_PERPLEXITY_API_KEY
+  const youtubeApiKey = env.YOUTUBE_API_KEY || env.VITE_YOUTUBE_API_KEY
   const grabbitKey = env.GRABBIT_API_KEY || 'grabbit_sk_3010541e016bb354a96dfdb83cf20cc8b6dd24d6ee99a1d1'
 
   return {
@@ -19,6 +20,22 @@ export default defineConfig(({ mode }) => {
             proxy.on('proxyReq', (proxyReq: any) => {
               if (!perplexityKey) return
               proxyReq.setHeader('Authorization', `Bearer ${perplexityKey}`)
+              proxyReq.setHeader('Accept', 'application/json')
+            })
+          },
+        },
+        '/api/youtube/search': {
+          target: 'https://www.googleapis.com',
+          changeOrigin: true,
+          rewrite: () => '/youtube/v3/search',
+          configure: (proxy: any) => {
+            proxy.on('proxyReq', (proxyReq: any) => {
+              if (!youtubeApiKey) return
+              const url = new URL(proxyReq.path, 'https://www.googleapis.com')
+              if (!url.searchParams.has('key')) {
+                url.searchParams.set('key', youtubeApiKey)
+              }
+              proxyReq.path = `${url.pathname}?${url.searchParams.toString()}`
               proxyReq.setHeader('Accept', 'application/json')
             })
           },

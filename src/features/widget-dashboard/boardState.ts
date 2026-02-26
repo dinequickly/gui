@@ -77,6 +77,7 @@ export function buildWidgetBoardState(
 export function buildWidgetToolContext(
   widgets: WidgetLayoutItem[],
   uuidByLocalWidgetId: Record<string, string>,
+  dashboardKey: string,
 ): WidgetToolContext {
   const iframes: WidgetIframeTarget[] = [];
   const pages: WidgetPageTarget[] = [];
@@ -100,7 +101,7 @@ export function buildWidgetToolContext(
     }
 
     if (fileId) {
-      const url = `/page?fileId=${encodeURIComponent(fileId)}`;
+      const url = `/page?fileId=${encodeURIComponent(fileId)}&dashboardKey=${encodeURIComponent(dashboardKey)}`;
       pages.push({
         widget_uuid: uuid,
         widget_title: title,

@@ -72,3 +72,16 @@ export default defineConfig([
 ])
 ```
 # gui
+
+## Local development
+
+- Start dev server with:
+  - `npm run dev`
+- Use one URL consistently per session (prefer `http://localhost:5173`) to avoid split auth/storage state between `localhost` and `127.0.0.1`.
+
+## Supabase deployment prep
+
+- Migration file:
+  - `supabase/migrations/20260226185322_deploy_prep_hardening.sql`
+- Deploy and verification checklist:
+  - `docs/deploy-supabase-cutover.md`

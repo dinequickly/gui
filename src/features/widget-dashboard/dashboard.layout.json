@@ -9,7 +9,7 @@
       "height": 44,
       "group": "chrome",
       "props": {
-        "items": ["Overview", "AM Brief", "News", "To-Do's"],
+        "items": ["Overview"],
         "active": "Overview"
       }
     },

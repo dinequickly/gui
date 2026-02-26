@@ -75,13 +75,23 @@ type EditPageResult =
     affected_order: Array<{ uuid: string; column: number; order: number }>;
   };
 
-type GeneratedAgentComponentSlot = 'page_creator_a' | 'page_creator_b' | 'citation_creator';
-
 export interface GeneratedAgentComponent {
-  slot: GeneratedAgentComponentSlot;
+  slot: string;
+  component_type?: string;
   title: string;
   subtitle?: string;
   body: string;
+  label?: string;
+  embedUrl?: string;
+  linkUrl?: string;
+  fileId?: string;
+  cta?: string;
+  source?: string;
+  iconUrl?: string;
+  column?: 1 | 2 | 3 | 4;
+  order?: number;
+  width?: number;
+  height?: number;
 }
 
 export interface UpsertGeneratedComponentsResult {
@@ -89,14 +99,8 @@ export interface UpsertGeneratedComponentsResult {
   uuidByLocalWidgetId: Record<string, string>;
 }
 
-const GENERATED_COMPONENT_LAYOUT: Record<
-  GeneratedAgentComponentSlot,
-  { id: string; column: 1 | 2 | 3 | 4; order: number; width: number; height: number }
-> = {
-  page_creator_a: { id: 'agent-page-1', column: 1, order: 1, width: 500, height: 420 },
-  page_creator_b: { id: 'agent-page-2', column: 2, order: 1, width: 500, height: 420 },
-  citation_creator: { id: 'agent-citations-1', column: 3, order: 1, width: 500, height: 420 },
-};
+const DEFAULT_GENERATED_LAYOUT = { column: 1 as const, order: 1, width: 500, height: 420 };
+const LEGACY_GENERATED_IDS = new Set(['page_creator_a', 'page_creator_b', 'citation_creator', 'agent-citations-1']);
 
 function defaultPropsForComponentType(componentType: string): Record<string, unknown> {
   if (componentType === 'calendarCard') {
@@ -120,6 +124,15 @@ function defaultPropsForComponentType(componentType: string): Record<string, unk
       title: 'Untitled',
       body: '',
       cta: 'Open',
+    };
+  }
+  if (componentType === 'sourceLinkCard') {
+    return {
+      source: '',
+      title: 'Source',
+      url: '',
+      cta: 'Open Link',
+      iconUrl: '',
     };
   }
   return {};
@@ -505,22 +518,51 @@ export async function upsertGeneratedAgentComponents(
       byLocalId.set(metadata.local_widget_id, row);
     }
   }
+  const normalizedComponents = components
+    .slice()
+    .sort((a, b) => {
+      const aColumn = a.column ?? DEFAULT_GENERATED_LAYOUT.column;
+      const bColumn = b.column ?? DEFAULT_GENERATED_LAYOUT.column;
+      if (aColumn !== bColumn) return aColumn - bColumn;
+      const aOrder = a.order ?? DEFAULT_GENERATED_LAYOUT.order;
+      const bOrder = b.order ?? DEFAULT_GENERATED_LAYOUT.order;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return a.slot.localeCompare(b.slot);
+    });
 
-  const upserts = components.map((component) => {
-    const layout = GENERATED_COMPONENT_LAYOUT[component.slot];
+  const incomingSlotIds = new Set(normalizedComponents.map((component) => component.slot));
+
+  const upserts = normalizedComponents.map((component, index) => {
+    const layout = {
+      id: component.slot,
+      column: component.column ?? DEFAULT_GENERATED_LAYOUT.column,
+      order: component.order ?? DEFAULT_GENERATED_LAYOUT.order,
+      width: component.width ?? DEFAULT_GENERATED_LAYOUT.width,
+      height: component.height ?? DEFAULT_GENERATED_LAYOUT.height,
+    };
     const existing = byLocalId.get(layout.id);
+    const componentType = component.component_type ?? 'readerCard';
+    const defaultProps = defaultPropsForComponentType(componentType);
     const widget: WidgetLayoutItem = {
       id: layout.id,
-      type: 'readerCard',
+      type: componentType,
       column: layout.column,
       order: layout.order,
       width: layout.width,
       height: layout.height,
       props: {
+        ...defaultProps,
+        source: component.source ?? '',
         subtitle: component.subtitle ?? '',
         title: component.title,
         body: component.body,
-        cta: 'Open',
+        label: component.label ?? '',
+        embedUrl: component.embedUrl ?? '',
+        cta: component.cta ?? 'Open',
+        fileId: component.fileId ?? '',
+        linkUrl: component.linkUrl ?? '',
+        url: component.linkUrl ?? '',
+        iconUrl: component.iconUrl ?? '',
       },
     };
 
@@ -528,10 +570,10 @@ export async function upsertGeneratedAgentComponents(
       id: existing?.id ?? crypto.randomUUID(),
       user_id: userId,
       dashboard_key: dashboardKey,
-      component_type: 'readerCard',
+      component_type: componentType,
       title: component.title,
       body: component.body,
-      position: 100 + layout.order + layout.column * 10,
+      position: 1000 + index,
       metadata: {
         local_widget_id: layout.id,
         local_widget: widget as unknown as Json,
@@ -539,25 +581,59 @@ export async function upsertGeneratedAgentComponents(
     };
   });
 
+  const staleGeneratedRows = existingRows.filter((row) => {
+    const metadata = (row.metadata ?? {}) as ComponentMetadata;
+    const localId = typeof metadata.local_widget_id === 'string' ? metadata.local_widget_id : '';
+    const isGenerated = localId.startsWith('agent-') || LEGACY_GENERATED_IDS.has(localId);
+    if (!isGenerated) return false;
+    return !incomingSlotIds.has(localId);
+  });
+  if (staleGeneratedRows.length > 0) {
+    const staleIds = staleGeneratedRows.map((row) => row.id);
+    const { error: deleteError } = await supabase
+      .from('user_dashboard_components')
+      .delete()
+      .in('id', staleIds)
+      .eq('user_id', userId)
+      .eq('dashboard_key', dashboardKey);
+    if (deleteError) throw deleteError;
+  }
+
   const { error } = await supabase
     .from('user_dashboard_components')
     .upsert(upserts, { onConflict: 'id' });
   if (error) throw error;
 
-  const widgets: WidgetLayoutItem[] = components.map((component) => {
-    const layout = GENERATED_COMPONENT_LAYOUT[component.slot];
+  const widgets: WidgetLayoutItem[] = normalizedComponents.map((component) => {
+    const layout = {
+      id: component.slot,
+      column: component.column ?? DEFAULT_GENERATED_LAYOUT.column,
+      order: component.order ?? DEFAULT_GENERATED_LAYOUT.order,
+      width: component.width ?? DEFAULT_GENERATED_LAYOUT.width,
+      height: component.height ?? DEFAULT_GENERATED_LAYOUT.height,
+    };
+    const componentType = component.component_type ?? 'readerCard';
+    const defaultProps = defaultPropsForComponentType(componentType);
     return {
       id: layout.id,
-      type: 'readerCard',
+      type: componentType,
       column: layout.column,
       order: layout.order,
       width: layout.width,
       height: layout.height,
       props: {
+        ...defaultProps,
+        source: component.source ?? '',
         subtitle: component.subtitle ?? '',
         title: component.title,
         body: component.body,
-        cta: 'Open',
+        label: component.label ?? '',
+        embedUrl: component.embedUrl ?? '',
+        cta: component.cta ?? 'Open',
+        fileId: component.fileId ?? '',
+        linkUrl: component.linkUrl ?? '',
+        url: component.linkUrl ?? '',
+        iconUrl: component.iconUrl ?? '',
       },
     };
   });

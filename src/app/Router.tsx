@@ -10,7 +10,6 @@ import { IframeTheaterPage } from '../features/widget-dashboard/IframeTheaterPag
 import { SimpleWidgetsPage } from '../features/widget-dashboard/SimpleWidgetsPage';
 import { useFileStore } from '../shared/store/fileStore';
 import { useAuthStore } from '../shared/store/authStore';
-import { db } from '../shared/store/db';
 
 function WidgetViewRoute() {
   const { viewId } = useParams();
@@ -39,23 +38,24 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function AppContent() {
   const { loadFiles, seedIfEmpty, loaded } = useFileStore();
-  const { initialize: initAuth, loading: authLoading } = useAuthStore();
+  const { initialize: initAuth, loading: authLoading, user } = useAuthStore();
 
   useEffect(() => {
     initAuth();
   }, [initAuth]);
 
   useEffect(() => {
-    seedIfEmpty().then(async () => {
-      const f = await db.files.get('seed-calendar');
-      if (f?.title === 'Project Calendar') {
-        await db.files.update('seed-calendar', { title: 'Calendar' });
-      }
-      await loadFiles();
-    });
-  }, []);
+    if (authLoading || !user) return;
+    seedIfEmpty()
+      .catch((error) => {
+        console.error('[Router] Failed to initialize workspace from Supabase:', error);
+      })
+      .finally(() => {
+        void loadFiles();
+      });
+  }, [authLoading, loadFiles, seedIfEmpty, user]);
 
-  if (!loaded || authLoading) {
+  if (authLoading || (user && !loaded)) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontFamily: 'sans-serif', color: '#666' }}>
         Loading…

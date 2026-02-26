@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import type { PageAgentContext, PageAgentEdit, PageChatMessage } from './pageChatbot';
 import { streamPageChatReply } from './pageChatbot';
 
+const MAX_CHAT_INPUT_CHARS = 400;
+
 type Props = {
   pageContext: PageAgentContext;
   onApplyEdit: (edit: PageAgentEdit) => Promise<void>;
@@ -91,7 +93,8 @@ export function PageChatBar({ pageContext, onApplyEdit }: Props) {
           placeholder="Ask agent to edit this page..."
           aria-label="Ask agent to edit this page"
           value={input}
-          onChange={(event) => setInput(event.target.value)}
+          maxLength={MAX_CHAT_INPUT_CHARS}
+          onChange={(event) => setInput(event.target.value.slice(0, MAX_CHAT_INPUT_CHARS))}
           onKeyDown={(event) => {
             if (event.key === 'Enter') {
               event.preventDefault();
@@ -102,14 +105,18 @@ export function PageChatBar({ pageContext, onApplyEdit }: Props) {
 
         <button
           className="chatbar-icon-btn chatbar-send-btn"
-          aria-label="Send message"
+          aria-label={isLoading ? 'Sending message' : 'Send message'}
           type="button"
           disabled={!canSend}
           onClick={() => { void handleSend(); }}
         >
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 18 18 12 6 6" />
-          </svg>
+          {isLoading ? (
+            <span className="chatbar-send-spinner" aria-hidden="true" />
+          ) : (
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 18 18 12 6 6" />
+            </svg>
+          )}
         </button>
       </div>
     </div>
