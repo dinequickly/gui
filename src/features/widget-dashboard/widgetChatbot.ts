@@ -1,4 +1,4 @@
-import { Groq } from 'groq-sdk';
+import OpenAI from 'openai';
 import { nanoid } from '../../shared/utils/nanoid';
 import type { Block, PageCitation } from '../../shared/types';
 import { updatePageDocument, useFileStore } from '../../shared/store/fileStore';
@@ -25,12 +25,15 @@ export interface WidgetChatMessage {
   content: string;
 }
 
-const groqApiKey = import.meta.env.VITE_GROQ_API_KEY as string | undefined;
+const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
 const youtubeApiKey = import.meta.env.VITE_YOUTUBE_API_KEY as string | undefined;
+const GEMINI_MODEL = 'gemini-3-flash-preview';
+const GEMINI_OPENAI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/';
 
-const client = groqApiKey
-  ? new Groq({
-    apiKey: groqApiKey,
+const client = geminiApiKey
+  ? new OpenAI({
+    apiKey: geminiApiKey,
+    baseURL: GEMINI_OPENAI_BASE_URL,
     dangerouslyAllowBrowser: true,
   })
   : null;
@@ -681,7 +684,7 @@ export async function streamWidgetChatReply(
   onToken: (token: string) => void,
 ): Promise<void> {
   if (!client) {
-    throw new Error('Missing VITE_GROQ_API_KEY. Add it to your environment to use chatbot.');
+    throw new Error('Missing VITE_GEMINI_API_KEY. Add it to your environment to use chatbot.');
   }
 
   if (messages.length === 0 || messages[messages.length - 1]?.role !== 'user') {
@@ -732,8 +735,7 @@ export async function streamWidgetChatReply(
     'You are a helpful dashboard copilot.',
     ...baseSystemLines,
   ].join(' ');
-  const model = 'openai/gpt-oss-120b';
-  const supportsReasoningEffort = true;
+  const model = GEMINI_MODEL;
 
   const payload = {
     user_message: lastUserMessage,
@@ -888,9 +890,8 @@ export async function streamWidgetChatReply(
     temperature: 1,
     max_completion_tokens: 8192,
     top_p: 1,
-    ...(supportsReasoningEffort ? { reasoning_effort: 'medium' as const } : {}),
+    reasoning_effort: 'medium',
     stream: false,
-    stop: null,
   });
 
   const firstMessage = firstResponse.choices?.[0]?.message;
@@ -906,6 +907,9 @@ export async function streamWidgetChatReply(
   let dispatchRawText = '';
 
   for (const call of toolCalls) {
+    if (call.type !== 'function') {
+      continue;
+    }
     const functionName = call.function?.name ?? '';
     let parsedArgs: Record<string, unknown> = {};
     try {
@@ -1212,9 +1216,8 @@ export async function streamWidgetChatReply(
     temperature: 1,
     max_completion_tokens: 8192,
     top_p: 1,
-    ...(supportsReasoningEffort ? { reasoning_effort: 'medium' as const } : {}),
+    reasoning_effort: 'medium',
     stream: true,
-    stop: null,
   });
 
   for await (const chunk of completion) {

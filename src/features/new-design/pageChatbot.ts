@@ -1,4 +1,4 @@
-import { Groq } from 'groq-sdk';
+import OpenAI from 'openai';
 import type { Block, BlockType, PageCitation } from '../../shared/types';
 import { nanoid } from '../../shared/utils/nanoid';
 
@@ -24,12 +24,15 @@ export interface PageAgentEdit {
   citations?: PageCitation[];
 }
 
-const groqApiKey = import.meta.env.VITE_GROQ_API_KEY as string | undefined;
+const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
 const perplexityApiKey = import.meta.env.VITE_PERPLEXITY_API_KEY as string | undefined;
+const GEMINI_MODEL = 'gemini-3-flash-preview';
+const GEMINI_OPENAI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/openai/';
 
-const client = groqApiKey
-  ? new Groq({
-    apiKey: groqApiKey,
+const client = geminiApiKey
+  ? new OpenAI({
+    apiKey: geminiApiKey,
+    baseURL: GEMINI_OPENAI_BASE_URL,
     dangerouslyAllowBrowser: true,
   })
   : null;
@@ -240,7 +243,7 @@ export async function streamPageChatReply(
   onToken: (token: string) => void,
 ): Promise<void> {
   if (!client) {
-    throw new Error('Missing VITE_GROQ_API_KEY. Add it to your environment to use chatbot.');
+    throw new Error('Missing VITE_GEMINI_API_KEY. Add it to your environment to use chatbot.');
   }
 
   if (messages.length === 0 || messages[messages.length - 1]?.role !== 'user') {
@@ -374,7 +377,7 @@ export async function streamPageChatReply(
 
   for (let step = 0; step < 6; step += 1) {
     const response = await client.chat.completions.create({
-      model: 'openai/gpt-oss-120b',
+      model: GEMINI_MODEL,
       messages: conversationMessages as never,
       tools: toolDefinitions as never,
       tool_choice: 'auto',
@@ -383,7 +386,6 @@ export async function streamPageChatReply(
       top_p: 1,
       reasoning_effort: 'medium',
       stream: false,
-      stop: null,
     });
 
     const message = response.choices?.[0]?.message;
@@ -405,6 +407,9 @@ export async function streamPageChatReply(
     const toolResults: Array<{ tool_call_id: string; name: string; content: string }> = [];
 
     for (const call of toolCalls) {
+      if (call.type !== 'function') {
+        continue;
+      }
       const functionName = call.function?.name ?? '';
       let parsedArgs: Record<string, unknown> = {};
       try {
