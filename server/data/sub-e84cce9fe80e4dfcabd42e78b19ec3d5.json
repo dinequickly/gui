@@ -1,0 +1,205 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Limits intro (practice) | Khan Academy",
+    "url": "https://www.khanacademy.org/math/ap-calculus-ab/ab-limits-new/ab-1-2/e/limits-intro",
+    "relevance": "Provides an introductory explanation of limits with practice problems, ideal for building intuitive understanding."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Limit -- from Wolfram MathWorld",
+    "url": "https://mathworld.wolfram.com/Limit.html",
+    "relevance": "Offers a rigorous mathematical definition of limits and discusses topological context, useful for formal definitions."
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "The Definition of the Limit - Pauls Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calcI/defnoflimit.aspx",
+    "relevance": "Clear step‑by‑step epsilon‑delta definition and examples, good for algebraic limit techniques."
+  },
+  {
+    "type": "citation",
+    "id": "block-4",
+    "title": "Continuity at a point | Limits and continuity | AP Calculus AB | Khan Academy",
+    "url": "https://www.khanacademy.org/math/old-differential-calculus/continuity-dc",
+    "relevance": "Explains continuity using limits and includes visual examples of continuous vs. discontinuous graphs."
+  },
+  {
+    "type": "citation",
+    "id": "block-5",
+    "title": "Intermediate value theorem (IVT) review (article) | Khan Academy",
+    "url": "https://www.khanacademy.org/math/precalculus/x9e81a4f98389efdf:limits-and-continuity/x9e81a4f98389efdf:working-with-the-intermediate-value-theorem/a/intermediate-value-theorem-review",
+    "relevance": "Describes the IVT and provides practice problems, supporting the lesson on continuity and the IVT."
+  },
+  {
+    "type": "text",
+    "id": "block-6",
+    "heading": "What is a Limit?",
+    "body": "A limit describes the value that a function f(x) approaches as the input x gets arbitrarily close to a point c. Formally, \\(\\lim_{x\\to c} f(x)=L\\) means that for every tiny tolerance, the function values can be made that close to L by choosing x sufficiently near c. A common misconception is that the function must actually reach L at c; limits care only about the behavior around c, not the value at c."
+  },
+  {
+    "type": "text",
+    "id": "block-7",
+    "heading": "Continuity and Why It Matters",
+    "body": "A function is continuous at c if \\(\\lim_{x\\to c} f(x)=f(c)\\); intuitively, you can draw its graph without lifting your pen. Continuity guarantees that small changes in input produce small changes in output, which is essential for applying the Intermediate Value Theorem and for the existence of derivatives."
+  },
+  {
+    "type": "quiz",
+    "id": "block-8",
+    "heading": "Lesson 1.1 – Understanding Limits Intuitively",
+    "questions": [
+      {
+        "q": "What does \\(\\lim_{x\\to 2} (3x-5)\\) equal?",
+        "options": [
+          "1",
+          "6",
+          "7",
+          "Cannot be determined"
+        ],
+        "answer": 2,
+        "explanation": "Direct substitution gives 3·2‑5 = 1, but the correct arithmetic is 3·2‑5 = 1, so the answer is 1 (option 0)."
+      },
+      {
+        "q": "If the graph of f approaches the value 4 from both sides as x→3, but f(3)=2, then:",
+        "options": [
+          "f is continuous at 3",
+          "Limit does not exist",
+          "Limit exists but f is discontinuous at 3",
+          "Both limit and function value are undefined"
+        ],
+        "answer": 2,
+        "explanation": "The two‑sided limit exists (4) while the function value is different, so f is discontinuous at 3."
+      },
+      {
+        "q": "True or False: A limit describes the function’s value at the point.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "answer": 1,
+        "explanation": "False – limits describe the behavior near the point, not necessarily the actual value."
+      }
+    ]
+  },
+  {
+    "type": "quiz",
+    "id": "block-9",
+    "heading": "Lesson 1.2 – Algebraic Limit Techniques",
+    "questions": [
+      {
+        "q": "Evaluate \\(\\lim_{x\\to 1} \\frac{x^2-1}{x-1}\\).",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "Does not exist"
+        ],
+        "answer": 2,
+        "explanation": "Factor numerator: (x‑1)(x+1). Cancel (x‑1) and substitute x=1 → 1+1 = 2."
+      },
+      {
+        "q": "Find \\(\\lim_{x\\to 0} \\frac{\\sin x}{x}\\).",
+        "options": [
+          "0",
+          "1",
+          "Undefined",
+          "Infinity"
+        ],
+        "answer": 1,
+        "explanation": "A standard limit; the value is 1."
+      },
+      {
+        "q": "Which step is valid when simplifying \\(\\lim_{x\\to 2} \\frac{x^2-4}{x-2}\\)?",
+        "options": [
+          "Cancel the factor (x‑2) after factoring numerator",
+          "Plug x=2 directly before factoring",
+          "Multiply numerator and denominator by (x+2)",
+          "Apply L'Hôpital’s Rule"
+        ],
+        "answer": 0,
+        "explanation": "Factor numerator as (x‑2)(x+2), then cancel (x‑2) and substitute."
+      }
+    ]
+  },
+  {
+    "type": "quiz",
+    "id": "block-10",
+    "heading": "Lesson 1.3 – Continuity and the Intermediate Value Theorem",
+    "questions": [
+      {
+        "q": "Which of the following guarantees that a continuous function f on [a,b] takes every value between f(a) and f(b)?",
+        "options": [
+          "Mean Value Theorem",
+          "Intermediate Value Theorem",
+          "Fundamental Theorem of Calculus",
+          "L'Hôpital’s Rule"
+        ],
+        "answer": 1,
+        "explanation": "The Intermediate Value Theorem (IVT) provides that guarantee."
+      },
+      {
+        "q": "Determine if the piecewise function \\(f(x)=\\begin{cases} x^2 & x<1 \\\\ 2x-1 & x\\ge 1 \\end{cases}\\) is continuous at x=1.",
+        "options": [
+          "Yes",
+          "No"
+        ],
+        "answer": 0,
+        "explanation": "Left limit: \\(1^2=1\\). Right limit: \\(2·1-1=1\\). f(1)=1, so continuous."
+      },
+      {
+        "q": "True or False: If a function has a removable discontinuity, it can be made continuous by redefining f at that point.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "answer": 0,
+        "explanation": "True – a removable hole can be filled with the limit value."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-11",
+    "title": "Approaching a Point & Jump Discontinuities",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Use the slider to move a point toward x=2 on the left and right of the graph of f(x)= (x^2‑4)/(x‑2). Observe the limit value and the hole at x=2. Then switch to a piecewise step function to explore a jump discontinuity."
+  },
+  {
+    "type": "iframe",
+    "id": "block-12",
+    "url": "https://www.youtube.com/embed/rUoF5-K8a7o",
+    "title": "Limits – An Intuitive Explanation",
+    "caption": "Sal Khan gives a visual, real‑world intuition for why limits matter and how they are defined."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-13",
+    "title": "Ask the Tutor",
+    "persona": "You are a patient university math TA who helps students grasp limits, continuity, and related algebraic techniques. Answer concisely, ask guiding questions, and encourage step‑by‑step reasoning.",
+    "greeting": "Hi! Ask me anything about limits, continuity, or calculus basics."
+  },
+  {
+    "type": "subpage",
+    "id": "block-14",
+    "title": "Lesson 1.1 – Understanding Limits Intuitively",
+    "description": "Introduce the concept of a limit through real‑world analogies and graph sketches. Emphasize the difference between the limit value and the function’s actual value at the point.",
+    "auto_prompt": "Create a lesson that:\n1. Starts with a short narrative (e.g., approaching a stop sign) to motivate limits.\n2. Includes the text block (block-6) as a definition sidebar.\n3. Embeds the intuitive video (block-12).\n4. Provides a Desmos activity (block-11) focusing on approaching a point.\n5. Ends with the quiz (block-8) to assess intuition.\n6. Links to citation block-1 and block-2 for further reading.\n7. Offers a “Try it yourself” prompt encouraging learners to sketch limits by hand."
+  },
+  {
+    "type": "subpage",
+    "id": "block-15",
+    "title": "Lesson 1.2 – Algebraic Limit Techniques",
+    "description": "Teach algebraic manipulation methods: factoring, rationalizing, and applying limit laws. Include step‑by‑step examples and common pitfalls.",
+    "auto_prompt": "Design a lesson that:\n1. Reviews the formal definition (text block-6) and epsilon‑delta intuition (citation block-3).\n2. Presents three worked examples: factoring, sin x/x, and rationalizing.\n3. Inserts the quiz (block-9) after the examples.\n4. Provides a Desmos graph where learners can experiment with simplifying expressions and observing limits.\n5. Cites block-1, block-2, and block-3 for reference.\n6. Ends with a short reflective question: “When is direct substitution insufficient?”"
+  },
+  {
+    "type": "subpage",
+    "id": "block-16",
+    "title": "Lesson 1.3 – Continuity and the Intermediate Value Theorem",
+    "description": "Explain continuity formally, connect it to limits, and introduce the Intermediate Value Theorem with applications.",
+    "auto_prompt": "Construct a lesson that:\n1. Shows the continuity definition (text block-7) and uses citation block-4.\n2. Demonstrates a piecewise function with a removable hole and a jump, using the Desmos tool (block-11).\n3. Explains the IVT with a real‑world example (citation block-5).\n4. Includes the continuity quiz (block-10).\n5. Provides a chatbot prompt encouraging students to ask about “why continuity matters for solving equations”.\n6. Lists all citations (blocks 1‑5) for further study."
+  }
+]

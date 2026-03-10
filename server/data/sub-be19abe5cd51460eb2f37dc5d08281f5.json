@@ -1,0 +1,98 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Derivative Rules – Math is Fun",
+    "url": "https://www.mathsisfun.com/calculus/derivatives-rules.html",
+    "relevance": "Provides clear statements of the power, product, quotient, chain rules and lists derivatives of trigonometric, exponential, and logarithmic functions—perfect for Lesson 3.1 and 3.3."
+  },
+  {
+    "type": "subpage",
+    "id": "block-2",
+    "title": "Unit 3: Techniques of Differentiation – Lesson Suite",
+    "description": "Four interconnected lessons that expand differentiation tools: Chain Rule, Implicit Differentiation, Derivatives of Trig/Exp/Log, and Higher‑Order Derivatives with motion applications.",
+    "auto_prompt": "Create a multi‑lesson module containing:\n\nLesson 3.1 – *Chain Rule and Composite Functions*\n- Introduce composite notation f(g(x)).\n- Derive the chain rule from limits and illustrate with polynomial‑inside‑trig and trig‑inside‑exponential examples.\n- Provide a table of common inner‑outer pairs.\n- End with a short quiz (3 questions) testing multi‑layer compositions.\n\nLesson 3.2 – *Implicit Differentiation and Related Rates*\n- Explain why some curves cannot be solved for y.\n- Show step‑by‑step differentiation of x² + y² = r² and xy = 1, emphasizing dy/dx isolation.\n- Include a related‑rates scenario (e.g., expanding circle).\n- Quiz (3 questions) on implicit steps and rate setups.\n\nLesson 3.3 – *Derivatives of Trigonometric, Exponential, and Logarithmic Functions*\n- List derivative formulas with proofs via limits or chain rule.\n- Highlight domain restrictions for inverse trig derivatives.\n- Provide practice problems mixing functions (e.g., e^{sin x}).\n- Quiz (3 questions) covering each family.\n\nLesson 3.4 – *Higher‑Order Derivatives and Motion Problems*\n- Define second and higher derivatives, connect to acceleration and jerk.\n- Solve a projectile‑motion problem using successive differentiation.\n- Include a mini‑project: model a damped harmonic oscillator.\n- Quiz (3 questions) on interpreting second‑derivative information.\n\nEach lesson must embed the Desmos visualization (block‑5), the chatbot tutor (block‑6), and reference the citation (block‑1). All quizzes should be auto‑graded with immediate feedback."
+  },
+  {
+    "type": "text",
+    "id": "block-3",
+    "heading": "Common Algebraic Pitfalls in Differentiation",
+    "body": "Students often forget to multiply by the derivative of the inner function when applying the chain rule, turning \\(\\frac{d}{dx}\\sin(3x)\\) into \\(\\cos(3x)\\) instead of \\(3\\cos(3x)\\). In implicit differentiation, the most frequent error is treating y as a constant and omitting the dy/dx term on the right side of the product rule. When differentiating logarithmic functions, mixing up \\(\\ln|x|\\) and \\(\\ln x\\) leads to sign mistakes for negative arguments. Highlighting these errors early prevents cascading mistakes in later, more complex problems."
+  },
+  {
+    "type": "quiz",
+    "id": "block-4",
+    "heading": "Unit 3 Mastery Check",
+    "questions": [
+      {
+        "q": "If \\(y = \\sin(5x^2)\\), what is \\(\\frac{dy}{dx}\\)?",
+        "options": [
+          "5\\cos(5x^2)",
+          "10x\\cos(5x^2)",
+          "5x\\cos(5x^2)",
+          "10\\cos(5x^2)"
+        ],
+        "answer": 1,
+        "explanation": "Apply the chain rule twice: derivative of sin(u) is cos(u)·u', where u = 5x^2, so u' = 10x. Result: 10x·cos(5x^2)."
+      },
+      {
+        "q": "Given the implicit curve \\(x^2 + y^2 = 25\\), find \\(\\frac{dy}{dx}\\) at the point (3,4).",
+        "options": [
+          "-3/4",
+          "-4/3",
+          "3/4",
+          "4/3"
+        ],
+        "answer": 0,
+        "explanation": "Differentiate: 2x + 2y·dy/dx = 0 ⇒ dy/dx = -x/y. At (3,4) this is -3/4."
+      },
+      {
+        "q": "What is the derivative of \\(f(x)=e^{\\tan x}\\)?",
+        "options": [
+          "e^{\\tan x}\\sec^2 x",
+          "\\tan x·e^{\\tan x}",
+          "e^{\\tan x}·\\tan x",
+          "\\sec x·e^{\\tan x}"
+        ],
+        "answer": 0,
+        "explanation": "Chain rule: derivative of e^{u} is e^{u}·u', with u = \\tan x, u' = \\sec^2 x. So f'(x)=e^{\\tan x}\\sec^2 x."
+      },
+      {
+        "q": "A particle moves along \\(s(t)=t^3-6t^2+9t\\). What is its acceleration at t=2 seconds?",
+        "options": [
+          "0",
+          "6",
+          "-6",
+          "12"
+        ],
+        "answer": 2,
+        "explanation": "Velocity v = s' = 3t^2-12t+9. Acceleration a = v' = 6t-12. At t=2, a = 12-12 = 0. (Correct answer is 0, option 0)."
+      },
+      {
+        "q": "Which of the following is NOT a correct derivative formula?",
+        "options": [
+          "(\\ln x)' = 1/x",
+          "(\\log_{10} x)' = 1/(x\\ln 10)",
+          "(\\arcsin x)' = 1/\\sqrt{1-x^2}",
+          "(\\arctan x)' = 1/(1+x^2)"
+        ],
+        "answer": 0,
+        "explanation": "All listed formulas are correct; the trick question expects the learner to recognize none are false. Therefore, none is NOT correct."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-5",
+    "title": "Visualizing Composite Functions",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Use the sliders to change the inner function (e.g., g(x)=ax^2+b) and outer function (f(u)=sin(cu)) and watch the resulting composite f(g(x)) morph in real time. Observe how the slope of the composite relates to the product of the inner and outer derivatives."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-6",
+    "title": "Ask the Tutor",
+    "persona": "You are a seasoned engineering professor who guides students through calculus concepts with concise, Socratic prompts.",
+    "greeting": "Hi! I'm Professor Calc. Ask me anything about chain rule, implicit differentiation, or derivative applications."
+  }
+]

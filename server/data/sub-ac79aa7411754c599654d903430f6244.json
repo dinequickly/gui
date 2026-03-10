@@ -1,0 +1,76 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "OpenStax Calculus Volume 1 – Approximating Areas (Riemann Sums)",
+    "url": "https://openstax.org/books/calculus-volume-1/pages/5-1-approximating-areas",
+    "relevance": "Explains how Riemann sums approximate the area under a curve, essential for introducing definite integrals."
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "heading": "Fundamental Theorem of Calculus – Statement and Meaning",
+    "body": "The Fundamental Theorem of Calculus links differentiation and integration in two parts: (1) the derivative of the accumulation function F(x)=∫ₐˣ f(t)dt equals f(x), and (2) the definite integral ∫ₐᵇ f(x)dx can be computed as F(b)−F(a) where F is any antiderivative of f. This theorem shows that integration undoes differentiation and provides a practical way to evaluate areas."
+  },
+  {
+    "type": "quiz",
+    "id": "block-3",
+    "heading": "Check Your Understanding – Riemann Sums & FTC",
+    "questions": [
+      {
+        "q": "Using a right‑endpoint Riemann sum with n = 2, what is the approximate area under f(x)=x² on [0, 2]?",
+        "options": [
+          "2",
+          "4",
+          "5",
+          "6"
+        ],
+        "answer": 2,
+        "explanation": "Δx = (2‑0)/2 = 1. Right endpoints are x₁=1 and x₂=2. Sum = f(1)+f(2)=1+4=5, then multiply by Δx: 5·1 = 5."
+      },
+      {
+        "q": "If G(x)=∫₀ˣ sin(t) dt, what is G′(π⁄2)?",
+        "options": [
+          "0",
+          "1",
+          "sin(π⁄2)",
+          "cos(π⁄2)"
+        ],
+        "answer": 1,
+        "explanation": "FTC Part 1 gives G′(x)=sin(x). Evaluating at x=π⁄2 gives sin(π⁄2)=1."
+      },
+      {
+        "q": "Which of the following is an antiderivative of 3x²?",
+        "options": [
+          "x³",
+          "(1/3)x³",
+          "3x³",
+          "x²"
+        ],
+        "answer": 0,
+        "explanation": "Differentiating x³ yields 3x², so x³ is an antiderivative of 3x²."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-4",
+    "title": "Riemann Sum Explorer",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Adjust the number of subintervals n and see how the Riemann sum converges to the true area under f(x)=x² on [0, 2]."
+  },
+  {
+    "type": "subpage",
+    "id": "block-5",
+    "title": "Lesson Plan – Unit 4: Introduction to Integration",
+    "description": "Four concise lessons covering area under a curve, the Fundamental Theorem of Calculus, basic antiderivative rules, and simple applications such as net change and volumes.",
+    "auto_prompt": "Create a structured subpage containing four lessons:\n\nLesson 4.1 – *Area Under a Curve and Riemann Sums*: Define accumulated area, introduce left/right/midpoint sums, include a Desmos widget (block‑4) for experimentation, and embed a quiz (block‑3) with Riemann‑sum calculations.\nLesson 4.2 – *The Fundamental Theorem of Calculus*: State both parts, provide a step‑by‑step proof outline, include a text summary (block‑2), and a quiz question on interpreting the theorem.\nLesson 4.3 – *Basic Antiderivative Rules*: List power, constant‑multiple, sum, and basic trig rules; give worked examples of finding F(x) for simple f(x); add a short quiz identifying correct antiderivatives.\nLesson 4.4 – *Applications: Net Change and Simple Volumes*: Show how definite integrals give net change, set up a volume by disks for a revolving region, and include a quiz item on computing net change.\nFor each lesson, suggest appropriate block types (text, quiz, desmos, citation) and embed the OpenStax citation (block‑1) where relevant."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-6",
+    "title": "Ask the Tutor",
+    "persona": "You are a friendly calculus historian who loves sharing stories about how integration was discovered and how it connects to everyday problems. Answer concisely, ask guiding questions, and encourage the learner to reason through calculations.",
+    "greeting": "Hi! I'm your calculus historian tutor. What would you like to explore about integration today?"
+  }
+]

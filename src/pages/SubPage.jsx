@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useParams, useLocation, Link, useNavigate } from 'react-router-dom';
-import { fetchSubpageBlocks, saveSubpageBlocks, enrichContent } from '../api.js';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { fetchSubpageBlocks, saveSubpageBlocks, enrichContent, fetchSubpageStatus } from '../api.js';
 import BlockCanvas from '../components/BlockCanvas.jsx';
 import PageChat from '../components/PageChat.jsx';
 import './SubPage.css';
@@ -10,43 +10,48 @@ export default function SubPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  // Context is passed via navigation state
   const title = state?.title ?? 'Sub-page';
   const description = state?.description ?? '';
   const parentContext = state?.parentContext ?? '';
 
   const [blocks, setBlocks] = useState(null);
+  const [autoStatus, setAutoStatus] = useState(null); // 'pending' | 'done' | 'error' | 'idle'
   const [enriching, setEnriching] = useState(false);
   const [enrichError, setEnrichError] = useState(null);
+  const pollRef = useRef(null);
 
-  // Load persisted blocks for this subpage
+  // Load persisted blocks
   useEffect(() => {
     fetchSubpageBlocks(blockId)
       .then(setBlocks)
       .catch(() => setBlocks([]));
   }, [blockId]);
 
-
-  async function runEnrich() {
-    setEnriching(true);
-    setEnrichError(null);
-    try {
-      const data = await enrichContent({
-        mode: 'subpage',
-        subpageTitle: title,
-        subpageDescription: description,
-        parentContext,
-        existingBlocks: blocks ?? [],
-      });
-      const newBlocks = [...(blocks ?? []), ...data.blocks];
-      setBlocks(newBlocks);
-      await saveSubpageBlocks(blockId, newBlocks);
-    } catch (err) {
-      setEnrichError(err.message);
-    } finally {
-      setEnriching(false);
+  // Poll status when blocks are empty (background enrichment may be running)
+  useEffect(() => {
+    if (blocks === null || blocks.length > 0) {
+      clearTimeout(pollRef.current);
+      return;
     }
-  }
+
+    async function check() {
+      const { status } = await fetchSubpageStatus(blockId).catch(() => ({ status: 'idle' }));
+      setAutoStatus(status);
+
+      if (status === 'done') {
+        // Blocks were written — reload them
+        const fresh = await fetchSubpageBlocks(blockId).catch(() => []);
+        if (fresh.length > 0) { setBlocks(fresh); return; }
+      }
+
+      if (status === 'pending') {
+        pollRef.current = setTimeout(check, 2000);
+      }
+    }
+
+    check();
+    return () => clearTimeout(pollRef.current);
+  }, [blockId, blocks]);
 
   async function handleBlocksChange(newBlocks) {
     setBlocks(newBlocks);
@@ -72,7 +77,26 @@ export default function SubPage() {
       <div className="sp-divider" />
 
       <section className="sp-canvas-section">
-        {enriching && blocks?.length === 0 && (
+        {blocks !== null && blocks.length === 0 && (
+          <div className="sp-empty">
+            {autoStatus === 'pending' && (
+              <div className="sp-generating">
+                <span className="sp-spinner" />
+                Generating content… this may take 15–30 seconds
+              </div>
+            )}
+            {autoStatus === 'error' && (
+              <div className="sp-gen-error">
+                Auto-generation failed. Use the chat below to enrich this page.
+              </div>
+            )}
+            {(autoStatus === 'idle' || autoStatus === null) && (
+              <div className="sp-hint">No content yet — ask the chat to enrich this page.</div>
+            )}
+          </div>
+        )}
+
+        {enriching && (
           <div className="sp-enriching">
             <span className="sp-spinner" />
             Enriching…
@@ -99,7 +123,7 @@ export default function SubPage() {
         onBlocksChange={setBlocks}
         saveBlocks={newBlocks => saveSubpageBlocks(blockId, newBlocks).catch(console.error)}
         pageContext={{
-          title:      title,
+          title,
           snippet:    description,
           tags:       [],
           sourceName: parentContext,

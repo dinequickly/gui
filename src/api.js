@@ -54,6 +54,12 @@ export async function saveSubpageBlocks(blockId, blocks) {
   return res.json();
 }
 
+export async function fetchSubpageStatus(blockId) {
+  const res = await fetch(`${BASE}/subpage/${blockId}/status`);
+  if (!res.ok) return { status: 'idle' };
+  return res.json();
+}
+
 export async function enrichContent(payload) {
   const res = await fetch(`${BASE}/enrich`, {
     method: 'POST',

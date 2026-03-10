@@ -1,0 +1,104 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "An Intuitive Introduction To Limits - BetterExplained",
+    "url": "https://betterexplained.com/articles/an-intuitive-introduction-to-limits/",
+    "relevance": "Provides clear, real‑world analogies and visual intuition for limits, ideal for beginners."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "The Limit - Calculus I - Pauls Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calci/thelimit.aspx",
+    "relevance": "Offers a concise formal definition and step‑by‑step examples that complement the intuitive approach."
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "A Real‑World Story: Approaching the Stop Sign",
+    "body": "Imagine you are driving toward a stop sign. As you get closer, the distance between your car and the sign shrinks. Even if you never actually reach the sign—because you press the brake—the distance approaches zero. This everyday experience mirrors the idea of a limit: we examine what value a function gets arbitrarily close to as the input nears a particular point."
+  },
+  {
+    "type": "text",
+    "id": "block-6",
+    "heading": "Definition of a Limit (Sidebar)",
+    "body": "For a function f(x), we say the limit as x approaches a is L, written \\(\\lim_{x\\to a} f(x)=L\\), if we can make f(x) as close to L as we wish by taking x sufficiently close to a (but not necessarily equal to a). The limit describes the behavior near a point, not the actual value at that point."
+  },
+  {
+    "type": "iframe",
+    "id": "block-12",
+    "url": "https://www.youtube.com/embed/riXcZT2ICjA",
+    "title": "Khan Academy – Introduction to Limits",
+    "caption": "A short video that visualizes approaching a point on a graph and explains why the limit can differ from the function’s value at that point."
+  },
+  {
+    "type": "desmos",
+    "id": "block-11",
+    "title": "Exploring Limits on Desmos",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Use the slider to move a point along the curve f(x)= (x^2‑4)/(x‑2). Observe how the y‑value approaches 4 as x gets closer to 2, even though the function is undefined at x=2."
+  },
+  {
+    "type": "quiz",
+    "id": "block-8",
+    "heading": "Check Your Intuition",
+    "questions": [
+      {
+        "q": "If the graph of f(x) gets closer to the line y=3 as x approaches 5, what is \\(\\lim_{x\\to5} f(x)\\)?",
+        "options": [
+          "2",
+          "3",
+          "5",
+          "Does not exist"
+        ],
+        "answer": 1,
+        "explanation": "The limit is the value the function approaches, which is 3."
+      },
+      {
+        "q": "True or False: The limit of f(x) as x→a must equal f(a).",
+        "options": [
+          "True",
+          "False"
+        ],
+        "answer": 1,
+        "explanation": "False. The limit describes the behavior near a, and the function may be undefined or have a different value at a."
+      },
+      {
+        "q": "Which of the following best describes a limit?",
+        "options": [
+          "The exact value of the function at a point",
+          "A prediction of the function’s value as the input gets arbitrarily close to a point",
+          "The average of all function values",
+          "The maximum value of the function"
+        ],
+        "answer": 1,
+        "explanation": "A limit predicts the value the function approaches, not necessarily the value at the point."
+      },
+      {
+        "q": "On the Desmos activity, why does the curve appear to have a ‘hole’ at x = 2?",
+        "options": [
+          "The function is not defined at x = 2",
+          "The limit does not exist",
+          "The graphing tool made an error",
+          "The limit equals zero"
+        ],
+        "answer": 0,
+        "explanation": "Because the original expression simplifies to x+2, but the original denominator makes the function undefined at x = 2, creating a removable discontinuity (hole)."
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "id": "block-13",
+    "heading": "Try It Yourself",
+    "body": "Take a blank sheet of graph paper. Sketch the graph of f(x)=\\(\\frac{x^2-4}{x-2}\\). Mark the point where x=2 and draw a small open circle (a hole). Then, draw a second curve that approaches a different value at x=2. Notice how the limit describes the approach, not the hole itself."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-9",
+    "title": "Ask the Tutor",
+    "persona": "You are a patient calculus tutor who explains concepts with simple analogies and asks guiding questions.",
+    "greeting": "Hi! Ask me anything about limits and how they differ from actual function values."
+  }
+]

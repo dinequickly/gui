@@ -1,0 +1,43 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "5.3: The Fundamental Theorem of Calculus Basics",
+    "url": "https://math.libretexts.org/Courses/Monroe_Community_College/MTH_210_Calculus_I_(Professor_Dean)/Chapter_5:_Integration/5.3:__The_Fundamental_Theorem_of_Calculus_Basics",
+    "relevance": "Explains both parts of the Fundamental Theorem of Calculus and shows how it connects antiderivatives to definite integrals, essential for understanding integration."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Integration by Substitution - Math is Fun",
+    "url": "https://www.mathsisfun.com/calculus/integration-by-substitution.html",
+    "relevance": "Provides a clear, step‑by‑step introduction to u‑substitution with visual examples, ideal for learners mastering the reverse chain rule."
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "Calculus II - Integration by Parts - Pauls Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/integrationbyparts.aspx",
+    "relevance": "Derives the integration‑by‑parts formula from the product rule and offers multiple worked examples, useful for both indefinite and definite integrals."
+  },
+  {
+    "type": "iframe",
+    "id": "block-4",
+    "url": "https://www.youtube.com/embed/aeB5BWY0RlE",
+    "title": "Fundamental Theorem of Calculus Part 1",
+    "caption": "A concise video that demonstrates how to evaluate definite integrals using the Fundamental Theorem of Calculus, with several practice problems."
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "Integration Overview",
+    "body": "Integration is the reverse process of differentiation. It begins with antiderivatives (indefinite integrals) and culminates in definite integrals that compute signed area under a curve. Key techniques include substitution (the reverse chain rule), integration by parts (derived from the product rule), and applying the Fundamental Theorem of Calculus to evaluate definite integrals efficiently. These tools enable a wide range of applications, from area calculations to solving differential equations."
+  },
+  {
+    "type": "subpage",
+    "id": "block-6",
+    "title": "Practice Problems for Integration",
+    "description": "A collection of exercises covering antiderivatives, substitution, integration by parts, and area‑under‑the‑curve problems. Each problem includes step‑by‑step solutions to reinforce the techniques presented in the main article.",
+    "generatedBlocks": null
+  }
+]

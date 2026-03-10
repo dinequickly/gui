@@ -99,6 +99,34 @@
   padding: 8px 0;
 }
 
+.sp-empty {
+  padding: 32px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sp-generating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #16a34a;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.sp-gen-error {
+  font-size: 13px;
+  color: #b45309;
+  text-align: center;
+}
+
+.sp-hint {
+  font-size: 13px;
+  color: #bbb;
+  font-style: italic;
+}
+
 .sp-canvas-actions {
   margin-top: 24px;
   padding-top: 20px;

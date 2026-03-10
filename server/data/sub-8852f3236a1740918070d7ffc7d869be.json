@@ -1,0 +1,43 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Calculus I - The Definition of the Derivative",
+    "url": "https://tutorial.math.lamar.edu/classes/calci/defnofderivative.aspx",
+    "relevance": "Provides the formal limit definition of the derivative and connects it to the geometric notion of a tangent line, forming the foundation for all differentiation techniques."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Differentiation Rules - BYJU'S",
+    "url": "https://byjus.com/maths/differentiation-rules/",
+    "relevance": "Offers clear statements and examples of the power, product, quotient, and chain rules, making it ideal for a step‑by‑step guide to basic differentiation."
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "Calculus I - Implicit Differentiation - Pauls Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calci/implicitdiff.aspx",
+    "relevance": "Explains how to differentiate equations where y is not isolated, includes multiple worked examples and practice problems."
+  },
+  {
+    "type": "citation",
+    "id": "block-4",
+    "title": "3.3: Differentiation Rules - OpenStax (LibreTexts)",
+    "url": "https://math.libretexts.org/Bookshelves/Calculus/Calculus_(OpenStax)/03:_Derivatives/3.03:_Differentiation_Rules",
+    "relevance": "A textbook‑style presentation of differentiation rules with proofs and extensions to higher‑order derivatives, useful for deeper theoretical insight."
+  },
+  {
+    "type": "iframe",
+    "id": "block-5",
+    "url": "https://www.youtube.com/embed/YbDVFHdQ2TM",
+    "title": "ALL Derivatives Rules Explained – Step‑by‑Step Examples",
+    "caption": "A concise video that walks through the power, product, quotient, and chain rules with clear examples, reinforcing the written explanations."
+  },
+  {
+    "type": "text",
+    "id": "block-6",
+    "heading": "Putting It All Together: Practice and Applications",
+    "body": "This sub‑section synthesizes the definitions, rules, and techniques into a cohesive workflow. Begin by expressing a function in a form amenable to the limit definition, then apply the appropriate rule(s) to compute its derivative. Use implicit differentiation when the relation cannot be solved for y explicitly. Higher‑order derivatives reveal curvature, acceleration, and inflection points. Sample problems include finding the tangent line to y = x³ − 2x at x = 1, determining dy/dx for x² + y² = 25, and computing velocity and acceleration from s(t) = 4t³ − 3t. End each exercise with a brief reflection question to solidify understanding."
+  }
+]

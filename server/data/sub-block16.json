@@ -1,0 +1,108 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Continuous function - Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Continuous_function",
+    "relevance": "Offers a clear, formal epsilon‑delta definition of continuity and explains its relationship to limits."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Lesson 8: Definition of Continuity and Types of Discontinuities (Purdue)",
+    "url": "https://www.math.purdue.edu/~msunkula/MA161/F25/Lesson8.html",
+    "relevance": "Illustrates piecewise functions with removable holes and jump discontinuities, perfect for a visual Desmos activity."
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "Intermediate Value Theorem: Definition, Examples",
+    "url": "https://www.statisticshowto.com/calculus-problem-solving/intermediate-value-theorem/",
+    "relevance": "Provides the formal statement of the IVT together with several concrete examples."
+  },
+  {
+    "type": "citation",
+    "id": "block-4",
+    "title": "Epsilon‑Delta Definition of a Limit – LibreTexts",
+    "url": "https://math.libretexts.org/Bookshelves/Calculus/Calculus_3e_(Apex)/01:_Limits/1.02:_Epsilon-Delta_Definition_of_a_Limit",
+    "relevance": "Connects the limit definition to continuity, showing how the epsilon‑delta language extends to continuous functions."
+  },
+  {
+    "type": "citation",
+    "id": "block-5",
+    "title": "What is the Intermediate Value Theorem? – Albert.io",
+    "url": "https://www.albert.io/blog/what-is-the-intermediate-value-theorem-ivt-a-review/",
+    "relevance": "Presents real‑world applications of the IVT, such as guaranteeing a temperature crossing or a root of an equation."
+  },
+  {
+    "type": "text",
+    "id": "block-7",
+    "heading": "Formal Definition of Continuity",
+    "body": "A function f is continuous at a point c if for every ε > 0 there exists a δ > 0 such that whenever |x − c| < δ, we have |f(x) − f(c)| < ε. This ε‑δ condition ensures that the values of f(x) can be made arbitrarily close to f(c) by taking x sufficiently close to c. In other words, the limit of f(x) as x approaches c equals f(c)."
+  },
+  {
+    "type": "quiz",
+    "id": "block-10",
+    "heading": "Continuity Quiz",
+    "questions": [
+      {
+        "q": "Which of the following statements is equivalent to saying f is continuous at c?",
+        "options": [
+          "limₓ→c f(x) exists",
+          "limₓ→c f(x) = f(c)",
+          "f(c) is defined",
+          "All of the above"
+        ],
+        "answer": 1,
+        "explanation": "Continuity requires both the limit to exist and equal the function value at c."
+      },
+      {
+        "q": "If a function has a removable discontinuity at x = 2, which of the following is true?",
+        "options": [
+          "limₓ→2 f(x) does not exist",
+          "limₓ→2 f(x) exists but f(2) is undefined or different",
+          "Both left‑ and right‑hand limits are infinite",
+          "The function is not defined for x < 2"
+        ],
+        "answer": 1,
+        "explanation": "A removable discontinuity means the limit exists, but the function’s value at that point is missing or mismatched."
+      },
+      {
+        "q": "The Intermediate Value Theorem can be applied to which type of function on [a, b]?",
+        "options": [
+          "Any function",
+          "A function that is differentiable on (a, b)",
+          "A function that is continuous on [a, b]",
+          "A function with a jump discontinuity at some point in (a, b)"
+        ],
+        "answer": 2,
+        "explanation": "The IVT requires continuity on the closed interval; differentiability is not necessary, and jumps break the hypothesis."
+      },
+      {
+        "q": "Suppose f is continuous on [0, 5] and f(0)=‑3, f(5)=7. Which value is guaranteed to be taken by f?",
+        "options": [
+          "0",
+          "2",
+          "5",
+          "‑4"
+        ],
+        "answer": 0,
+        "explanation": "By the IVT, every value between –3 and 7, including 0, must be attained somewhere in the interval."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-11",
+    "title": "Explore Piecewise Discontinuities",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Create a piecewise function that has a removable hole at x=1 and a jump at x=3. Observe left‑ and right‑hand limits and compare them to the function values."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-12",
+    "title": "Ask the Tutor",
+    "persona": "You are a tutor for continuity and the Intermediate Value Theorem. Be concise and Socratic.",
+    "greeting": "Hi! Ask me anything about why continuity matters for solving equations."
+  }
+]

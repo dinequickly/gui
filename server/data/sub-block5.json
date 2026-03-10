@@ -1,0 +1,215 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "5.1 Approximating Areas – OpenStax Calculus Volume 1",
+    "url": "https://openstax.org/books/calculus-volume-1/pages/5-1-approximating-areas",
+    "relevance": "Provides clear definitions of Riemann sums, left/right/midpoint approximations, and the link to definite integrals, ideal for Lesson 4.1."
+  },
+  {
+    "type": "citation",
+    "id": "block-5",
+    "title": "5.2 The Definite Integral – OpenStax Calculus Volume 1",
+    "url": "https://openstax.org/books/calculus-volume-1/pages/5-2-the-definite-integral",
+    "relevance": "Explains the Fundamental Theorem of Calculus and net area concepts, useful for Lessons 4.2 and 4.4."
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "heading": "Lesson 4.2 – The Fundamental Theorem of Calculus",
+    "body": "The theorem has two parts: (1) If F(x)=∫ₐˣ f(t)dt, then F′(x)=f(x). (2) If F is any antiderivative of f on [a,b], then ∫ₐᵇ f(x)dx = F(b)‑F(a). This bridges differentiation and integration, allowing us to evaluate definite integrals via antiderivatives."
+  },
+  {
+    "type": "iframe",
+    "id": "block-6",
+    "url": "https://www.youtube.com/embed/C7ducZoLKgw",
+    "title": "Fundamental Theorem of Calculus (Part 1) – Khan Academy",
+    "caption": "A concise visual proof and intuitive explanation of both parts of the theorem."
+  },
+  {
+    "type": "quiz",
+    "id": "block-3",
+    "heading": "Lesson 4.1 – Riemann‑Sum Quiz",
+    "questions": [
+      {
+        "q": "Using a left‑endpoint Riemann sum with n=4, what is the approximate area under f(x)=x² on [0,2]?",
+        "options": [
+          "1.5",
+          "1.75",
+          "2.0",
+          "2.25"
+        ],
+        "answer": 1,
+        "explanation": "Δx=0.5; left points: 0,0.5,1,1.5 → f values 0,0.25,1,2.25. Sum=3.5; area≈3.5·0.5=1.75."
+      },
+      {
+        "q": "For a linear function f(x)=mx+b, which Riemann sum (left, right, or midpoint) gives the exact area on any interval?",
+        "options": [
+          "Left only",
+          "Right only",
+          "Midpoint only",
+          "All three give the exact area"
+        ],
+        "answer": 3,
+        "explanation": "Because the area under a straight line is a trapezoid, any uniform rectangle approximation matches the exact integral."
+      },
+      {
+        "q": "As n → ∞, a Riemann sum approaches:",
+        "options": [
+          "The average value of f",
+          "The definite integral of f",
+          "The antiderivative of f",
+          "The maximum of f"
+        ],
+        "answer": 1,
+        "explanation": "The limit of Riemann sums is the definition of the definite integral."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-4",
+    "title": "Explore Riemann Sums",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Adjust n, interval, and left/right/midpoint choices to see how the sum approaches the true area."
+  },
+  {
+    "type": "quiz",
+    "id": "block-7",
+    "heading": "Lesson 4.2 – Interpreting the Fundamental Theorem",
+    "questions": [
+      {
+        "q": "If F(x)=∫₀ˣ sin t dt, what is F′(x)?",
+        "options": [
+          "cos x",
+          "-cos x",
+          "sin x",
+          "-sin x"
+        ],
+        "answer": 2,
+        "explanation": "By Part 1 of the FTC, the derivative of the accumulation function equals the integrand: F′(x)=sin x."
+      },
+      {
+        "q": "Given an antiderivative G of f on [a,b], which expression equals ∫ₐᵇ f(x)dx?",
+        "options": [
+          "G(b)‑G(a)",
+          "G(a)‑G(b)",
+          "G(b)+G(a)",
+          "G(b)·G(a)"
+        ],
+        "answer": 0,
+        "explanation": "Part 2 of the FTC states the definite integral equals the difference of any antiderivative evaluated at the bounds."
+      },
+      {
+        "q": "Which statement best describes the relationship between differentiation and integration?",
+        "options": [
+          "They are inverse processes",
+          "Integration is a special case of differentiation",
+          "Differentiation always yields a larger value",
+          "None of the above"
+        ],
+        "answer": 0,
+        "explanation": "The FTC shows that integrating then differentiating (or vice‑versa) returns the original function, making them inverse operations."
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "id": "block-8",
+    "heading": "Lesson 4.3 – Basic Antiderivative Rules",
+    "body": "Key rules: ∫xⁿdx = xⁿ⁺¹/(n+1)+C (n≠‑1); constants pull out: ∫k·f(x)dx = k∫f(x)dx; sum rule: ∫[f+g]dx = ∫fdx + ∫gdx; trig: ∫sin x dx = -cos x + C, ∫cos x dx = sin x + C. Worked examples illustrate each rule."
+  },
+  {
+    "type": "quiz",
+    "id": "block-9",
+    "heading": "Lesson 4.3 – Antiderivative Identification",
+    "questions": [
+      {
+        "q": "Which is an antiderivative of sin x?",
+        "options": [
+          "-cos x",
+          "cos x",
+          "-sin x",
+          "tan x"
+        ],
+        "answer": 0,
+        "explanation": "The derivative of -cos x is sin x."
+      },
+      {
+        "q": "Find ∫(3x² + 4)dx.",
+        "options": [
+          "x³+4x+C",
+          "x³+4x²+C",
+          "x³+4x+C",
+          "x³+4x+C"
+        ],
+        "answer": 0,
+        "explanation": "Integrate term‑wise: ∫3x²dx = x³, ∫4dx = 4x, then add constant C."
+      },
+      {
+        "q": "∫sec²x dx equals:",
+        "options": [
+          "tan x + C",
+          "-tan x + C",
+          "sec x + C",
+          "cot x + C"
+        ],
+        "answer": 0,
+        "explanation": "Derivative of tan x is sec²x, so the antiderivative is tan x + C."
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "id": "block-10",
+    "heading": "Lesson 4.4 – Applications: Net Change and Simple Volumes",
+    "body": "The Net‑Change Theorem: ∫ₐᵇ v(t)dt gives total change of a quantity whose rate is v(t). For volumes, the Disk Method uses V = π∫ₐᵇ [R(x)]²dx, where R(x) is the radius of the revolving region."
+  },
+  {
+    "type": "quiz",
+    "id": "block-11",
+    "heading": "Lesson 4.4 – Application Quiz",
+    "questions": [
+      {
+        "q": "A particle moves with velocity v(t)=3t². What is its displacement from t=0 to t=2?",
+        "options": [
+          "6",
+          "8",
+          "12",
+          "16"
+        ],
+        "answer": 1,
+        "explanation": "Displacement = ∫₀² 3t² dt = 3·(t³/3)│₀² = 8."
+      },
+      {
+        "q": "Find the volume of the solid generated by revolving y=√x about the x‑axis from x=0 to x=4.",
+        "options": [
+          "(16/3)π",
+          "8π",
+          "(32/5)π",
+          "4π"
+        ],
+        "answer": 0,
+        "explanation": "Radius R(x)=√x, so V=π∫₀⁴ (√x)²dx = π∫₀⁴ x dx = π·[x²/2]₀⁴ = π·(16/2)=8π."
+      },
+      {
+        "q": "If the rate of water flow into a tank is r(t)=5 L/min, how much water enters between t=0 and t=10 minutes?",
+        "options": [
+          "25 L",
+          "50 L",
+          "75 L",
+          "100 L"
+        ],
+        "answer": 1,
+        "explanation": "Total water = ∫₀¹⁰ 5 dt = 5·10 = 50 L."
+      }
+    ]
+  },
+  {
+    "type": "chatbot",
+    "id": "block-12",
+    "title": "Ask the Tutor",
+    "persona": "You are a tutor for introductory integration. Be concise and Socratic, prompting learners to reason through problems.",
+    "greeting": "Hi! Ask me anything about integration concepts."
+  }
+]

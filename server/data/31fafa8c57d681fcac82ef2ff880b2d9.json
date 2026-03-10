@@ -1,0 +1,30 @@
+[
+  {
+    "type": "subpage",
+    "title": "Unit 1: Limits and Continuity",
+    "description": "Introduce the foundational concept of limits, how they describe function behavior near a point, and the notion of continuity. Students will learn algebraic techniques for evaluating limits and understand why continuity matters for calculus.",
+    "auto_prompt": "Detailed content instructions: create Lesson 1.1: \"Understanding Limits Intuitively\" and Lesson 1.2: \"Algebraic Limit Techniques\" and Lesson 1.3: \"Continuity and the Intermediate Value Theorem\". Each lesson subpage should contain quiz blocks testing limit computation, one-step and multi-step algebraic manipulations, and continuity identification; embed a Desmos visualization illustrating approaching points and jump/discontinuous behavior; provide a chatbot tutor block with the persona of a patient university math TA; include real web citations from reputable sources (e.g., Khan Academy, Wolfram MathWorld); and add text analysis blocks that highlight key definitions and common misconceptions. Be explicit about the quiz question types (multiple choice, fill‑in‑the‑blank) and the visual interaction steps.",
+    "id": "e84cce9f-e80e-4dfc-abd4-2e78b19ec3d5"
+  },
+  {
+    "type": "subpage",
+    "title": "Unit 2: Derivatives Fundamentals",
+    "description": "Develop the derivative as a rate of change and slope of a tangent line. Cover formal definition, basic differentiation rules, and applications to motion and optimization.",
+    "auto_prompt": "Detailed content instructions: list Lesson 2.1: \"The Derivative as a Limit\", Lesson 2.2: \"Power, Constant, and Sum Rules\", Lesson 2.3: \"Product and Quotient Rules\", and Lesson 2.4: \"Applications: Tangent Lines and Velocity\". For each lesson include quizzes that assess limit‑based derivative calculations, rule application, and real‑world problem solving; embed Desmos graphs showing secant-to-tangent transitions and dynamic slope sliders; assign a chatbot tutor persona of an enthusiastic physics‑oriented instructor; cite sources such as MIT OpenCourseWare and Paul's Online Math Notes; and provide text analysis blocks that extract formulae and highlight step‑by‑step reasoning.",
+    "id": "3ed28247-4cf0-47ce-89ea-626f8c7c0a3c"
+  },
+  {
+    "type": "subpage",
+    "title": "Unit 3: Techniques of Differentiation",
+    "description": "Expand differentiation tools to include chain rule, implicit differentiation, and derivatives of trigonometric, exponential, and logarithmic functions. Emphasize problem‑solving strategies for complex expressions.",
+    "auto_prompt": "Detailed content instructions: create Lesson 3.1: \"Chain Rule and Composite Functions\", Lesson 3.2: \"Implicit Differentiation and Related Rates\", Lesson 3.3: \"Derivatives of Trig, Exponential, and Log Functions\", and Lesson 3.4: \"Higher‑Order Derivatives and Motion Problems\". Each lesson must feature quizzes that test multi‑layer chain applications, implicit differentiation steps, and derivative tables; integrate Desmos visualizations that animate inner‑outer function changes and curve families; provide a chatbot tutor with the persona of a seasoned engineering professor; reference authoritative web pages (e.g., MathIsFun, Coursera lecture notes); and include text analysis blocks that compare derivative formulas and flag common algebraic errors.",
+    "id": "be19abe5-cd51-460e-b2f3-7dc5d08281f5"
+  },
+  {
+    "type": "subpage",
+    "title": "Unit 4: Introduction to Integration",
+    "description": "Present the definite integral as accumulated area and the Fundamental Theorem of Calculus linking differentiation and integration. Cover basic antiderivative techniques and simple applications.",
+    "auto_prompt": "Detailed content instructions: outline Lesson 4.1: \"Area Under a Curve and Riemann Sums\", Lesson 4.2: \"The Fundamental Theorem of Calculus\", Lesson 4.3: \"Basic Antiderivative Rules\", and Lesson 4.4: \"Applications: Net Change and Simple Volumes\". For every lesson embed quizzes on Riemann sum calculations, theorem interpretation, and antiderivative identification; provide Desmos widgets that let students adjust partition sizes and see convergence; assign a chatbot tutor persona of a friendly calculus historian; cite web resources such as the OpenStax Calculus textbook and Khan Academy videos; and add text analysis blocks that summarize theorem statements and illustrate stepwise integration processes.",
+    "id": "ac79aa74-1175-4c59-9654-d903430f6244"
+  }
+]

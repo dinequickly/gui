@@ -1,0 +1,87 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Derivative: Limit of the Difference Quotient",
+    "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/pages/1.-differentiation/",
+    "relevance": "Provides the formal limit definition of the derivative and explains the geometric interpretation as the slope of a tangent line."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Derivative Introduction and Basic Rules",
+    "url": "https://tutorial.math.lamar.edu/classes/calci/DerivativeIntro.aspx",
+    "relevance": "Offers clear statements of the power, constant, sum, product, and quotient rules with worked examples and practice problems."
+  },
+  {
+    "type": "text",
+    "id": "block-3",
+    "heading": "Key Formulas and Step‑by‑Step Reasoning",
+    "body": "The derivative of f at x, denoted f'(x) or \\(\\frac{df}{dx}\\), is defined as \\(\\displaystyle f'(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}{h}\\). From this definition arise the basic rules: the constant rule (derivative of c is 0), the power rule (\\(\\frac{d}{dx}x^n = nx^{n-1}\\)), and linearity (sum and constant‑multiple rules). The product rule \\((uv)' = u'v + uv'\\) and quotient rule \\((\\frac{u}{v})' = \\frac{u'v - uv'}{v^2}\\) follow by applying the limit definition to products and ratios. These formulas enable rapid computation of rates of change, such as velocity \\(v(t)=s'(t)\\) for a position function s(t)."
+  },
+  {
+    "type": "quiz",
+    "id": "block-4",
+    "heading": "Derivative Fundamentals Quiz",
+    "questions": [
+      {
+        "q": "Using the limit definition, what is the derivative of f(x)=x^2 at x=3?",
+        "options": [
+          "6",
+          "9",
+          "12",
+          "3"
+        ],
+        "answer": 0,
+        "explanation": "f'(x)=2x, so f'(3)=2·3=6."
+      },
+      {
+        "q": "Apply the power rule: d/dx (5x^4) = ?",
+        "options": [
+          "20x^3",
+          "5x^3",
+          "20x^4",
+          "5·4x^3"
+        ],
+        "answer": 0,
+        "explanation": "Constant multiple rule: 5·(4x^3)=20x^3."
+      },
+      {
+        "q": "If u(x)=x^2 and v(x)=sin x, what is (u·v)'?",
+        "options": [
+          "2x·sin x + x^2·cos x",
+          "2x·cos x + x^2·sin x",
+          "2x·sin x - x^2·cos x",
+          "x·sin x + x·cos x"
+        ],
+        "answer": 0,
+        "explanation": "Product rule: u'v + uv' = (2x)·sin x + x^2·cos x."
+      },
+      {
+        "q": "A particle’s position is s(t)=t^3‑6t. What is its instantaneous velocity at t=2?",
+        "options": [
+          "0",
+          "6",
+          "-6",
+          "12"
+        ],
+        "answer": 1,
+        "explanation": "Velocity v(t)=s'(t)=3t^2‑6; v(2)=3·4‑6=12‑6=6."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-5",
+    "title": "Secant‑to‑Tangent Transition",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Create a function f(x)=x^3‑3x and use a slider for h to plot the secant line between (a,f(a)) and (a+h,f(a+h)). Observe how the line approaches the tangent as h→0 and read off the slope, which matches f'(a)."
+  },
+  {
+    "type": "subpage",
+    "id": "block-6",
+    "title": "Lesson Plan: Derivatives Fundamentals",
+    "description": "A structured unit covering the derivative as a limit, basic differentiation rules, product & quotient rules, and real‑world applications such as tangent lines and velocity.",
+    "auto_prompt": "Create a multi‑lesson subpage with the following structure:\n\nLesson 2.1 – The Derivative as a Limit\n- Explain the limit definition with geometric secant‑to‑tangent illustration.\n- Include a worked example using f(x)=x^2.\n- End with a short quiz (2 questions) on computing limits.\n\nLesson 2.2 – Power, Constant, and Sum Rules\n- Derive the power rule from the limit definition.\n- Show constant‑multiple and sum rules with examples.\n- Provide practice problems and a quiz.\n\nLesson 2.3 – Product and Quotient Rules\n- Prove the product rule using the limit definition.\n- Derive the quotient rule and illustrate with u(x)=x^2, v(x)=sin x.\n- Include a quiz with mixed rule applications.\n\nLesson 2.4 – Applications: Tangent Lines and Velocity\n- Connect derivative to slope of tangent line and instantaneous rate of change.\n- Solve a motion problem: given s(t), find velocity and acceleration.\n- Use a Desmos interactive (provided) for secant‑to‑tangent visualization.\n- Conclude with a real‑world scenario quiz.\n\nFor each lesson, embed the appropriate citation, a text block extracting key formulas, a Desmos graph where visual intuition helps, and at least one quiz question. Ensure the tone is clear, step‑by‑step, and includes hints for common misconceptions."
+  }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Epsilon-Delta Definition of a Limit - Mathematics LibreTexts",
+    "url": "https://math.libretexts.org/Bookshelves/Calculus/Calculus_3e_(Apex)/01:_Limits/1.02:_Epsilon-Delta_Definition_of_a_Limit",
+    "relevance": "Provides a clear, formal statement of the ε‑δ definition of a limit together with intuitive explanations and basic examples."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Epsilon Delta Definition of Continuity [with Examples]",
+    "url": "https://www.imathist.com/epsilon-delta-definition-of-continuity-with-examples/",
+    "relevance": "Explains continuity via the ε‑δ definition, includes step‑by‑step solved examples that illustrate how to prove a function is continuous."
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "Continuous function - Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Continuous_function",
+    "relevance": "Offers a comprehensive overview of continuity, its properties, and connections to limits, useful for summarizing key concepts."
+  },
+  {
+    "type": "iframe",
+    "id": "block-4",
+    "url": "https://www.youtube.com/embed/JbbRaiXI6yw",
+    "title": "Epsilon Delta Limits in 4 Minutes",
+    "caption": "A concise visual walkthrough of the ε‑δ definition of a limit, ideal for quick intuition before formal proofs."
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "Understanding Limits and One‑Sided Limits",
+    "body": "A limit describes the behavior of a function as the input approaches a particular point. Formally, \\(\\lim_{x\\to c} f(x)=L\\) means that for every \\(\\varepsilon>0\\) there exists a \\(\\delta>0\\) such that \\(|x-c|<\\delta\\) implies \\(|f(x)-L|<\\varepsilon\\). One‑sided limits restrict \\(x\\) to approach \\(c\\) from the left (\\(x\\to c^-\\)) or right (\\(x\\to c^+\\)), allowing us to handle discontinuities and piecewise definitions. These concepts underpin continuity: a function is continuous at \\(c\\) when \\(\\lim_{x\\to c} f(x)=f(c)\\)."
+  },
+  {
+    "type": "subpage",
+    "id": "block-6",
+    "title": "Techniques for Evaluating Limits",
+    "description": "Covers algebraic manipulation, rationalizing, squeeze theorem, L'Hôpital's Rule, and the use of series expansions to compute limits that are indeterminate forms.",
+    "generatedBlocks": null
+  }
+]

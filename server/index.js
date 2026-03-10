@@ -12,6 +12,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = join(__dirname, 'data');
 if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR);
 
+// In-memory tracking of background enrichment tasks
+const enrichStatus = new Map(); // blockId → 'pending' | 'done' | 'error'
+
 const app = express();
 app.use(cors({
   origin: (origin, cb) => cb(null, !origin || origin.startsWith('http://localhost')),
@@ -175,27 +178,38 @@ const SEARCH_TOOLS = [
   },
 ];
 
-function extractBlocks(text) {
+function extractJSON(text) {
   const stripped = text.replace(/```(?:json)?\s*/gi, '').replace(/```/g, '').trim();
-  const match = stripped.match(/\[[\s\S]*\]/);
-  if (!match) throw new Error('No JSON array found in LLM response');
-  const blocks = JSON.parse(match[0]);
-  return blocks.map(b => ({ ...b, id: b.id || randomUUID() }));
+  const match = stripped.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
+  if (!match) throw new Error('No JSON found in LLM response');
+  return JSON.parse(match[0]);
+}
+
+function extractBlocks(text) {
+  const data = extractJSON(text);
+  const arr = Array.isArray(data) ? data : (data.blocks ?? []);
+  return arr.map(b => ({ ...b, id: b.id || randomUUID() }));
 }
 
 function buildEnrichSystemPrompt(mode, { title, snippet, tags, sourceName, existingBlocks, subpageTitle, subpageDescription, parentContext }) {
   const blockTypes = `Block types (return ONLY these fields):
 - { "type": "citation", "id": "block-N", "title": "...", "url": "<URL from search>", "relevance": "1-2 sentences" }
 - { "type": "iframe",   "id": "block-N", "url": "<embedUrl from search_youtube>", "title": "...", "caption": "..." }
-- { "type": "subpage",  "id": "block-N", "title": "...", "description": "2-3 sentences", "generatedBlocks": null }
-- { "type": "text",     "id": "block-N", "heading": "...", "body": "2-4 sentences of analysis" }`;
+- { "type": "subpage",  "id": "block-N", "title": "...", "description": "2-3 sentences", "auto_prompt": "detailed instructions for what this subpage should contain — lessons, block types, concepts" }
+- { "type": "text",     "id": "block-N", "heading": "...", "body": "2-4 sentences of analysis" }
+- { "type": "quiz",     "id": "block-N", "heading": "...", "questions": [{ "q": "question text", "options": ["A", "B", "C", "D"], "answer": 0, "explanation": "why the answer is correct" }] }
+- { "type": "desmos",   "id": "block-N", "title": "...", "graphUrl": "https://www.desmos.com/calculator", "caption": "what the learner should explore or try" }
+- { "type": "chatbot",  "id": "block-N", "title": "Ask the Tutor", "persona": "You are a tutor for [topic]. Be concise and Socratic.", "greeting": "Hi! Ask me anything about [topic]." }`;
 
   const rules = `Rules:
 - Call search 1–3 times to find real sources BEFORE generating citation blocks
 - Call search_youtube at most once, only if a video genuinely adds value
 - Citation URLs MUST come from search results — never invent them
 - Iframe embedUrls MUST come from search_youtube results — never invent video IDs
-- Sub-page and text blocks do NOT require search
+- Include quiz blocks to test understanding of key concepts (3-5 questions each)
+- Include a desmos block when visualizing math functions or graphs would help
+- Include at most 1 chatbot block per page as a topic tutor
+- When creating subpage blocks, always fill auto_prompt with specific lesson instructions
 - Mix types — always include at least 1 citation and 1 text block
 - Return ONLY a valid JSON array. No markdown, no explanation.`;
 
@@ -275,6 +289,38 @@ async function runEnrichWithSearch(systemPrompt) {
   }
 
   throw new Error('Enrichment loop did not return blocks');
+}
+
+// ---------------------------------------------------------------------------
+// Background subpage enrichment (recursive, depth-limited)
+// ---------------------------------------------------------------------------
+
+async function enrichSubpageBackground(block, parentContext, currentDepth = 0, maxDepth = 1) {
+  enrichStatus.set(block.id, 'pending');
+  try {
+    let systemPrompt = buildEnrichSystemPrompt('subpage', {
+      subpageTitle:       block.title || '',
+      subpageDescription: block.description || '',
+      parentContext,
+    });
+    if (block.auto_prompt) systemPrompt += `\n\nAdditional instructions: ${block.auto_prompt}`;
+
+    const generatedBlocks = await runEnrichWithSearch(systemPrompt);
+    writeJSON(subpagePath(block.id), generatedBlocks);
+    enrichStatus.set(block.id, 'done');
+    console.log(`[enrich] done ${block.id} (depth ${currentDepth}) — ${generatedBlocks.length} blocks`);
+
+    // Recurse into subpage blocks generated within this page
+    if (currentDepth < maxDepth) {
+      const subpages = generatedBlocks.filter(b => b.type === 'subpage');
+      await Promise.all(subpages.map(sub =>
+        enrichSubpageBackground(sub, block.title || parentContext, currentDepth + 1, maxDepth)
+      ));
+    }
+  } catch (err) {
+    enrichStatus.set(block.id, 'error');
+    console.error(`[enrich] failed ${block.id}:`, err.message);
+  }
 }
 
 // Kept for page-chat `enrich` tool (which doesn't use search — fast path)
@@ -598,15 +644,19 @@ const PAGE_TOOLS = [
         type: 'object',
         required: ['type'],
         properties: {
-          type:        { type: 'string', enum: ['citation', 'iframe', 'subpage', 'text'] },
-          title:       { type: 'string', description: 'Title for citation, iframe, or subpage' },
-          url:         { type: 'string', description: 'URL for citation (article) or iframe (YouTube embed: https://www.youtube.com/embed/VIDEO_ID)' },
-          relevance:   { type: 'string', description: 'Why this is relevant — citation only' },
-          caption:     { type: 'string', description: 'Caption below iframe' },
-          description: { type: 'string', description: 'Required for subpage: 2-3 sentence summary of what the sub-page covers. Do not omit.' },
-          auto_prompt: { type: 'string', description: 'Required for subpage: instructions for generating the subpage content. Describe what topics, angles, and block types the subpage should contain.' },
-          heading:     { type: 'string', description: 'Section heading — text only' },
+          type:        { type: 'string', enum: ['citation', 'iframe', 'subpage', 'text', 'quiz', 'desmos', 'chatbot'] },
+          title:       { type: 'string', description: 'Title for citation, iframe, subpage, desmos, or chatbot' },
+          url:         { type: 'string', description: 'URL for citation or iframe (YouTube embed)' },
+          relevance:   { type: 'string', description: 'Why relevant — citation only' },
+          caption:     { type: 'string', description: 'Caption below iframe or desmos' },
+          description: { type: 'string', description: 'Required for subpage: 2-3 sentence summary. Do not omit.' },
+          auto_prompt: { type: 'string', description: 'Required for subpage: instructions for generating the subpage content. Be specific about topics, lesson names, and block types to include.' },
+          heading:     { type: 'string', description: 'Section heading — text or quiz' },
           body:        { type: 'string', description: 'Body paragraph — text only' },
+          questions:   { type: 'array', description: 'Quiz questions — quiz only. Each: {q, options: string[], answer: number, explanation}' },
+          graphUrl:    { type: 'string', description: 'Desmos graph URL — desmos only. Use https://www.desmos.com/calculator for blank or a specific saved graph URL.' },
+          persona:     { type: 'string', description: 'System prompt for the tutor chatbot — chatbot only' },
+          greeting:    { type: 'string', description: 'Opening message shown by the chatbot — chatbot only' },
           position:    { type: 'integer', description: 'Index to insert at (0 = top). Omit to append at bottom.' },
         },
       },
@@ -672,6 +722,21 @@ const PAGE_TOOLS = [
       },
     },
   },
+  {
+    type: 'function',
+    function: {
+      name: 'orchestrate',
+      description: 'Build a complete multi-level learning experience from a single goal. Plans course/guide structure with units, creates unit subpage blocks, and recursively generates rich lesson content (quizzes, Desmos graphs, chatbot tutors, citations) in parallel. Use this when asked to "build a course", "teach me X", or "create a guide on X".',
+      parameters: {
+        type: 'object',
+        required: ['goal'],
+        properties: {
+          goal:  { type: 'string', description: 'What to teach or build, e.g. "Calculus 1 from scratch" or "Python for beginners"' },
+          depth: { type: 'integer', description: '1 = top-level units only, 2 = units with lesson subpages inside each (default 2)' },
+        },
+      },
+    },
+  },
   ...SEARCH_TOOLS,
 ];
 
@@ -683,11 +748,12 @@ const PAGE_TOOL_LABELS = {
   delete_block:   'Removing block…',
   reorder_blocks: 'Reordering blocks…',
   enrich:         'Generating enrichment…',
+  orchestrate:    'Planning course structure…',
   search:         'Searching the web…',
   search_youtube: 'Searching YouTube…',
 };
 
-const PAGE_MUTATING = new Set(['add_block', 'update_block', 'delete_block', 'clear_blocks', 'reorder_blocks', 'enrich']);
+const PAGE_MUTATING = new Set(['add_block', 'update_block', 'delete_block', 'clear_blocks', 'reorder_blocks', 'enrich', 'orchestrate']);
 
 async function executePageTool(name, args, blocks, pageContext) {
   switch (name) {
@@ -717,16 +783,8 @@ async function executePageTool(name, args, blocks, pageContext) {
       }
 
       // Background subpage enrichment — fire and forget
-      if (block.type === 'subpage' && auto_prompt) {
-        const subpageSystemPrompt = buildEnrichSystemPrompt('subpage', {
-          subpageTitle:       block.title || '',
-          subpageDescription: block.description || '',
-          parentContext:      pageContext.title || '',
-        }) + `\n\nAdditional instructions: ${auto_prompt}`;
-
-        runEnrichWithSearch(subpageSystemPrompt)
-          .then(generatedBlocks => writeJSON(subpagePath(block.id), generatedBlocks))
-          .catch(err => console.error(`Background subpage enrich failed for ${block.id}:`, err.message));
+      if (block.type === 'subpage') {
+        enrichSubpageBackground(block, pageContext.title || '', 0, 1);
       }
 
       return JSON.stringify({ ok: true, id: block.id });
@@ -775,6 +833,51 @@ async function executePageTool(name, args, blocks, pageContext) {
       return JSON.stringify({ ok: true, added: newBlocks.length });
     }
 
+    case 'orchestrate': {
+      const depth = args.depth ?? 2;
+      const outlinePrompt = `You are a curriculum designer. Generate a JSON course outline for: "${args.goal}"
+
+Return ONLY valid JSON with this exact structure:
+{
+  "title": "Course title",
+  "units": [
+    {
+      "title": "Unit 1: Title",
+      "description": "2-3 sentence overview of this unit.",
+      "auto_prompt": "Detailed content instructions: list the specific lesson names as subpage blocks (e.g. Lesson 1.1: ..., Lesson 1.2: ...). Each lesson subpage should contain: quiz blocks testing key concepts, a Desmos visualization if math is involved, a chatbot tutor block with a relevant persona, real web citations, and text analysis blocks. Be very specific about what each lesson covers and what the quizzes should test."
+    }
+  ]
+}
+
+Generate ${depth === 1 ? '5-7' : '3-5'} units with clear progression from fundamentals to advanced. Each auto_prompt should be 3-5 sentences with specific lesson names and content guidance.`;
+
+      const outlineResp = await groq.chat.completions.create({
+        model: 'openai/gpt-oss-120b',
+        messages: [{ role: 'user', content: outlinePrompt }],
+        temperature: 0.7,
+        max_completion_tokens: 3000,
+        stream: false,
+      });
+
+      const outline = extractJSON(outlineResp.choices[0].message.content);
+      const units = outline.units ?? [];
+
+      for (const unit of units) {
+        const block = {
+          type: 'subpage',
+          title: unit.title,
+          description: unit.description,
+          auto_prompt: unit.auto_prompt,
+          id: randomUUID(),
+        };
+        blocks.push(block);
+        // depth-1: if depth=2, units can recurse 1 more level (lesson subpages)
+        enrichSubpageBackground(block, pageContext.title || args.goal, 0, depth - 1);
+      }
+
+      return JSON.stringify({ ok: true, course_title: outline.title, units_created: units.length });
+    }
+
     case 'search': {
       const n = args.max_results ?? args.top_n ?? 5;
       const results = await searchWeb(args.query, n);
@@ -812,9 +915,15 @@ Use tools to add, edit, delete, reorder, or generate blocks. Always call list_bl
 
 Block types you can add:
 - citation  { type, title, url, relevance }
-- iframe    { type, url, title, caption }  — YouTube embed URLs only
-- subpage   { type, title, description, auto_prompt }   — opens a deep-dive page; description and auto_prompt are REQUIRED — never omit them
-- text      { type, heading, body }        — written analysis
+- iframe    { type, url, title, caption }        — YouTube embed URLs only
+- subpage   { type, title, description, auto_prompt } — opens a deep-dive page; description and auto_prompt REQUIRED
+- text      { type, heading, body }              — written analysis
+- quiz      { type, heading, questions: [{q, options, answer, explanation}] } — interactive quiz
+- desmos    { type, title, graphUrl, caption }   — Desmos calculator embed
+- chatbot   { type, title, persona, greeting }   — embedded AI tutor
+
+Special tools:
+- orchestrate — builds a full multi-level course/guide from a single goal; use when asked to "teach me X" or "build a course on X"
 
 Current page:
 Title:   ${pageContext.title    || '(untitled)'}
@@ -875,6 +984,56 @@ Be concise. After making changes, briefly confirm what you did.`;
     send('done', {});
   } catch (err) {
     console.error('POST /api/page-chat error:', err.message);
+    send('error', { message: err.message });
+  }
+
+  res.end();
+});
+
+// --- Subpage enrichment status ---
+
+app.get('/api/subpage/:blockId/status', (req, res) => {
+  const blockId = req.params.blockId;
+  const mem = enrichStatus.get(blockId);
+  if (mem) return res.json({ status: mem });
+  // Fall back to file check (handles server restarts)
+  const status = existsSync(subpagePath(blockId)) ? 'done' : 'idle';
+  res.json({ status });
+});
+
+// --- Embedded block chatbot (SSE) ---
+
+app.post('/api/block-chat', async (req, res) => {
+  const { messages, persona } = req.body;
+  if (!Array.isArray(messages)) return res.status(400).json({ error: 'messages required' });
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const send = (event, data) => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+
+  try {
+    const systemContent = persona || 'You are a helpful and concise tutor. Answer questions clearly and encourage the learner.';
+    const apiMessages = [{ role: 'system', content: systemContent }, ...messages];
+
+    const stream = await groq.chat.completions.create({
+      model: 'openai/gpt-oss-120b',
+      messages: apiMessages,
+      temperature: 0.7,
+      max_completion_tokens: 1024,
+      stream: true,
+    });
+
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0]?.delta?.content;
+      if (delta) send('delta', { content: delta });
+    }
+
+    send('done', {});
+  } catch (err) {
+    console.error('POST /api/block-chat error:', err.message);
     send('error', { message: err.message });
   }
 

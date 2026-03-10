@@ -1,0 +1,121 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "The Limit Laws – OpenStax Calculus Volume 1",
+    "url": "https://openstax.org/books/calculus-volume-1/pages/2-3-the-limit-laws",
+    "relevance": "Provides a clear statement of the basic limit laws and examples of evaluating limits by factoring and using conjugates."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Algebraic Manipulations and the Limit Laws – LibreTexts",
+    "url": "https://math.libretexts.org/Courses/Cosumnes_River_College/Math_400:_Calculus_I_-_Differential_Calculus/01:_Learning_Limits/1.04:_Algebraic_Manipulations_and_the_Limit_Laws",
+    "relevance": "Explains why direct substitution often fails and walks through the algebraic techniques (factoring, rationalizing) needed to resolve indeterminate forms."
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "The Epsilon‑Delta Definition of a Limit – Emory Math Center",
+    "url": "https://mathcenter.oxford.emory.edu/site/math111/epsilonDelta/",
+    "relevance": "Offers an intuitive, visual explanation of the ε‑δ definition that helps students connect formal limits to algebraic manipulation."
+  },
+  {
+    "type": "text",
+    "id": "block-4",
+    "heading": "Review of Limit Laws",
+    "body": "The limit laws let us break complicated expressions into simpler pieces: \\(\\lim_{x\\to a}[f(x)+g(x)]=\\lim f+\\lim g\\), \\(\\lim cf=c\\lim f\\), \\(\\lim f\\cdot g=\\lim f\\cdot\\lim g\\), and \\(\\lim \\frac{f}{g}=\\frac{\\lim f}{\\lim g}\\) provided \\(\\lim g\\neq0\\). Direct substitution works when the resulting expression is defined; otherwise we must manipulate the function algebraically."
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "Example 1: Factoring to Remove a Zero Factor",
+    "body": "Find \\(\\displaystyle\\lim_{x\\to 2}\\frac{x^2-4}{x-2}\\). Direct substitution gives 0/0. Factor the numerator: \\(x^2-4=(x-2)(x+2)\\). Cancel the common factor \\((x-2)\\) (valid for \\(x\\neq2\\)). The limit becomes \\(\\lim_{x\\to2}(x+2)=4\\). This uses the quotient law after simplifying the algebraic form."
+  },
+  {
+    "type": "text",
+    "id": "block-6",
+    "heading": "Example 2: The Sine Limit \\(\\frac{\\sin x}{x}\\)",
+    "body": "Evaluate \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sin x}{x}\\). Direct substitution yields 0/0, so we apply the special trigonometric limit, which can be proved using the squeeze theorem. The limit equals 1. Using the product law, \\(\\lim_{x\\to0}\\sin x =0\\) and \\(\\lim_{x\\to0} \\frac{1}{x}\\) does not exist, so we rely on the known sine limit rather than direct substitution."
+  },
+  {
+    "type": "text",
+    "id": "block-7",
+    "heading": "Example 3: Rationalizing a Radical Expression",
+    "body": "Compute \\(\\displaystyle\\lim_{x\\to4}\\frac{\\sqrt{x}-2}{x-4}\\). Direct substitution again gives 0/0. Multiply numerator and denominator by the conjugate \\(\\sqrt{x}+2\\): \\[\\frac{\\sqrt{x}-2}{x-4}\\cdot\\frac{\\sqrt{x}+2}{\\sqrt{x}+2}=\\frac{x-4}{(x-4)(\\sqrt{x}+2)}=\\frac{1}{\\sqrt{x}+2}.\\] Now substitute \\(x=4\\): \\(\\frac{1}{2+2}=\\frac14\\). The rationalizing step turned an indeterminate form into a continuous function."
+  },
+  {
+    "type": "iframe",
+    "id": "block-8",
+    "url": "https://www.youtube.com/embed/fOrOeZA-vdY",
+    "title": "Evaluating Limits By Factoring (Video)",
+    "caption": "Watch a step‑by‑step walkthrough of factoring and rationalizing techniques for limits."
+  },
+  {
+    "type": "quiz",
+    "id": "block-9",
+    "heading": "Check Your Understanding",
+    "questions": [
+      {
+        "q": "Which limit law allows you to split \\(\\lim_{x\\to a}[f(x)g(x)]\\) into the product of two limits?",
+        "options": [
+          "Sum law",
+          "Product law",
+          "Quotient law",
+          "Power law"
+        ],
+        "answer": 1,
+        "explanation": "The product law states \\(\\lim (f\\cdot g)=\\lim f \\cdot \\lim g\\) when both limits exist."
+      },
+      {
+        "q": "What is the limit \\(\\displaystyle\\lim_{x\\to3}\\frac{x^2-9}{x-3}\\)?",
+        "options": [
+          "0",
+          "3",
+          "6",
+          "9"
+        ],
+        "answer": 2,
+        "explanation": "Factor numerator: \\((x-3)(x+3)\\). Cancel \\((x-3)\\) and substitute \\(x=3\\): \\(3+3=6\\)."
+      },
+      {
+        "q": "When evaluating \\(\\displaystyle\\lim_{x\\to0}\\frac{\\sqrt{x+1}-1}{x}\\), which technique is appropriate?",
+        "options": [
+          "Factoring",
+          "Rationalizing",
+          "Direct substitution",
+          "L'Hôpital's Rule"
+        ],
+        "answer": 1,
+        "explanation": "Multiply by the conjugate \\(\\sqrt{x+1}+1\\) to rationalize the numerator, then simplify."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-10",
+    "title": "Explore Algebraic Limits with Desmos",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Create your own rational function, factor or rationalize it, and watch the limit as x approaches a point where direct substitution fails."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-11",
+    "title": "Ask the Tutor",
+    "persona": "You are a tutor for Algebraic Limit Techniques. Be concise and Socratic.",
+    "greeting": "Hi! Ask me anything about factoring, rationalizing, or applying limit laws."
+  },
+  {
+    "type": "subpage",
+    "id": "block-12",
+    "title": "Practice Problems – Algebraic Limits",
+    "description": "A collection of additional limit problems that require factoring, rationalizing, or using limit laws, with hints and step‑by‑step solutions.",
+    "auto_prompt": "Create a subpage containing:\n1. 5 practice limits (mix of polynomial, rational, and radical forms) where direct substitution gives 0/0.\n2. For each problem, provide a hint that points to the appropriate technique (factoring, rationalizing, or using a known trig limit).\n3. After the hint, give a full worked solution using limit laws.\n4. Include a short reflection question: \"Which technique felt most natural and why?\""
+  },
+  {
+    "type": "text",
+    "id": "block-13",
+    "heading": "Reflective Question",
+    "body": "When is direct substitution insufficient for evaluating a limit, and how do algebraic techniques help resolve the issue?"
+  }
+]
