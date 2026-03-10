@@ -1,0 +1,175 @@
+.ft-wrapper {
+  flex: 1;
+  overflow: auto;
+}
+
+.ft {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Column widths */
+.ft-th--status  { width: 64px; }
+.ft-th--title   { width: auto; }
+.ft-th--source  { width: 140px; }
+.ft-th--tags    { width: 180px; }
+.ft-th--date    { width: 100px; }
+.ft-th--extra   { width: 160px; }
+.ft-th--chevron { width: 28px; }
+
+.ft-th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 12px;
+  height: 36px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #777;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+}
+
+.ft-th--chevron,
+.ft-th--tags {
+  cursor: default;
+}
+
+.ft-th:hover:not(.ft-th--chevron):not(.ft-th--tags) {
+  color: #111;
+}
+
+.ft-th span {
+  margin-right: 4px;
+}
+
+.sort-indicator {
+  font-size: 11px;
+  color: #111;
+}
+
+.sort-indicator--idle {
+  color: #ccc;
+}
+
+.ft-td {
+  padding: 0 12px;
+  height: 38px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+  color: #222;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.ft-row {
+  cursor: pointer;
+}
+
+.ft-row:hover .ft-td {
+  background: #fafafa;
+}
+
+.ft-row--archived .ft-td {
+  color: #bbb;
+}
+
+.ft-row--archived .ft-title {
+  color: #bbb;
+}
+
+/* Status dot */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.dot--unread   { background: #0070f3; }
+.dot--read     { background: #d0d0d0; }
+.dot--starred  { background: #f5a623; }
+.dot--archived { background: #e0e0e0; }
+
+.star-icon {
+  margin-left: 5px;
+  color: #f5a623;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+/* Title */
+.ft-title {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ft-title--unread {
+  font-weight: 600;
+}
+
+/* Tags */
+.ft-td--tags {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tag-pill {
+  display: inline-block;
+  padding: 1px 7px;
+  font-size: 11px;
+  background: #f0f0f0;
+  color: #444;
+  margin-right: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Chevron */
+.ft-td--chevron {
+  color: #ccc;
+  font-size: 16px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+/* Extra cols */
+.ft-truncate {
+  display: inline-block;
+  max-width: 300px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+.ft-empty {
+  padding: 32px 12px;
+  color: #999;
+  text-align: center;
+}
+
+/* Mobile: stacked cards below 768px */
+@media (max-width: 767px) {
+  .ft-wrapper {
+    overflow-x: auto;
+  }
+
+  .ft {
+    table-layout: auto;
+    min-width: 600px;
+  }
+
+  /* Alternatively, switch to stacked view */
+  /* Uncomment below to use stacked card view instead of horizontal scroll */
+}

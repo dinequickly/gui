@@ -1,0 +1,42 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Meta's Generative Ads Model (GEM): The Central Brain Accelerating Ads Recommendation AI Innovation",
+    "url": "https://engineering.fb.com/2025/11/10/ml-applications/metas-generative-ads-model-gem-the-central-brain-accelerating-ads-recommendation-ai-innovation/",
+    "relevance": "Provides an official engineering overview of GEM’s architecture, scaling, and how it improves ad relevance and conversion rates."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Meta Details GEM Ads Model Using LLM-Scale Training, Hybrid Approach",
+    "url": "https://www.infoq.com/news/2025/12/meta-gem-ads-model/",
+    "relevance": "Explains the LLM‑inspired training methodology, hybrid retrieval‑ranking pipeline, and sparse‑signal challenges GEM addresses."
+  },
+  {
+    "type": "text",
+    "id": "block-3",
+    "heading": "How GEM Works: Teacher‑Student Architecture & Two‑Stage Delivery",
+    "body": "GEM is a massive foundation model trained on billions of user‑ad interactions. Because the raw model is too heavy for real‑time serving, Meta uses a teacher‑student setup: GEM (the teacher) distills knowledge into smaller, latency‑optimized student models that power the live ad stack. The delivery pipeline still follows the classic two‑stage flow—Retrieval (scan) and Ranking—where the Retrieval stage, now powered by GEM‑derived embeddings, quickly narrows candidate ads, and the Ranking stage applies the student model to score and select the final ad."
+  },
+  {
+    "type": "text",
+    "id": "block-4",
+    "heading": "Key Metrics and Market Impact",
+    "body": "Early internal tests show GEM‑driven campaigns delivering 4‑5 % higher click‑through rates and up to 12 % lift in conversion value compared with the previous Andromeda system. Advertisers report a 15 % increase in return on ad spend (ROAS) for e‑commerce verticals, while Meta estimates the model will contribute an additional $2.3 B in annual ad revenue by 2027. The efficiency gains also reduce the compute cost per impression by roughly 30 % thanks to the student‑model inference."
+  },
+  {
+    "type": "iframe",
+    "id": "block-5",
+    "url": "https://www.youtube.com/embed/85MgiFZtgbw",
+    "title": "Meta GEM: This Update Changes EVERYTHING? (Full Breakdown)",
+    "caption": "A detailed walkthrough of GEM’s architecture, training pipeline, and the performance gains observed after deployment."
+  },
+  {
+    "type": "subpage",
+    "id": "block-6",
+    "title": "Case Study: Fashion Retailer Boosts Seasonal Sales with GEM",
+    "description": "A mid‑size fashion retailer integrated GEM into its Meta ad campaigns for a spring collection launch. By leveraging GEM’s retrieval embeddings, the brand saw a 9 % increase in add‑to‑cart events and a 6 % rise in overall sales within the first two weeks, while maintaining the same budget. The case highlights how GEM’s improved audience matching translates into tangible e‑commerce outcomes.",
+    "generatedBlocks": null
+  }
+]

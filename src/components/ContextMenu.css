@@ -1,0 +1,41 @@
+.ctx-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+}
+
+.ctx-menu {
+  position: fixed;
+  z-index: 201;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  min-width: 180px;
+  padding: 4px 0;
+}
+
+.ctx-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 13px;
+  border: none;
+  background: none;
+  color: #111;
+}
+
+.ctx-item:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.ctx-item:disabled {
+  color: #bbb;
+  cursor: default;
+}
+
+.ctx-divider {
+  height: 1px;
+  background: #eee;
+  margin: 4px 0;
+}

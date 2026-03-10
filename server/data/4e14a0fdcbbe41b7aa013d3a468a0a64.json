@@ -1,0 +1,22 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Digital Self‑Sovereignty: Why Owning Your Data Matters",
+    "url": "https://hbr.org/2023/07/digital-self-sovereignty-why-owning-your-data-matters",
+    "relevance": "Explores the strategic and ethical reasons for moving content off platform silos, directly supporting the article’s argument for a personal site + RSS workflow."
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "heading": "Mass‑Deleting Tweets as a Signal of Data Ownership",
+    "body": "Removing historic tweets does more than clean a timeline; it signals a break with the platform’s implicit claim to perpetual custody of your voice. By erasing the record, you force a migration to a self‑hosted archive, where you control licensing, backup, and future distribution—key tenets of the Grabbit universal‑feed vision."
+  },
+  {
+    "type": "subpage",
+    "id": "block-3",
+    "title": "Building a Personal Content Pipeline",
+    "description": "A step‑by‑step deep dive into creating a resilient publishing workflow: choosing a static‑site generator, setting up RSS feeds, automating cross‑post to social channels, and preserving metadata. Includes tool recommendations, security considerations, and migration scripts for legacy tweets.",
+    "generatedBlocks": null
+  }
+]

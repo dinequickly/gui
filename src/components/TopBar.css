@@ -1,0 +1,116 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 44px;
+  border-bottom: 1px solid #e5e5e5;
+  flex-shrink: 0;
+  background: #fff;
+  gap: 12px;
+}
+
+.topbar__brand {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.topbar__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.topbar__group {
+  display: flex;
+  gap: 4px;
+}
+
+.chip {
+  padding: 3px 10px;
+  font-size: 12px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  color: #555;
+  line-height: 1.4;
+}
+
+.chip--active {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+.chip:hover:not(.chip--active) {
+  border-color: #999;
+  color: #111;
+}
+
+.topbar__select {
+  font: inherit;
+  font-size: 12px;
+  padding: 3px 8px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  color: #111;
+  height: 26px;
+}
+
+.topbar__dropdown {
+  position: relative;
+}
+
+.topbar__dropdown-btn {
+  padding: 3px 10px;
+  font-size: 12px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  color: #555;
+  line-height: 1.4;
+  height: 26px;
+}
+
+.topbar__dropdown-btn--active {
+  border-color: #111;
+  color: #111;
+}
+
+.topbar__dropdown-btn:hover {
+  border-color: #999;
+  color: #111;
+}
+
+.topbar__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  min-width: 160px;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.topbar__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.topbar__dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.topbar__dropdown-item input {
+  margin: 0;
+  cursor: pointer;
+}

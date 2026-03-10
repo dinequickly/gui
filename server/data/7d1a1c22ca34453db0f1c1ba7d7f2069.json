@@ -1,0 +1,55 @@
+[
+  {
+    "type": "text",
+    "id": "block-1",
+    "heading": "Introduction to Open-Source Alternatives",
+    "body": "The emergence of open-source alternatives to popular AI-powered tools like Notion AI marks a significant shift in the tech landscape. By leveraging local LLMs such as Ollama and Mistral, developers can create more personalized and privacy-focused solutions. This approach also fosters a community-driven development process, leading to innovative features and faster iteration."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Notion AI",
+    "url": "https://www.notion.so/ai",
+    "relevance": "Notion AI is a well-known tool that provides AI-powered features for document editing and creation, making it a relevant reference point for open-source alternatives."
+  },
+  {
+    "type": "subpage",
+    "id": "block-3",
+    "title": "Deep Dive into Local LLMs",
+    "description": "This deep dive explores the capabilities and limitations of local LLMs like Ollama and Mistral, discussing their applications in document Q&A, summarization, and writing assistance. It also covers the benefits of using local LLMs, including enhanced privacy and customization options.",
+    "generatedBlocks": null
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "Community Response and Feedback",
+    "body": "The top comment, 'This is what Notion AI should have been,' highlights the community's enthusiasm for open-source alternatives that prioritize user needs and preferences. With 847 points and 312 comments, the discussion around this OSS project indicates a strong interest in more transparent and customizable AI-powered solutions."
+  },
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Ollama LLM",
+    "url": "https://ollama.ai/",
+    "relevance": "Ollama is a key component in the open-source alternative, providing local language model capabilities for document processing."
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "heading": "The Rise of Local LLMs",
+    "body": "Local LLMs like Ollama and Mistral are gaining traction as alternatives to cloud-based AI solutions. This shift towards local processing enables better data privacy and security. The open-source community is driving innovation in this space, with projects like the one highlighted in this article."
+  },
+  {
+    "type": "subpage",
+    "id": "block-3",
+    "title": "Exploring Block Editor Integrations",
+    "description": "This deep dive covers the various block editor integrations available for local LLMs, including the one showcased in the article. It discusses the benefits and challenges of embedding AI-powered tools in block editors and provides an overview of existing solutions.",
+    "generatedBlocks": null
+  },
+  {
+    "type": "iframe",
+    "id": "block-4",
+    "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "title": "Introduction to Local LLMs",
+    "caption": "A video overview of local language models and their applications"
+  }
+]

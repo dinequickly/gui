@@ -1,0 +1,15 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.state-msg {
+  padding: 24px;
+  color: #555;
+}
+
+.state-msg--error {
+  color: #c00;
+}

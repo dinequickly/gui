@@ -1,0 +1,35 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Scaling Laws for Fine-Tuning Foundation Models",
+    "url": "https://arxiv.org/",
+    "relevance": "This paper is relevant as it discusses the concept of scaling laws for fine-tuning foundation models on domain-specific corpora, which is the main topic of the content item."
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "heading": "Key Findings",
+    "body": "The paper reveals that fine-tuning efficiency follows a power law relative to domain corpus size. However, it also notes that there are diminishing returns past approximately 10 billion tokens for most verticals. This has significant implications for the development of more efficient fine-tuning methods."
+  },
+  {
+    "type": "subpage",
+    "id": "block-3",
+    "title": "Deep Dive into Domain Saturation Index",
+    "description": "This deep dive covers the concept of the domain saturation index metric proposed in the paper. It explores how this metric can be used to measure the effectiveness of fine-tuning foundation models on domain-specific corpora. The discussion includes examples from legal, medical, and financial corpora.",
+    "generatedBlocks": null
+  },
+  {
+    "type": "iframe",
+    "id": "block-4",
+    "url": "https://www.youtube.com/embed/jZ4e5j0Zm7g",
+    "title": "Introduction to Foundation Models",
+    "caption": "A video explaining the basics of foundation models and their applications in AI."
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "Implications and Future Directions",
+    "body": "The discovery of scaling laws for fine-tuning foundation models has significant implications for the field of AI. It suggests that there are limits to the benefits of increasing the size of the domain corpus. Future research directions may include exploring ways to optimize fine-tuning methods and investigating the applications of the domain saturation index metric in various industries."
+  }
+]

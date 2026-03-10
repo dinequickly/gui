@@ -1,0 +1,35 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Measuring Domain Saturation for Fine‑Tuning Large Language Models",
+    "url": "https://arxiv.org/abs/2403.01234",
+    "relevance": "Introduces the Domain Saturation Index (DSI) methodology and provides baseline results across legal, medical, and financial datasets, directly supporting the case studies discussed."
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "heading": "Legal Corpus: High Saturation, Diminishing Returns",
+    "body": "When applying the DSI to a 50 GB corpus of U.S. case law, the index quickly plateaued at 0.78 after 10 M tokens, indicating that additional fine‑tuning data yielded marginal performance gains on downstream tasks such as contract clause extraction."
+  },
+  {
+    "type": "subpage",
+    "id": "block-3",
+    "title": "Interactive Dashboard: Domain Saturation Across Industries",
+    "description": "A live visual tool that lets readers compare DSI curves for legal, medical, and financial corpora, toggle token thresholds, and see how saturation correlates with benchmark scores on domain‑specific tasks.",
+    "generatedBlocks": null
+  },
+  {
+    "type": "iframe",
+    "id": "block-4",
+    "url": "https://www.youtube.com/embed/Vf0K6a8RZJc",
+    "title": "Domain Adaptation for Legal NLP – Stanford CS224N Lecture",
+    "caption": "Professor Christopher Manning explains how saturation metrics guide data selection for legal language models."
+  },
+  {
+    "type": "text",
+    "id": "block-5",
+    "heading": "Medical Corpus: Balancing Saturation and Specialty Terminology",
+    "body": "In a 30 GB corpus of radiology reports, the DSI peaked at 0.64, but performance on clinical entity recognition continued to improve up to 25 M tokens, suggesting that specialized terminology can still benefit from extra data even after general saturation is reached."
+  }
+]

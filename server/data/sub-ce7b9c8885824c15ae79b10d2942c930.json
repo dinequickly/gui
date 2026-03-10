@@ -1,0 +1,42 @@
+[
+  {
+    "type": "citation",
+    "id": "block-1",
+    "title": "Meta's Generative Ads Model (GEM): The Central Brain Accelerating ...",
+    "url": "https://engineering.fb.com/2025/11/10/ml-applications/metas-generative-ads-model-gem-the-central-brain-accelerating-ads-recommendation-ai-innovation/",
+    "relevance": "Provides an official Meta engineering overview of GEM, describing it as a large‑language‑model‑scale foundation that powers ad recommendation across Facebook and Instagram."
+  },
+  {
+    "type": "citation",
+    "id": "block-2",
+    "title": "Meta Details GEM Ads Model Using LLM-Scale Training, Hybrid ...",
+    "url": "https://www.infoq.com/news/2025/12/meta-gem-ads-model/",
+    "relevance": "Explains the hybrid training pipeline, data sparsity challenges, and how GEM integrates advertiser goals, creative formats, and user signals."
+  },
+  {
+    "type": "text",
+    "id": "block-3",
+    "heading": "Definition and Core Principles of the Gem Ads Model",
+    "body": "Gem Ads (Generative Ads Model, GEM) is Meta’s next‑generation, LLM‑inspired foundation model for ad recommendation. It unifies diverse advertising signals—creative assets, conversion objectives, and billions of user‑interaction events—into a single neural architecture. The model is built to operate at trillion‑parameter scale while remaining efficient enough for real‑time serving, positioning it as the \"central brain\" of Meta’s ad ecosystem."
+  },
+  {
+    "type": "text",
+    "id": "block-4",
+    "heading": "Operational Mechanics: From Data Ingestion to Real‑Time Bidding",
+    "body": "During training, GEM consumes anonymized logs of impressions, clicks, and post‑click conversions across Facebook, Instagram, and Audience Network, using a hybrid loss that balances click‑through‑rate (CTR) prediction with downstream ROI metrics. At inference time, the model generates a relevance score for each candidate ad, which is combined with auction dynamics (bid, quality, and estimated value) to select the winning ad in milliseconds. Its generative component can also suggest creative variations, allowing advertisers to test micro‑copy or visual tweaks automatically."
+  },
+  {
+    "type": "iframe",
+    "id": "block-5",
+    "url": "https://www.youtube.com/embed/85MgiFZtgbw",
+    "title": "Meta GEM: This Update Changes EVERYTHING? (Full Breakdown)",
+    "caption": "A concise walkthrough of GEM’s architecture, training strategy, and expected impact on campaign performance, presented by a digital‑marketing analyst."
+  },
+  {
+    "type": "citation",
+    "id": "block-6",
+    "title": "Meta's GEM AI Model: Future of E‑commerce Advertising - Admetrics",
+    "url": "https://www.admetrics.io/en/post/metas-gem-ai-model-future-of-e-commerce-advertising",
+    "relevance": "Shares real‑world results from e‑commerce brands that saw an average 5% lift in ROAS after GEM was enabled, illustrating the model’s practical benefits."
+  }
+]
