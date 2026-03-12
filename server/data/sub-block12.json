@@ -1,0 +1,150 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Partial Fraction Decomposition: Theory"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "Partial fraction decomposition rewrites a proper rational function \\(\\frac{P(x)}{Q(x)}\\) as a sum of simpler fractions whose denominators are the linear or irreducible quadratic factors of \\(Q(x)\\). This transformation makes integration straightforward because each term integrates to a logarithm or an arctangent. The method requires first factoring the denominator, then solving for unknown constants by equating numerators."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-3",
+    "text": "Step‑by‑Step Decomposition Procedure"
+  },
+  {
+    "type": "numbered_list",
+    "id": "block-4",
+    "items": [
+      "Verify that the rational function is proper; if not, perform polynomial long division first.",
+      "Factor the denominator completely into linear factors \\((x-a)\\) and irreducible quadratics \\(x^2+bx+c\\).",
+      "Write the decomposition template: for each distinct linear factor \\((x-a)\\) use \\(\\frac{A}{x-a}\\); for repeated linear factors \\((x-a)^k\\) use \\(\\frac{A_1}{x-a}+\\frac{A_2}{(x-a)^2}+\\dots+\\frac{A_k}{(x-a)^k}\\); for each irreducible quadratic \\(x^2+bx+c\\) use \\(\\frac{Bx+C}{x^2+bx+c}\\).",
+      "Multiply both sides by the original denominator to clear fractions.",
+      "Expand and collect like powers of \\(x\\); equate coefficients on both sides to obtain a linear system for the unknown constants.",
+      "Solve the system, substitute the constants back, and integrate each simple term."
+    ]
+  },
+  {
+    "type": "callout",
+    "id": "block-5",
+    "text": "💡 Remember: The denominator must be fully factored before setting up the A/(x‑a) terms; otherwise the decomposition will be incomplete.",
+    "icon": "💡"
+  },
+  {
+    "type": "heading_2",
+    "id": "block-6",
+    "text": "Quiz: Setting Up Partial Fractions"
+  },
+  {
+    "type": "quiz",
+    "id": "block-7",
+    "heading": "Identify the correct decomposition form for each integrand.",
+    "questions": [
+      {
+        "q": "∫ \\(\\frac{5}{x^2-4}\\) dx",
+        "options": [
+          "A) \\(\\frac{A}{x-2}+\\frac{B}{x+2}\\)",
+          "B) \\(\\frac{A}{(x-2)^2}+\\frac{B}{(x+2)^2}\\)",
+          "C) \\(\\frac{Ax+B}{x^2-4}\\)",
+          "D) No decomposition needed"
+        ],
+        "answer": 0,
+        "explanation": "The denominator factors as \\((x-2)(x+2)\\), so the proper form is A/(x‑2)+B/(x+2)."
+      },
+      {
+        "q": "∫ \\(\\frac{3x+7}{(x-1)^2}\\) dx",
+        "options": [
+          "A) \\(\\frac{A}{x-1}+\\frac{B}{(x-1)^2}\\)",
+          "B) \\(\\frac{Ax+B}{(x-1)^2}\\)",
+          "C) \\(\\frac{A}{(x-1)^2}+\\frac{B}{(x-1)^3}\\)",
+          "D) \\(\\frac{A}{x-1}\\)"
+        ],
+        "answer": 0,
+        "explanation": "A repeated linear factor (x‑1)^2 requires terms A/(x‑1)+B/(x‑1)^2."
+      },
+      {
+        "q": "∫ \\(\\frac{2x^2+5x+3}{x^3-x}\\) dx",
+        "options": [
+          "A) \\(\\frac{A}{x}+\\frac{B}{x-1}+\\frac{C}{x+1}\\)",
+          "B) \\(\\frac{A}{x}+\\frac{B}{(x-1)^2}+\\frac{C}{(x+1)^2}\\)",
+          "C) \\(\\frac{Ax+B}{x^2-1}+\\frac{C}{x}\\)",
+          "D) No decomposition; integrate directly"
+        ],
+        "answer": 0,
+        "explanation": "Factor denominator: x(x-1)(x+1). Use simple linear terms A/x + B/(x‑1) + C/(x+1)."
+      }
+    ]
+  },
+  {
+    "type": "heading_2",
+    "id": "block-8",
+    "text": "Interactive Exploration"
+  },
+  {
+    "type": "desmos",
+    "id": "block-9",
+    "title": "Visualizing Partial Fraction Decomposition",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Plot the original rational function and its decomposed components to see how they sum to the original curve."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-10",
+    "text": "Ask the Tutor"
+  },
+  {
+    "type": "chatbot",
+    "id": "block-11",
+    "title": "Ask the Tutor",
+    "persona": "Senior Math Professor",
+    "greeting": "Hello! I'm Professor Rivera. Need a hint on setting up the A/(x‑a) terms or solving the coefficient system? Just ask!"
+  },
+  {
+    "type": "heading_2",
+    "id": "block-12",
+    "text": "Comparative Exercise: Partial Fractions vs Long Division"
+  },
+  {
+    "type": "toggle_list",
+    "id": "block-13",
+    "title": "Exercise Prompt",
+    "body": "Evaluate the integral \\(\\displaystyle\\int \\frac{2x+5}{x^2+3x-4}\\,dx\\) using two approaches:\n1. **Partial Fraction Decomposition** – factor the denominator, set up \\(\\frac{A}{x-1}+\\frac{B}{x+4}\\), solve for \\(A,B\\), and integrate.\n2. **Polynomial Long Division** – if you first divide, notice the degree of numerator is lower than denominator, so long division yields no polynomial part; discuss why partial fractions is the appropriate method here.\nCompare the steps, the algebra involved, and the final antiderivative."
+  },
+  {
+    "type": "citation",
+    "id": "block-14",
+    "title": "Pauls Online Math Notes – Partial Fractions",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/partialfractions.aspx",
+    "relevance": "Provides a clear, step‑by‑step explanation of the decomposition process and multiple worked examples."
+  },
+  {
+    "type": "citation",
+    "id": "block-15",
+    "title": "UC Davis – Integration by Partial Fractions",
+    "url": "https://www.math.ucdavis.edu/~kouba/CalcTwoDIRECTORY/partialfracdirectory/PartialFrac.html",
+    "relevance": "Offers a concise method overview and includes practice problems with solutions."
+  },
+  {
+    "type": "citation",
+    "id": "block-16",
+    "title": "BYJU'S – Integration by Partial Fractions",
+    "url": "https://byjus.com/maths/integration-by-partial-fractions/",
+    "relevance": "Explains the theoretical background and emphasizes handling repeated linear factors."
+  },
+  {
+    "type": "citation",
+    "id": "block-17",
+    "title": "Khan Academy – Integration with Partial Fractions (Video)",
+    "url": "https://www.khanacademy.org/math/ap-calculus-bc/bc-integration-new/bc-6-12/v/integration-with-partial-fractions",
+    "relevance": "A short video that walks through a full example, reinforcing the algebraic steps."
+  },
+  {
+    "type": "iframe",
+    "id": "block-18",
+    "url": "https://www.youtube.com/embed/Mt92Ozs7aJg",
+    "title": "Khan Academy: Integration with Partial Fractions",
+    "caption": "Watch a concise tutorial that demonstrates the decomposition and integration of a rational function."
+  }
+]

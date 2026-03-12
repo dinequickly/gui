@@ -1,0 +1,83 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Unit 2: Sequences, Series, and Convergence"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "In this unit students investigate how sequences behave, explore infinite series, and master the various tests that determine convergence. They also learn to express functions as power series and to use Taylor and Maclaurin expansions for approximation."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-3",
+    "text": "Core Topics"
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-4",
+    "items": [
+      "Limits of sequences and definition of convergence",
+      "Integral, comparison, ratio, root, and alternating series tests",
+      "Power series, radius and interval of convergence",
+      "Taylor and Maclaurin series, remainder estimation",
+      "Applications to approximations and solving differential equations"
+    ]
+  },
+  {
+    "type": "callout",
+    "id": "block-5",
+    "text": "Understanding which convergence test is most efficient for a given series saves time and deepens insight into series behavior. 💡",
+    "icon": "💡"
+  },
+  {
+    "type": "citation",
+    "id": "block-6",
+    "title": "Infinite Series and Convergence Tests (IIT Kanpur Lecture Notes)",
+    "url": "https://home.iitk.ac.in/~psraj/mth101/lecture_notes/Lecture11-13.pdf",
+    "relevance": "Provides concise explanations of the integral, comparison, ratio, root, and alternating series tests with examples."
+  },
+  {
+    "type": "citation",
+    "id": "block-7",
+    "title": "Taylor and Maclaurin Series Lecture (North Dakota State)",
+    "url": "https://nsalter.science.nd.edu/teaching/calc2/Calculus2ResourcesOriginal/Lecture%2029/NotesL2829.pdf",
+    "relevance": "Covers derivation of Taylor/Maclaurin series, radius of convergence, and practical computation of coefficients."
+  },
+  {
+    "type": "iframe",
+    "id": "block-8",
+    "url": "https://www.youtube.com/embed/Y9JctArSAQw",
+    "title": "Simple Guide to Series Convergence Tests",
+    "caption": "A clear walkthrough of when to apply each convergence test."
+  },
+  {
+    "type": "subpage",
+    "id": "block-9",
+    "title": "Lesson 2.1: Limits of Sequences",
+    "description": "Explore formal definitions of sequence limits, monotone convergence theorem, and Cauchy sequences.",
+    "auto_prompt": "Create a detailed lesson covering:\n1. Formal definition of limit of a sequence with epsilon‑N proof examples.\n2. Monotone and bounded sequences theorem.\n3. Cauchy criterion and its equivalence to convergence in ℝ.\n4. Include a short quiz (3 questions) testing limit calculations and identification of Cauchy sequences.\n5. Add a Desmos graph visualizing a convergent and a divergent sequence.\n6. Provide a chatbot tutor block featuring a graduate student in analysis who can explain epsilon‑N reasoning.\n7. Cite the Northwestern University lecture notes (https://sites.math.northwestern.edu/scg479/courses/notes/lecture-notes-226.pdf) for rigorous proofs."
+  },
+  {
+    "type": "subpage",
+    "id": "block-10",
+    "title": "Lesson 2.2: Series Tests – Integral, Comparison, Ratio, and Root",
+    "description": "Learn when and how to apply the main convergence tests for infinite series.",
+    "auto_prompt": "Develop the lesson with:\n- Concise explanations of each test, including hypotheses and typical use‑cases.\n- A decision‑tree flowchart (text description) to help students pick the most efficient test for a given series.\n- A quiz (4 items) asking students to identify the appropriate test and determine convergence/divergence.\n- A Desmos visualization showing partial sums of a geometric series versus a harmonic series.\n- A chatbot persona: a graduate student specializing in real analysis who can walk through each test step‑by‑step.\n- Citations to the IIT Kanpur PDF (block‑6) and the MIT Real Analysis lecture (https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/mit18_100b_s25_lec08.pdf)."
+  },
+  {
+    "type": "subpage",
+    "id": "block-11",
+    "title": "Lesson 2.3: Power Series and Interval of Convergence",
+    "description": "Study representation of functions as power series, determine radius and interval of convergence.",
+    "auto_prompt": "Include:\n- Derivation of the general power series form \\(\\sum_{n=0}^\\infty c_n (x-a)^n\\).\n- Explanation of the Ratio and Root tests for finding the radius R, and how to test endpoints.\n- A quiz (3 questions) on finding R and checking convergence at endpoints.\n- A Desmos graph illustrating a power series for \\(\\frac{1}{1-x}\\) and its interval \\((-1,1)\\).\n- A chatbot tutor: a graduate student who can guide students through coefficient extraction.\n- Cite the Taylor series lecture PDF (block‑7) and the Harvard lecture notes (https://legacy-www.math.harvard.edu/archive/1b_spring_06/For_TFs/lecture23.pdf)."
+  },
+  {
+    "type": "subpage",
+    "id": "block-12",
+    "title": "Lesson 2.4: Taylor & Maclaurin Series Applications",
+    "description": "Apply Taylor and Maclaurin expansions to approximate functions and solve problems.",
+    "auto_prompt": "Structure the lesson to contain:\n- Derivation of Taylor polynomial and remainder term (Lagrange form).\n- Examples: approximating \\(e^x\\), \\(\\sin x\\), and \\(\\ln(1+x)\\) near 0.\n- A quiz (5 items) covering coefficient extraction, error estimation, and using series to evaluate limits.\n- A Desmos interactive showing how increasing the degree improves approximation for \\(\\sin x\\).\n- A chatbot persona: a graduate student who can explain the intuition behind the remainder and guide error bounds.\n- Cite the Thomas Calculus notes (http://math0.bnu.edu.cn/~zrzhang/teaching/calculus/notes8-7.pdf) and the Northwestern Power Series notes (https://sites.math.northwestern.edu/~scanez/courses/notes/lecture-notes-320-2.pdf)."
+  }
+]

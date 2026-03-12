@@ -193,24 +193,30 @@ function extractBlocks(text) {
 
 function buildEnrichSystemPrompt(mode, { title, snippet, tags, sourceName, existingBlocks, subpageTitle, subpageDescription, parentContext }) {
   const blockTypes = `Block types (return ONLY these fields):
-- { "type": "citation", "id": "block-N", "title": "...", "url": "<URL from search>", "relevance": "1-2 sentences" }
-- { "type": "iframe",   "id": "block-N", "url": "<embedUrl from search_youtube>", "title": "...", "caption": "..." }
-- { "type": "subpage",  "id": "block-N", "title": "...", "description": "2-3 sentences", "auto_prompt": "detailed instructions for what this subpage should contain — lessons, block types, concepts" }
-- { "type": "text",     "id": "block-N", "heading": "...", "body": "2-4 sentences of analysis" }
-- { "type": "quiz",     "id": "block-N", "heading": "...", "questions": [{ "q": "question text", "options": ["A", "B", "C", "D"], "answer": 0, "explanation": "why the answer is correct" }] }
-- { "type": "desmos",   "id": "block-N", "title": "...", "graphUrl": "https://www.desmos.com/calculator", "caption": "what the learner should explore or try" }
-- { "type": "chatbot",  "id": "block-N", "title": "Ask the Tutor", "persona": "You are a tutor for [topic]. Be concise and Socratic.", "greeting": "Hi! Ask me anything about [topic]." }`;
+- { "type": "text",           "id": "block-N", "body": "2-4 sentences of analysis" }
+- { "type": "heading_1",      "id": "block-N", "text": "Main Section Title" }
+- { "type": "heading_2",      "id": "block-N", "text": "Subsection Title" }
+- { "type": "heading_3",      "id": "block-N", "text": "Minor Heading" }
+- { "type": "bulleted_list",  "id": "block-N", "items": ["item 1", "item 2"] }
+- { "type": "numbered_list",  "id": "block-N", "items": ["step 1", "step 2"] }
+- { "type": "todo_list",      "id": "block-N", "items": [{ "text": "task", "checked": false }] }
+- { "type": "toggle_list",    "id": "block-N", "title": "Toggle Title", "body": "Hidden content" }
+- { "type": "callout",        "id": "block-N", "text": "Important note or insight", "icon": "💡" }
+- { "type": "code",           "id": "block-N", "code": "source code", "language": "javascript" }
+- { "type": "citation",       "id": "block-N", "title": "...", "url": "<URL from search>", "relevance": "1-2 sentences" }
+- { "type": "iframe",         "id": "block-N", "url": "<embedUrl from search_youtube>", "title": "...", "caption": "..." }
+- { "type": "subpage",        "id": "block-N", "title": "...", "description": "2-3 sentences", "auto_prompt": "detailed instructions for what this subpage should contain" }
+- { "type": "quiz",           "id": "block-N", "heading": "...", "questions": [{ "q": "question text", "options": ["A", "B", "C", "D"], "answer": 0, "explanation": "why" }] }
+- { "type": "desmos",         "id": "block-N", "title": "...", "graphUrl": "https://www.desmos.com/calculator", "caption": "..." }
+- { "type": "chatbot",        "id": "block-N", "title": "Ask the Tutor", "persona": "...", "greeting": "..." }`;
 
   const rules = `Rules:
-- Call search 1–3 times to find real sources BEFORE generating citation blocks
-- Call search_youtube at most once, only if a video genuinely adds value
-- Citation URLs MUST come from search results — never invent them
-- Iframe embedUrls MUST come from search_youtube results — never invent video IDs
-- Include quiz blocks to test understanding of key concepts (3-5 questions each)
-- Include a desmos block when visualizing math functions or graphs would help
-- Include at most 1 chatbot block per page as a topic tutor
-- When creating subpage blocks, always fill auto_prompt with specific lesson instructions
-- Mix types — always include at least 1 citation and 1 text block
+- Use structural blocks (headings, lists) to organize long content.
+- Use callouts for key takeaways or warnings.
+- Call search 1–3 times to find real sources BEFORE generating citation blocks.
+- Citation URLs MUST come from search results — never invent them.
+- Include quiz blocks to test understanding (3-5 questions).
+- Mix types — a good page has a mix of text, headings, lists, and media.
 - Return ONLY a valid JSON array. No markdown, no explanation.`;
 
   if (mode === 'subpage') {
@@ -623,15 +629,7 @@ const PAGE_TOOLS = [
     type: 'function',
     function: {
       name: 'list_blocks',
-      description: 'Get all current blocks on the canvas with their IDs, types, and a short label. Always call this before update_block or delete_block so you know the IDs.',
-      parameters: { type: 'object', properties: {} },
-    },
-  },
-  {
-    type: 'function',
-    function: {
-      name: 'clear_blocks',
-      description: 'Remove ALL blocks from the canvas at once. Use this when the user asks to clear, wipe, reset, or delete the entire canvas/view.',
+      description: 'Get all current blocks on the canvas with their IDs, types, and a short label.',
       parameters: { type: 'object', properties: {} },
     },
   },
@@ -639,29 +637,28 @@ const PAGE_TOOLS = [
     type: 'function',
     function: {
       name: 'add_block',
-      description: 'Add a new block to the canvas. Supported types: citation, iframe, subpage, text.',
+      description: 'Add a new block to the canvas.',
       parameters: {
         type: 'object',
         required: ['type'],
         properties: {
-          type:        { type: 'string', enum: ['citation', 'iframe', 'subpage', 'text', 'quiz', 'desmos', 'chatbot'] },
-          title:       { type: 'string', description: 'Title for citation, iframe, subpage, desmos, or chatbot' },
-          url:         { type: 'string', description: 'URL for citation or iframe (YouTube embed)' },
-          relevance:   { type: 'string', description: 'Why relevant — citation only' },
-          caption:     { type: 'string', description: 'Caption below iframe or desmos' },
-          description: { type: 'string', description: 'Required for subpage: 2-3 sentence summary. Do not omit.' },
-          auto_prompt: { type: 'string', description: 'Required for subpage: instructions for generating the subpage content. Be specific about topics, lesson names, and block types to include.' },
-          heading:     { type: 'string', description: 'Section heading — text or quiz' },
-          body:        { type: 'string', description: 'Body paragraph — text only' },
-          questions:   { type: 'array', description: 'Quiz questions — quiz only. Each: {q, options: string[], answer: number, explanation}' },
-          graphUrl:    { type: 'string', description: 'Desmos graph URL — desmos only. Use https://www.desmos.com/calculator for blank or a specific saved graph URL.' },
-          persona:     { type: 'string', description: 'System prompt for the tutor chatbot — chatbot only' },
-          greeting:    { type: 'string', description: 'Opening message shown by the chatbot — chatbot only' },
-          position:    { type: 'integer', description: 'Index to insert at (0 = top). Omit to append at bottom.' },
+          type:        { type: 'string', enum: ['text', 'heading_1', 'heading_2', 'heading_3', 'bulleted_list', 'numbered_list', 'todo_list', 'toggle_list', 'callout', 'code', 'citation', 'iframe', 'subpage', 'quiz', 'desmos', 'chatbot'] },
+          text:        { type: 'string', description: 'Heading text, callout body, or citation title' },
+          body:        { type: 'string', description: 'Paragraph body or toggle content' },
+          title:       { type: 'string', description: 'Title for subpage, toggle, or desmos' },
+          url:         { type: 'string', description: 'URL for citation or iframe' },
+          items:       { type: 'array',  description: 'List items (strings for bulleted/numbered, {text, checked} for todo)' },
+          icon:        { type: 'string', description: 'Callout emoji icon' },
+          language:    { type: 'string', description: 'Code block language' },
+          code:        { type: 'string', description: 'Source code content' },
+          description: { type: 'string', description: 'Required for subpage' },
+          auto_prompt: { type: 'string', description: 'Subpage instructions' },
+          position:    { type: 'integer', description: 'Index to insert at' },
         },
       },
     },
   },
+  // ... rest of tools remain the same
   {
     type: 'function',
     function: {
@@ -1043,4 +1040,16 @@ app.post('/api/block-chat', async (req, res) => {
 // ---------------------------------------------------------------------------
 
 const PORT = process.env.PORT ?? 3001;
+
+// Serve static frontend files in production
+const DIST_PATH = join(__dirname, '../dist');
+if (existsSync(DIST_PATH)) {
+  app.use(express.static(DIST_PATH));
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(join(DIST_PATH, 'index.html'));
+    }
+  });
+}
+
 app.listen(PORT, () => console.log(`Grabbit API on http://localhost:${PORT}`));

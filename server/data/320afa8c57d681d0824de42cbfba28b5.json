@@ -1,0 +1,30 @@
+[
+  {
+    "type": "subpage",
+    "title": "Unit 1: Advanced Integration Techniques",
+    "description": "This unit revisits and extends integration methods essential for Calculus II, focusing on substitution, integration by parts, trigonometric integrals, and partial fractions. Students will practice transforming complex integrals into solvable forms and preparing for series work.",
+    "auto_prompt": "Detailed content instructions: list the specific lesson names as subpage blocks (e.g. Lesson 1.1: Integration by Parts Mastery, Lesson 1.2: Trigonometric Substitutions, Lesson 1.3: Partial Fraction Decomposition, Lesson 1.4: Improper Integrals Review). Each lesson subpage should contain quiz blocks testing the procedural steps and common pitfalls, a Desmos visualization illustrating the area under curves or substitution geometry, a chatbot tutor block with a persona of a senior math professor who offers step‑by‑step hints, real web citations from reputable calculus textbooks or university sites, and text analysis blocks that ask students to compare different methods for the same integral.",
+    "id": "fe16bd7e-6b92-4d5b-868b-38a0ebceefc2"
+  },
+  {
+    "type": "subpage",
+    "title": "Unit 2: Sequences, Series, and Convergence",
+    "description": "Students explore the behavior of sequences and infinite series, learning tests for convergence and how to represent functions as power series. The unit culminates with Taylor and Maclaurin series expansions.",
+    "auto_prompt": "Detailed content instructions: list the specific lesson names as subpage blocks (e.g. Lesson 2.1: Limits of Sequences, Lesson 2.2: Series Tests – Integral, Comparison, Ratio, and Root, Lesson 2.3: Power Series and Interval of Convergence, Lesson 2.4: Taylor & Maclaurin Series Applications). Each lesson subpage should contain quiz blocks that ask for limit calculations, identification of convergent/divergent series, and coefficient extraction, a Desmos visualization showing partial sum approximations and radius of convergence, a chatbot tutor block featuring a graduate student specializing in analysis, real web citations from scholarly articles or university lecture notes, and text analysis blocks prompting students to explain why a particular test is most efficient for a given series.",
+    "id": "90ed2d46-9687-4402-9904-b408e01b32a8"
+  },
+  {
+    "type": "subpage",
+    "title": "Unit 3: Polar, Parametric, and Vector Calculus",
+    "description": "This unit transitions from Cartesian coordinates to polar and parametric representations, and introduces vector-valued functions and their derivatives. Emphasis is placed on computing areas, lengths, and integrals in these alternate systems.",
+    "auto_prompt": "Detailed content instructions: list the specific lesson names as subpage blocks (e.g. Lesson 3.1: Polar Coordinates and Area, Lesson 3.2: Parametric Curves and Arc Length, Lesson 3.3: Vector Functions – Velocity and Acceleration, Lesson 3.4: Line Integrals and Work). Each lesson subpage should contain quiz blocks assessing conversion skills, formula application, and interpretation of results, a Desmos visualization that animates parametric curves or displays polar region shading, a chatbot tutor block with a persona of an engineering mathematician who links concepts to physics, real web citations from open‑source textbooks or reputable math blogs, and text analysis blocks that require students to compare Cartesian and polar approaches for the same region.",
+    "id": "365ce55f-ca14-4a00-9fd5-6bd4ca4d3840"
+  },
+  {
+    "type": "subpage",
+    "title": "Unit 4: Advanced Applications – Differential Equations and Improper Integrals",
+    "description": "The final unit applies integration techniques to solve first‑order differential equations and evaluate improper integrals that arise in physics and engineering. Students also review convergence criteria for integrals over infinite intervals.",
+    "auto_prompt": "Detailed content instructions: list the specific lesson names as subpage blocks (e.g. Lesson 4.1: Separable Differential Equations, Lesson 4.2: Linear First‑Order DEs with Integrating Factors, Lesson 4.3: Improper Integrals – Type I and II, Lesson 4.4: Applications to Physics – Work, Center of Mass, and Probability). Each lesson subpage should contain quiz blocks that test solution steps, identification of proper techniques, and evaluation of limits, a Desmos visualization that plots solution families or demonstrates convergence of integrals, a chatbot tutor block with a persona of a theoretical physicist who provides real‑world context, real web citations from peer‑reviewed journals or university course pages, and text analysis blocks asking students to critique the choice of method for each application.",
+    "id": "5c13f09d-8722-482a-80d5-1b8856d3025d"
+  }
+]

@@ -182,7 +182,11 @@
   flex-shrink: 0;
 }
 
-/* --- Text block --- */
+/* --- Text and Heading blocks --- */
+.h1-block { font-size: 28px; font-weight: 700; margin: 12px 0 8px; color: #111; }
+.h2-block { font-size: 22px; font-weight: 600; margin: 10px 0 6px; color: #222; }
+.h3-block { font-size: 18px; font-weight: 600; margin: 8px 0 4px; color: #333; }
+
 .text-block {}
 .text-block__heading {
   font-size: 14px;
@@ -195,6 +199,99 @@
   color: #444;
   line-height: 1.65;
   margin: 0;
+}
+
+/* --- List blocks --- */
+.list-block {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.65;
+}
+.list-block li { margin-bottom: 4px; }
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #444;
+}
+.todo-item input { margin: 0; }
+
+/* --- Toggle block --- */
+.toggle-block {}
+.toggle-block__header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.toggle-block__header:hover { background: #f9f9f9; }
+.toggle-block__arrow {
+  font-size: 10px;
+  transition: transform 0.2s;
+  color: #888;
+}
+.toggle-block__arrow.open { transform: rotate(90deg); }
+.toggle-block__content {
+  margin-top: 6px;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* --- Callout block --- */
+.callout-block {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #f1f3f5;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+.callout-block__icon { font-size: 20px; flex-shrink: 0; }
+.callout-block__text { font-size: 14px; color: #444; line-height: 1.5; }
+
+/* --- Code block --- */
+.code-block {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.code-block__header {
+  background: #e9ecef;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+}
+.code-block pre {
+  margin: 0;
+  padding: 12px;
+  overflow-x: auto;
+}
+.code-block code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  color: #212529;
 }
 
 /* --- Subpage pending indicator --- */

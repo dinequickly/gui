@@ -1,108 +1,159 @@
 [
   {
-    "type": "citation",
+    "type": "heading_1",
     "id": "block-1",
-    "title": "Continuous function - Wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Continuous_function",
-    "relevance": "Offers a clear, formal epsilon‑delta definition of continuity and explains its relationship to limits."
+    "text": "Lesson 4.4: Applications to Physics – Work, Center of Mass, and Probability"
   },
   {
-    "type": "citation",
+    "type": "heading_2",
     "id": "block-2",
-    "title": "Lesson 8: Definition of Continuity and Types of Discontinuities (Purdue)",
-    "url": "https://www.math.purdue.edu/~msunkula/MA161/F25/Lesson8.html",
-    "relevance": "Illustrates piecewise functions with removable holes and jump discontinuities, perfect for a visual Desmos activity."
+    "text": "Work Done by Variable Forces"
   },
   {
-    "type": "citation",
+    "type": "text",
     "id": "block-3",
-    "title": "Intermediate Value Theorem: Definition, Examples",
-    "url": "https://www.statisticshowto.com/calculus-problem-solving/intermediate-value-theorem/",
-    "relevance": "Provides the formal statement of the IVT together with several concrete examples."
+    "body": "The work done by a force that varies with position is defined as the integral \\(W=\\int_{a}^{b}F(x)\\,dx\\).  For a spring obeying Hooke’s law \\(F(x)=k\\,x\\), the work required to stretch the spring from \\(x=a\\) to \\(x=b\\) becomes \\(W=\\frac{k}{2}(b^{2}-a^{2})\\), illustrating how integration replaces the simple \\(F\\cdot d\\) product when the force is non‑constant."
   },
   {
-    "type": "citation",
+    "type": "callout",
     "id": "block-4",
-    "title": "Epsilon‑Delta Definition of a Limit – LibreTexts",
-    "url": "https://math.libretexts.org/Bookshelves/Calculus/Calculus_3e_(Apex)/01:_Limits/1.02:_Epsilon-Delta_Definition_of_a_Limit",
-    "relevance": "Connects the limit definition to continuity, showing how the epsilon‑delta language extends to continuous functions."
+    "text": "Key Takeaway:  Work is the signed area under the force‑versus‑displacement curve; the integral automatically accounts for direction and varying magnitude.",
+    "icon": "💡"
   },
   {
-    "type": "citation",
+    "type": "numbered_list",
     "id": "block-5",
-    "title": "What is the Intermediate Value Theorem? – Albert.io",
-    "url": "https://www.albert.io/blog/what-is-the-intermediate-value-theorem-ivt-a-review/",
-    "relevance": "Presents real‑world applications of the IVT, such as guaranteeing a temperature crossing or a root of an equation."
+    "items": [
+      "Identify the force function \\(F(x)\\).",
+      "Determine the limits of motion \\(a\\) and \\(b\\).",
+      "Set up the definite integral \\(W=\\int_{a}^{b}F(x)\\,dx\\).",
+      "Evaluate the integral analytically or numerically."
+    ]
+  },
+  {
+    "type": "heading_2",
+    "id": "block-6",
+    "text": "Center of Mass for Laminae and Solids of Revolution"
   },
   {
     "type": "text",
     "id": "block-7",
-    "heading": "Formal Definition of Continuity",
-    "body": "A function f is continuous at a point c if for every ε > 0 there exists a δ > 0 such that whenever |x − c| < δ, we have |f(x) − f(c)| < ε. This ε‑δ condition ensures that the values of f(x) can be made arbitrarily close to f(c) by taking x sufficiently close to c. In other words, the limit of f(x) as x approaches c equals f(c)."
+    "body": "For a thin plate of uniform density \\(\\rho\\) occupying region \\(R\\), the centroid \\((\\bar x,\\bar y)\\) is given by \\(\\bar x=\\frac{1}{A}\\iint_R x\\,dA\\) and \\(\\bar y=\\frac{1}{A}\\iint_R y\\,dA\\), where \\(A\\) is the area.  When the region is revolved about an axis, the solid’s center of mass uses the same moment formulas but with volume elements \\(dV=\\pi [f(x)]^{2}\\,dx\\)."
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-8",
+    "items": [
+      "Lamina centroid: \\(\\bar x = \\frac{1}{A}\\int_a^b x\\,[f(x)-g(x)]\\,dx\\)",
+      "Solid of revolution (about x‑axis): \\(\\bar x = \\frac{\\int_a^b x\\,\\pi[f(x)]^2\\,dx}{\\int_a^b \\pi[f(x)]^2\\,dx}\\)"
+    ]
+  },
+  {
+    "type": "toggle_list",
+    "id": "block-9",
+    "title": "Example: Centroid of a Triangular Plate",
+    "body": "Consider the right triangle with vertices (0,0), (4,0), (0,3).  Using \\(y = -\\frac{3}{4}x + 3\\) as the upper boundary, \\(A=\\frac{1}{2}(4)(3)=6\\).  Compute \\(\\bar x = \\frac{1}{6}\\int_0^4 x\\,\\big( -\\frac{3}{4}x + 3\\big)\\,dx = \\frac{4}{3}\\) and \\(\\bar y = \\frac{1}{6}\\int_0^4 \\frac{1}{2}\\big( -\\frac{3}{4}x + 3\\big)^2\\,dx = \\frac{1}{2}\\).  The centroid lies at \\((4/3, 1/2)\\)."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-10",
+    "text": "Probability Densities and Improper Integrals"
+  },
+  {
+    "type": "text",
+    "id": "block-11",
+    "body": "A probability density function \\(f(x)\\) must satisfy \\(\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1\\).  When \\(f(x)\\) is defined on an infinite interval or has singularities, the integral is improper and evaluated as a limit.  For example, the normalized Cauchy density \\(f(x)=\\frac{1}{\\pi(1+x^2)}\\) uses the limit \\(\\lim_{R\\to\\infty}\\int_{-R}^{R} f(x)\\,dx = 1\\)."
+  },
+  {
+    "type": "citation",
+    "id": "block-12",
+    "title": "Work – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/classes/calci/Work.aspx",
+    "relevance": "Provides the formal definition of work as an integral and a step‑by‑step example with a variable force."
+  },
+  {
+    "type": "citation",
+    "id": "block-13",
+    "title": "Center of Mass – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/Classes/CalcII/CenterOfMass.aspx",
+    "relevance": "Derives centroid formulas for laminae and solids of revolution, matching the calculations presented."
+  },
+  {
+    "type": "citation",
+    "id": "block-14",
+    "title": "Improper Integrals and Probability Density Functions",
+    "url": "http://www.math.wpi.edu/Course_Materials/MA1023D18/Labs/prob.pdf",
+    "relevance": "Explains how improper integrals are used to normalize continuous probability distributions."
   },
   {
     "type": "quiz",
-    "id": "block-10",
-    "heading": "Continuity Quiz",
+    "id": "block-15",
+    "heading": "Check Your Understanding",
     "questions": [
       {
-        "q": "Which of the following statements is equivalent to saying f is continuous at c?",
+        "q": "A spring with constant \\(k=150\\,\\text{N/m}\\) is compressed from \\(x=0.2\\,\\text{m}\\) to \\(x=0.5\\,\\text{m}\\).  What integral gives the work done?",
         "options": [
-          "limₓ→c f(x) exists",
-          "limₓ→c f(x) = f(c)",
-          "f(c) is defined",
-          "All of the above"
+          "\\(\\int_{0.2}^{0.5}150\\,dx\\)",
+          "\\(\\int_{0.2}^{0.5}150x\\,dx\\)",
+          "\\(150\\int_{0.2}^{0.5}x^2\\,dx\\)",
+          "\\(\\int_{0}^{0.5}150x\\,dx\\)"
         ],
         "answer": 1,
-        "explanation": "Continuity requires both the limit to exist and equal the function value at c."
+        "explanation": "Hooke’s law gives \\(F(x)=kx\\); the work is \\(\\int_{0.2}^{0.5}kx\\,dx\\)."
       },
       {
-        "q": "If a function has a removable discontinuity at x = 2, which of the following is true?",
+        "q": "For the triangular plate in the example, which expression correctly computes \\(\\bar y\\)?",
         "options": [
-          "limₓ→2 f(x) does not exist",
-          "limₓ→2 f(x) exists but f(2) is undefined or different",
-          "Both left‑ and right‑hand limits are infinite",
-          "The function is not defined for x < 2"
+          "\\(\\frac{1}{A}\\int_0^4 \\big(-\\frac{3}{4}x+3\\big)\\,dx\\)",
+          "\\(\\frac{1}{A}\\int_0^4 \\frac{1}{2}\\big(-\\frac{3}{4}x+3\\big)^2\\,dx\\)",
+          "\\(\\frac{1}{A}\\int_0^4 x\\big(-\\frac{3}{4}x+3\\big)\\,dx\\)",
+          "\\(\\frac{1}{A}\\int_0^4 x^2\\,dx\\)"
         ],
         "answer": 1,
-        "explanation": "A removable discontinuity means the limit exists, but the function’s value at that point is missing or mismatched."
+        "explanation": "The moment about the x‑axis uses \\(\\frac{1}{2}y^2\\) as the integrand."
       },
       {
-        "q": "The Intermediate Value Theorem can be applied to which type of function on [a, b]?",
+        "q": "Which limit correctly normalizes the Cauchy density \\(f(x)=\\frac{1}{\\pi(1+x^2)}\\)?",
         "options": [
-          "Any function",
-          "A function that is differentiable on (a, b)",
-          "A function that is continuous on [a, b]",
-          "A function with a jump discontinuity at some point in (a, b)"
+          "\\(\\int_{-\\infty}^{\\infty} f(x)\\,dx\\)",
+          "\\(\\lim_{R\\to\\infty}\\int_{-R}^{R} f(x)\\,dx\\)",
+          "\\(\\lim_{a\\to0^+}\\int_{a}^{\\infty} f(x)\\,dx\\)",
+          "\\(\\int_{0}^{\\infty} f(x)\\,dx\\)"
         ],
-        "answer": 2,
-        "explanation": "The IVT requires continuity on the closed interval; differentiability is not necessary, and jumps break the hypothesis."
+        "answer": 1,
+        "explanation": "The integral is improper on both sides, so we take the symmetric limit."
       },
       {
-        "q": "Suppose f is continuous on [0, 5] and f(0)=‑3, f(5)=7. Which value is guaranteed to be taken by f?",
+        "q": "When revolving the region under \\(y=\\sqrt{x}\\) from \\(0\\) to \\(4\\) about the x‑axis, the x‑coordinate of the solid’s center of mass is given by:",
         "options": [
-          "0",
-          "2",
-          "5",
-          "‑4"
+          "\\(\\frac{\\int_0^4 x\\pi x\\,dx}{\\int_0^4 \\pi x\\,dx}\\)",
+          "\\(\\frac{\\int_0^4 x\\pi (\\sqrt{x})^2\\,dx}{\\int_0^4 \\pi (\\sqrt{x})^2\\,dx}\\)",
+          "\\(\\frac{\\int_0^4 \\pi x\\,dx}{\\int_0^4 x\\pi (\\sqrt{x})^2\\,dx}\\)",
+          "\\(\\frac{\\int_0^4 \\pi (\\sqrt{x})^2\\,dx}{\\int_0^4 x\\pi (\\sqrt{x})^2\\,dx}\\)"
         ],
-        "answer": 0,
-        "explanation": "By the IVT, every value between –3 and 7, including 0, must be attained somewhere in the interval."
+        "answer": 1,
+        "explanation": "The volume element is \\(dV=\\pi (\\sqrt{x})^2\\,dx = \\pi x\\,dx\\); the moment uses \\(x\\,dV\\)."
       }
     ]
   },
   {
     "type": "desmos",
-    "id": "block-11",
-    "title": "Explore Piecewise Discontinuities",
+    "id": "block-16",
+    "title": "Interactive Visualization: Spring Work & Triangle Centroid",
     "graphUrl": "https://www.desmos.com/calculator",
-    "caption": "Create a piecewise function that has a removable hole at x=1 and a jump at x=3. Observe left‑ and right‑hand limits and compare them to the function values."
+    "caption": "Use the left pane to adjust the spring constant \\(k\\) and limits \\(a,b\\) to see work change.  The right pane plots a triangle and its medians, highlighting the centroid at \\((\\bar x,\\bar y)\\)."
   },
   {
     "type": "chatbot",
-    "id": "block-12",
+    "id": "block-17",
     "title": "Ask the Tutor",
-    "persona": "You are a tutor for continuity and the Intermediate Value Theorem. Be concise and Socratic.",
-    "greeting": "Hi! Ask me anything about why continuity matters for solving equations."
+    "persona": "Theoretical Physicist",
+    "greeting": "Hello! I'm Dr. Maya Patel, a theoretical physicist. I can help you see how these integrals tie into energy conservation, statistical ensembles, and the deeper physics behind work, mass distribution, and probability."
+  },
+  {
+    "type": "callout",
+    "id": "block-18",
+    "text": "Essay Prompt:  Critique the choice of integration method (direct integral, polar coordinates, or symmetry arguments) for each of the three physical scenarios presented.  Discuss accuracy, computational efficiency, and conceptual clarity.",
+    "icon": "✍️"
   }
 ]

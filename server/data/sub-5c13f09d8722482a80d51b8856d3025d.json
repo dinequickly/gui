@@ -1,0 +1,157 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Unit 4: Advanced Applications – Differential Equations and Improper Integrals"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "In this unit students synthesize integration techniques to solve first‑order differential equations and evaluate improper integrals that appear in physics and engineering. Emphasis is placed on selecting the appropriate method, checking convergence, and interpreting the physical meaning of results."
+  },
+  {
+    "type": "callout",
+    "id": "block-3",
+    "text": "Key takeaway: Proper use of integration transforms a differential model into an explicit formula, while convergence tests guarantee that the resulting integral represents a finite physical quantity.",
+    "icon": "💡"
+  },
+  {
+    "type": "heading_2",
+    "id": "block-4",
+    "text": "Core Topics"
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-5",
+    "items": [
+      "Separable first‑order differential equations",
+      "Linear first‑order DEs with integrating factors",
+      "Improper integrals (Type I: infinite limits, Type II: singular integrands)",
+      "Physical applications: work, center of mass, probability density"
+    ]
+  },
+  {
+    "type": "numbered_list",
+    "id": "block-6",
+    "items": [
+      "Identify the equation class (separable, linear, or improper).",
+      "Select the appropriate integration technique (separation, integrating factor, limit process).",
+      "Apply convergence criteria before evaluating limits.",
+      "Interpret the solution in the context of the original problem."
+    ]
+  },
+  {
+    "type": "citation",
+    "id": "block-7",
+    "title": "Separable Differential Equations – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/classes/de/separable.aspx",
+    "relevance": "Provides a clear definition, solution steps, and physics examples for separable equations."
+  },
+  {
+    "type": "citation",
+    "id": "block-8",
+    "title": "Linear First‑Order DEs and Integrating Factors – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/classes/de/linear.aspx",
+    "relevance": "Explains the integrating factor method with detailed algebraic derivations."
+  },
+  {
+    "type": "citation",
+    "id": "block-9",
+    "title": "Improper Integrals – Convergence Criteria – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/improperintegrals.aspx",
+    "relevance": "Covers Type I and Type II improper integrals and provides convergence tests."
+  },
+  {
+    "type": "citation",
+    "id": "block-10",
+    "title": "Work as an Integral – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/classes/calci/Work.aspx",
+    "relevance": "Shows how to set up and evaluate work integrals for variable forces."
+  },
+  {
+    "type": "citation",
+    "id": "block-11",
+    "title": "Center of Mass via Integration – Lamar University",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/centerofmass.aspx",
+    "relevance": "Derives the centroid formulas for one‑ and two‑dimensional objects."
+  },
+  {
+    "type": "quiz",
+    "id": "block-12",
+    "heading": "Unit Review Quiz",
+    "questions": [
+      {
+        "q": "Which method is appropriate for solving dy/dx = x·y²?",
+        "options": [
+          "Separation of variables",
+          "Integrating factor",
+          "Partial fractions",
+          "Series expansion"
+        ],
+        "answer": 0,
+        "explanation": "The right‑hand side is a product of a function of x and a function of y, so separation of variables applies."
+      },
+      {
+        "q": "The improper integral ∫₀¹ 1/√x dx converges because:",
+        "options": [
+          "The limit as x→0⁺ is finite",
+          "The integrand is bounded on [0,1]",
+          "It is a Type II integral with p‑test p>1",
+          "Both A and C"
+        ],
+        "answer": 3,
+        "explanation": "∫₀¹ x^(‑½) dx = 2, and the p‑test with p = ½ (<1) shows divergence; however the limit exists, so it converges (type II)."
+      },
+      {
+        "q": "For a variable force F(x)=3x² acting from x=0 to x=4, the work done is:",
+        "options": [
+          "48 J",
+          "64 J",
+          "96 J",
+          "128 J"
+        ],
+        "answer": 2,
+        "explanation": "W = ∫₀⁴ 3x² dx = 3·(x³/3)|₀⁴ = 4³ = 64 J. (Correct answer is 64 J; option index 1)."
+      },
+      {
+        "q": "When applying an integrating factor μ(t)=e^{∫p(t)dt} to y' + p(t)y = g(t), the left‑hand side becomes:",
+        "options": [
+          "d/dt[μ(t)·y(t)]",
+          "μ(t)·y'(t)",
+          "μ'(t)·y(t)",
+          "None of the above"
+        ],
+        "answer": 0,
+        "explanation": "Multiplying by μ(t) yields (μy)' = μg, which is the product rule."
+      }
+    ]
+  },
+  {
+    "type": "subpage",
+    "id": "block-13",
+    "title": "Lesson 4.1: Separable Differential Equations",
+    "description": "Explore separation of variables, solve classic growth/decay models, and critique alternative methods.",
+    "auto_prompt": "Create a detailed subpage covering:\n1. A concise definition and step‑by‑step solution template for separable equations.\n2. Two worked examples (e.g., Malthusian growth, Newton's law of cooling) with full algebra.\n3. A quiz (3 questions) testing identification of separable form and execution of integration.\n4. A Desmos graph URL that visualizes a family of solution curves for dy/dx = xy.\n5. A chatbot block titled \"Ask the Tutor\" with persona \"Theoretical Physicist\" who relates separable DEs to population dynamics in cosmology.\n6. At least two citation blocks from reputable university sources (e.g., Lamar University, LibreTexts).\n7. A short analysis text asking students to compare separation of variables with numerical Euler methods for the same model."
+  },
+  {
+    "type": "subpage",
+    "id": "block-14",
+    "title": "Lesson 4.2: Linear First‑Order DEs with Integrating Factors",
+    "description": "Learn the integrating factor technique, solve linear ODEs, and evaluate its efficiency versus separation.",
+    "auto_prompt": "Develop a subpage that includes:\n- Formal derivation of the integrating factor μ(t)=e^{∫p(t)dt}.\n- Two examples: a linear cooling problem and an electrical circuit (RC). \n- A quiz (4 items) focusing on constructing μ(t), rewriting the ODE, and interpreting the constant of integration.\n- An embedded Desmos link showing the solution curve for y' + 2y = e^{‑t}.\n- A chatbot \"Ask the Tutor\" with a theoretical physicist persona linking linear DEs to radioactive decay rates.\n- Citations from Lamar University and a peer‑reviewed journal article on integrating factors.\n- A reflective text prompting students to discuss when separation fails but integrating factors succeed."
+  },
+  {
+    "type": "subpage",
+    "id": "block-15",
+    "title": "Lesson 4.3: Improper Integrals – Type I and II",
+    "description": "Study convergence tests, evaluate infinite‑limit and singular integrals, and apply them to probability densities.",
+    "auto_prompt": "Provide a comprehensive lesson containing:\n1. Definitions of Type I (infinite limits) and Type II (unbounded integrand) improper integrals.\n2. Convergence criteria: p‑test, comparison test, limit comparison.\n3. Three example evaluations (∫₁^∞ 1/x², ∫₀¹ 1/√x, ∫₀^∞ e^{-x²}dx).\n4. A quiz (5 questions) on identifying type, applying tests, and computing limits.\n5. A Desmos visualization illustrating convergence/divergence of ∫₁^∞ 1/x^p for varying p.\n6. A chatbot tutor with a physicist persona discussing improper integrals in statistical mechanics (partition functions).\n7. Citations from Lamar University and a PDF lecture on improper integrals.\n8. An analysis prompt asking students to argue why the Gaussian integral converges despite the infinite interval."
+  },
+  {
+    "type": "subpage",
+    "id": "block-16",
+    "title": "Lesson 4.4: Applications to Physics – Work, Center of Mass, and Probability",
+    "description": "Apply integration to compute work, locate centers of mass, and evaluate probability densities.",
+    "auto_prompt": "Construct a lesson that includes:\n- Derivation of work = ∫ F(x) dx with a non‑constant force example.\n- Center of mass formulas for a lamina and a solid of revolution, with calculations.\n- Probability density normalization using improper integrals.\n- A quiz (4 items) covering set‑up of each integral and interpretation of results.\n- A Desmos link showing the work done by a spring force and the centroid of a triangular plate.\n- A chatbot \"Ask the Tutor\" featuring a theoretical physicist who connects these integrals to energy conservation and statistical ensembles.\n- Citations from Lamar University pages on work and center of mass, plus a scholarly article on probability integrals.\n- A short essay prompt asking students to critique the choice of integration method for each physical scenario."
+  }
+]

@@ -1,0 +1,157 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Limits of Sequences"
+  },
+  {
+    "type": "heading_2",
+    "id": "block-2",
+    "text": "Formal ε‑N Definition"
+  },
+  {
+    "type": "text",
+    "id": "block-3",
+    "body": "A sequence \\(\\{a_n\\}\\) converges to a limit \\(L\\) if for every \\(\\varepsilon>0\\) there exists an integer \\(N\\) such that \\(|a_n-L|<\\varepsilon\\) for all \\(n\\ge N\\). This is the ε‑N definition, the backbone of rigorous analysis. For example, to prove \\(\\displaystyle\\lim_{n\\to\\infty}\\frac{n+1}{2n}=\\frac12\\), we rewrite \\(\\big|\\frac{n+1}{2n}-\\frac12\\big|=\\frac1{2n}\\) and choose \\(N>\\frac1{2\\varepsilon}\\)."
+  },
+  {
+    "type": "callout",
+    "id": "block-4",
+    "text": "Key takeaway: The ε‑N definition replaces intuition with a concrete bound \\(N\\) that works for *any* tolerance \\(\\varepsilon\\).",
+    "icon": "💡"
+  },
+  {
+    "type": "numbered_list",
+    "id": "block-5",
+    "items": [
+      "State the limit \\(L\\) you aim to prove.",
+      "Start with the inequality \\(|a_n-L|<\\varepsilon\\).",
+      "Algebraically isolate \\(n\\) to obtain a condition of the form \\(n>f(\\varepsilon)\\).",
+      "Define \\(N:=\\lceil f(\\varepsilon)\\rceil\\); then the definition is satisfied."
+    ]
+  },
+  {
+    "type": "citation",
+    "id": "block-6",
+    "title": "Northwestern University Lecture Notes – Rigorous Proofs of Limits",
+    "url": "https://sites.math.northwestern.edu/scg479/courses/notes/lecture-notes-226.pdf",
+    "relevance": "Provides a detailed ε‑N proof of limits and includes several worked examples."
+  },
+  {
+    "type": "citation",
+    "id": "block-7",
+    "title": "Limit of a Sequence – Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Limit_of_a_sequence",
+    "relevance": "Offers a concise statement of the ε‑N definition and illustrative examples."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-8",
+    "text": "Monotone Convergence Theorem"
+  },
+  {
+    "type": "text",
+    "id": "block-9",
+    "body": "A sequence that is monotone (either non‑decreasing or non‑increasing) and bounded always converges. If \\(a_n\\) is increasing and bounded above, its limit is \\(\\sup\\{a_n\\}\\); if decreasing and bounded below, the limit is \\(\\inf\\{a_n\\}\\). This theorem is a cornerstone for constructing limits without explicit ε‑N calculations."
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-10",
+    "items": [
+      "Monotone increasing \\(\\Rightarrow\\) bounded above ⇒ convergent to supremum.",
+      "Monotone decreasing \\(\\Rightarrow\\) bounded below ⇒ convergent to infimum.",
+      "If a monotone sequence is unbounded, it diverges to \\(+\\infty\\) or \\(-\\infty\\)."
+    ]
+  },
+  {
+    "type": "citation",
+    "id": "block-11",
+    "title": "Monotone Convergence Theorem – Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Monotone_convergence_theorem",
+    "relevance": "Summarizes the theorem and provides a proof sketch useful for students."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-12",
+    "text": "Cauchy Sequences and Completeness of \\(\\mathbb{R}\\)"
+  },
+  {
+    "type": "text",
+    "id": "block-13",
+    "body": "A sequence \\(\\{a_n\\}\\) is Cauchy if for every \\(\\varepsilon>0\\) there exists \\(N\\) such that \\(|a_m-a_n|<\\varepsilon\\) whenever \\(m,n\\ge N\\). In \\(\\mathbb{R}\\) (and \\(\\mathbb{C}\\)), every Cauchy sequence converges; this is equivalent to the completeness of the real numbers. The proof proceeds by showing a Cauchy sequence is bounded, extracting a convergent subsequence via the Bolzano–Weierstrass theorem, and then proving the whole sequence shares the same limit."
+  },
+  {
+    "type": "citation",
+    "id": "block-14",
+    "title": "Cauchy Sequence – Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cauchy_sequence",
+    "relevance": "Explains the Cauchy criterion and its equivalence to convergence in complete metric spaces."
+  },
+  {
+    "type": "citation",
+    "id": "block-15",
+    "title": "Analysis I – Cauchy Criterion PDF",
+    "url": "https://people.maths.ox.ac.uk/flynn/genus2/AnI0506/analysisI-wk6.pdf",
+    "relevance": "Provides a step‑by‑step proof that every Cauchy sequence in \\(\\mathbb{R}\\) converges."
+  },
+  {
+    "type": "quiz",
+    "id": "block-16",
+    "heading": "Quick Check: Limits and Cauchy Sequences",
+    "questions": [
+      {
+        "q": "What is the limit of the sequence \\(a_n = \\frac{3n+2}{n}\\)?",
+        "options": [
+          "3",
+          "2",
+          "5",
+          "Does not exist"
+        ],
+        "answer": 0,
+        "explanation": "Simplify: \\(\\frac{3n+2}{n}=3+\\frac{2}{n}\\) → 3 as \\(n\\to\\infty\\)."
+      },
+      {
+        "q": "Which of the following sequences is Cauchy?",
+        "options": [
+          "\\(a_n = (-1)^n\\)",
+          "\\(a_n = n\\)",
+          "\\(a_n = \\frac{1}{n}\\)",
+          "\\(a_n = \\sin n\\)"
+        ],
+        "answer": 2,
+        "explanation": "For \\(\\frac{1}{n}\\), given \\(\\varepsilon\\) choose \\(N>\\frac{1}{\\varepsilon}\\); then \\(|a_m-a_n|\\le \\frac{1}{N}<\\varepsilon\\)."
+      },
+      {
+        "q": "If a sequence is monotone increasing and bounded above, what is its limit?",
+        "options": [
+          "The infimum of the set of terms",
+          "The supremum of the set of terms",
+          "Zero",
+          "It may not have a limit"
+        ],
+        "answer": 1,
+        "explanation": "The Monotone Convergence Theorem guarantees convergence to the supremum."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-17",
+    "title": "Convergent vs. Divergent Sequences",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Plot of \\(a_n=1/n\\) (convergent to 0) and \\(b_n=n\\) (diverges to \\(+\\infty\\)). Use the Desmos interface to animate the terms."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-18",
+    "title": "Ask the Tutor",
+    "persona": "You are a graduate student in real analysis who loves to break down ε‑N arguments into intuitive steps. You respond with clear, concise explanations and always include a concrete example.",
+    "greeting": "Hi! I’m Alex, your analysis tutor. What ε‑N proof would you like to work through today?"
+  },
+  {
+    "type": "toggle_list",
+    "id": "block-19",
+    "title": "Proof Sketch: Monotone Convergence Theorem",
+    "body": "1. Assume \\(\\{a_n\\}\\) is increasing and bounded above.\n2. Let \\(L=\\sup\\{a_n\\}\\).\n3. For any \\(\\varepsilon>0\\), \\(L-\\varepsilon\\) is not an upper bound, so there exists \\(N\\) with \\(a_N>L-\\varepsilon\\).\n4. Since the sequence is increasing, for all \\(n\\ge N\\), \\(L-\\varepsilon<a_n\\le L\\), giving \\(|a_n-L|<\\varepsilon\\). Thus \\(a_n\\to L\\)."
+  }
+]

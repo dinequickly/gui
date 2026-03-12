@@ -1,0 +1,103 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Polar Coordinates and Area"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "A point in the plane can be described by Cartesian coordinates $(x,y)$ or polar coordinates $(r,\\theta)$, where $r$ is the distance from the origin and $\\theta$ is the angle measured from the positive $x$‑axis. The conversion formulas are $x = r\\cos\\theta$, $y = r\\sin\\theta$, $r = \\sqrt{x^2+y^2}$, and $\\theta = \\tan^{-1}(y/x)$. These relationships follow directly from the right‑triangle definitions of sine and cosine. 📚"
+  },
+  {
+    "type": "citation",
+    "id": "block-3",
+    "title": "Polar Coordinates – Conversion Formulas",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/polarcoordinates.aspx",
+    "relevance": "Provides the standard $x=r\\cos\\theta$, $y=r\\sin\\theta$ conversion and derivation."
+  },
+  {
+    "type": "toggle_list",
+    "id": "block-4",
+    "title": "Derivation of the Polar Area Formula & Worked Examples",
+    "body": "**Derivation**\n1. Subdivide $[\\alpha,\\beta]$ into $n$ subintervals of width $\\Delta\\theta$.\n2. Approximate each sector by a triangle with area $\\frac12 r_i^2\\Delta\\theta$, where $r_i = f(\\theta_i)$.\n3. Sum and take the limit: $A = \\lim_{n\\to\\infty}\\sum \\frac12 r_i^2\\Delta\\theta = \\frac12\\int_{\\alpha}^{\\beta} r^2\\,d\\theta$.\n\n**Example 1 – Circle**\n- Curve: $r = 3$ (a circle of radius 3).\n- Limits: $0 \\le \\theta \\le 2\\pi$.\n- Area: $A = \\frac12\\int_0^{2\\pi} 3^2\\,d\\theta = \\frac12\\cdot9\\cdot2\\pi = 9\\pi$.\n\n**Example 2 – Rose Curve**\n- Curve: $r = 2\\sin(3\\theta)$ (three‑petaled rose).\n- One petal spans $0 \\le \\theta \\le \\pi/3$.\n- Area of one petal: $A_{petal}=\\frac12\\int_0^{\\pi/3} 4\\sin^2(3\\theta)\\,d\\theta = \\frac12\\cdot4\\cdot\\frac{\\pi}{6}=\\frac{2\\pi}{3}$.\n- Total area (3 petals): $A=3\\cdot\\frac{2\\pi}{3}=2\\pi$.\n\nBoth examples illustrate how polar integration often reduces to a simple one‑dimensional integral."
+  },
+  {
+    "type": "citation",
+    "id": "block-5",
+    "title": "Polar Area Formula Derivation",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/PolarArea.aspx",
+    "relevance": "Derives $A=\\frac12\\int r^2 d\\theta$ and includes a circle example."
+  },
+  {
+    "type": "citation",
+    "id": "block-6",
+    "title": "Rose Curve Area Example",
+    "url": "https://www.youtube.com/watch?v=Z43A8u5HW0E",
+    "relevance": "Shows step‑by‑step computation of a rose‑curve petal area."
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-7",
+    "items": [
+      "**Region Description**: Disks and petals are radial → simple $r$ limits in polar; Cartesian requires piecewise $x$ or $y$ bounds.",
+      "**Integral Setup**: Polar uses $\\frac12 r^2 d\\theta$ (single integral); Cartesian often needs double integrals or splitting.",
+      "**Computation Effort**: Polar reduces algebraic complexity and limits; Cartesian may involve square roots and multiple cases.",
+      "**When to Prefer**: Use polar for any region bounded by circles, sectors, or curves of the form $r=f(\\theta)$."
+    ]
+  },
+  {
+    "type": "quiz",
+    "id": "block-8",
+    "heading": "Quick Check",
+    "questions": [
+      {
+        "q": "Convert the Cartesian point (−√2, √2) to polar coordinates (r, θ) with θ in [0, 2π).",
+        "options": [
+          "(2, 3π/4)",
+          "(2, π/4)",
+          "(2, 5π/4)",
+          "(2, 7π/4)"
+        ],
+        "answer": 2,
+        "explanation": "r = √((-√2)^2 + (√2)^2) = 2; θ = arctan(√2/−√2) = arctan(−1) = 3π/4 (second quadrant)."
+      },
+      {
+        "q": "Find the area inside the curve r = 4 cosθ for the interval where the curve is positive.",
+        "options": [
+          "8π",
+          "4π",
+          "2π",
+          "16π"
+        ],
+        "answer": 1,
+        "explanation": "Positive when |θ| ≤ π/2. Area = ½∫_{-π/2}^{π/2} (4cosθ)^2 dθ = ½·16∫ cos^2θ dθ = 8·(π/2) = 4π."
+      },
+      {
+        "q": "How many petals does the rose curve r = 5 sin(4θ) have, and what is the total area?",
+        "options": [
+          "4 petals, area = 25π/2",
+          "8 petals, area = 25π",
+          "4 petals, area = 25π",
+          "8 petals, area = 25π/2"
+        ],
+        "answer": 0,
+        "explanation": "Even n → 2n petals = 8, but for sin(4θ) the curve repeats after π, giving 4 distinct petals. Area of one petal = ½∫_0^{π/4} 25 sin^2(4θ) dθ = 25π/8. Total = 4·25π/8 = 25π/2."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-9",
+    "title": "Shaded Regions for the Worked Examples",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Left: circle r=3. Right: rose curve r=2 sin(3θ) with one petal highlighted."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-10",
+    "title": "Ask the Tutor",
+    "persona": "Engineering mathematician linking area to physics (e.g., moment of inertia).",
+    "greeting": "Hi! I'm your calculus‑physics tutor. Ask me how the polar area formula helps compute moments of inertia for rotating disks or petals."
+  }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Unit 1: Advanced Integration Techniques"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "This unit revisits the core integration strategies from Calculus II and pushes them further. Mastery of substitution, integration by parts, trigonometric integrals, and partial fractions equips students to tackle the more intricate antiderivatives that appear in series, differential equations, and applied problems."
+  },
+  {
+    "type": "callout",
+    "id": "block-3",
+    "text": "💡 Remember: choosing the right technique often hinges on recognizing a hidden derivative or a symmetry in the integrand. Spend a minute rewriting the integrand before committing to a method.",
+    "icon": "💡"
+  },
+  {
+    "type": "citation",
+    "id": "block-4",
+    "title": "Integration by Parts – Detailed Examples",
+    "url": "https://icdl.hafedpoly.edu.ng/textbooks/threads/HomePages/5_integration_by_parts.pdf",
+    "relevance": "Provides a thorough treatment of the integration‑by‑parts formula, choice of u and dv, and multiple‑step examples useful for Lesson 1.1."
+  },
+  {
+    "type": "citation",
+    "id": "block-5",
+    "title": "Advanced Trigonometric Integrals",
+    "url": "https://sites.lafayette.edu/thompsmc/files/2016/01/Section_7_2.pdf",
+    "relevance": "Covers the key trigonometric identities and power‑reduction strategies needed for Lesson 1.2."
+  },
+  {
+    "type": "citation",
+    "id": "block-6",
+    "title": "Partial Fraction Decomposition – Paul’s Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/partialfractions.aspx",
+    "relevance": "A clear, step‑by‑step guide to breaking rational functions into simpler pieces, perfect for Lesson 1.3."
+  },
+  {
+    "type": "citation",
+    "id": "block-7",
+    "title": "U‑Substitution Technique of Integration",
+    "url": "https://dbenedetto.people.amherst.edu/math106/usubstitution.pdf",
+    "relevance": "Explains the reverse‑chain‑rule logic behind substitution, supporting Lesson 1.1 and the overall unit."
+  },
+  {
+    "type": "desmos",
+    "id": "block-8",
+    "title": "Geometry of u‑Substitution",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Visualize how the substitution u = g(x) stretches/compresses the x‑axis, turning a complex area into a simpler one."
+  },
+  {
+    "type": "quiz",
+    "id": "block-9",
+    "heading": "Quick Check: Choose the Right Technique",
+    "questions": [
+      {
+        "q": "∫ x e^{x^2} dx – which method is most efficient?",
+        "options": [
+          "Integration by parts",
+          "u‑substitution",
+          "Partial fractions",
+          "Trigonometric substitution"
+        ],
+        "answer": 1,
+        "explanation": "Let u = x^2, then du = 2x dx, turning the integral into (1/2)∫ e^{u} du."
+      },
+      {
+        "q": "∫ sin^3(x) cos(x) dx – which technique should you apply first?",
+        "options": [
+          "u‑substitution",
+          "Integration by parts",
+          "Partial fractions",
+          "Trigonometric identities"
+        ],
+        "answer": 0,
+        "explanation": "Set u = sin(x); du = cos(x) dx, giving ∫ u^3 du."
+      },
+      {
+        "q": "∫ (2x+3)/(x^2+3x+2) dx – which approach solves it directly?",
+        "options": [
+          "Partial fraction decomposition",
+          "u‑substitution",
+          "Integration by parts",
+          "Trigonometric substitution"
+        ],
+        "answer": 0,
+        "explanation": "Factor the denominator (x+1)(x+2) and decompose into A/(x+1)+B/(x+2)."
+      }
+    ]
+  },
+  {
+    "type": "subpage",
+    "id": "block-10",
+    "title": "Lesson 1.1: Integration by Parts Mastery",
+    "description": "Deep dive into the product rule reversal, selection strategies for u and dv, and repeated‑application examples.",
+    "auto_prompt": "Create a detailed subpage containing: (1) an introductory paragraph, (2) a numbered list of step‑by‑step guidelines, (3) a quiz with 3 procedural questions, (4) a Desmos visualization of area swapping, (5) a chatbot tutor (senior math professor) offering hints, (6) at least two citation blocks (use block-4), and (7) a comparative text block asking students to solve the same integral with and without integration by parts."
+  },
+  {
+    "type": "subpage",
+    "id": "block-11",
+    "title": "Lesson 1.2: Trigonometric Substitutions",
+    "description": "Explore sine‑cosine power reductions, secant/tangent integrals, and the classic trig‑substitution for √(a^2‑x^2) forms.",
+    "auto_prompt": "Generate a subpage that includes: (1) overview of key identities, (2) bulleted list of common substitution patterns, (3) a 4‑question quiz focusing on choosing the right trig substitution, (4) a Desmos graph illustrating the substitution geometry, (5) a chatbot tutor persona (senior math professor) giving step‑by‑step hints, (6) citation blocks referencing block-5, and (7) a text analysis comparing trig substitution versus power‑reduction for ∫ sin^4(x) dx."
+  },
+  {
+    "type": "subpage",
+    "id": "block-12",
+    "title": "Lesson 1.3: Partial Fraction Decomposition",
+    "description": "Learn to decompose proper rational functions, handle repeated linear factors, and integrate the resulting simple fractions.",
+    "auto_prompt": "Produce a subpage containing: (1) a concise theory section, (2) a numbered list of decomposition steps, (3) a quiz with 3 questions on setting up A/(x‑a) terms, (4) a Desmos interactive showing partial fraction graphs, (5) a chatbot tutor (senior math professor) offering diagnostic hints, (6) citation blocks from block-6, and (7) a comparative exercise where students evaluate ∫ (2x+5)/(x^2+3x‑4) dx using partial fractions versus long division."
+  },
+  {
+    "type": "subpage",
+    "id": "block-13",
+    "title": "Lesson 1.4: Improper Integrals Review",
+    "description": "Review limits at infinity and vertical asymptotes, applying the techniques from earlier lessons to determine convergence.",
+    "auto_prompt": "Create a subpage that includes: (1) definition and classification of improper integrals, (2) a bulleted list of convergence tests, (3) a 3‑question quiz on evaluating ∫_{1}^{∞} 1/(x^p) dx, (4) a Desmos visualization of area under a decaying curve, (5) a chatbot tutor (senior math professor) with hints on handling limits, (6) citations to relevant sections in block-4 and block-7, and (7) a text block asking students to compare using substitution versus direct antiderivative for ∫_{0}^{1} (1/√{1‑x^2}) dx."
+  }
+]

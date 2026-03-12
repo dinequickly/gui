@@ -30,6 +30,16 @@ export default function Block({ block, onDelete, dragHandleProps, isDragging, pa
         {block.type === 'quiz'     && <QuizBlock block={block} />}
         {block.type === 'desmos'   && <DesmosBlock block={block} />}
         {block.type === 'chatbot'  && <BlockChat block={block} />}
+        
+        {block.type === 'heading_1' && <h1 className="h1-block">{block.text}</h1>}
+        {block.type === 'heading_2' && <h2 className="h2-block">{block.text}</h2>}
+        {block.type === 'heading_3' && <h3 className="h3-block">{block.text}</h3>}
+        {block.type === 'bulleted_list' && <ListBlock block={block} bulleted />}
+        {block.type === 'numbered_list' && <ListBlock block={block} />}
+        {block.type === 'todo_list'     && <TodoListBlock block={block} />}
+        {block.type === 'toggle_list'   && <ToggleBlock block={block} />}
+        {block.type === 'callout'       && <CalloutBlock block={block} />}
+        {block.type === 'code'          && <CodeBlock block={block} />}
       </div>
 
       <button
@@ -176,6 +186,69 @@ function DesmosBlock({ block }) {
       {block.caption && (
         <p className="desmos-block__caption">{block.caption}</p>
       )}
+    </div>
+  );
+}
+
+function ListBlock({ block, bulleted }) {
+  const Tag = bulleted ? 'ul' : 'ol';
+  return (
+    <Tag className="list-block">
+      {(block.items ?? []).map((item, i) => (
+        <li key={i}>{item}</li>
+      ))}
+    </Tag>
+  );
+}
+
+function TodoListBlock({ block }) {
+  return (
+    <div className="todo-list">
+      {(block.items ?? []).map((item, i) => (
+        <div key={i} className="todo-item">
+          <input type="checkbox" checked={item.checked} readOnly />
+          <span>{item.text}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ToggleBlock({ block }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="toggle-block">
+      <button className="toggle-block__header" onClick={() => setIsOpen(!isOpen)}>
+        <span className={`toggle-block__arrow ${isOpen ? 'open' : ''}`}>▶</span>
+        <span className="toggle-block__title">{block.title}</span>
+      </button>
+      {isOpen && (
+        <div className="toggle-block__content">
+          {block.body}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CalloutBlock({ block }) {
+  return (
+    <div className="callout-block">
+      <span className="callout-block__icon">{block.icon || '💡'}</span>
+      <div className="callout-block__text">{block.text}</div>
+    </div>
+  );
+}
+
+function CodeBlock({ block }) {
+  return (
+    <div className="code-block">
+      <div className="code-block__header">
+        <span>{block.language || 'code'}</span>
+      </div>
+      <pre>
+        <code>{block.code}</code>
+      </pre>
     </div>
   );
 }

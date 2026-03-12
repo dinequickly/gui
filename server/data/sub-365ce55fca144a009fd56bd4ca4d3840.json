@@ -1,0 +1,154 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Unit 3: Polar, Parametric, and Vector Calculus"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "This unit expands the calculus toolbox beyond Cartesian coordinates. You will learn how to describe regions with polar equations, trace curves using parametric forms, and analyze motion with vector‑valued functions, culminating in line integrals that compute work in a force field."
+  },
+  {
+    "type": "callout",
+    "id": "block-3",
+    "text": "Key takeaway: Switching coordinate systems often simplifies integrals—polar for circular symmetry, parametric for motion, and vector fields for work.",
+    "icon": "💡"
+  },
+  {
+    "type": "heading_2",
+    "id": "block-4",
+    "text": "Core Topics"
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-5",
+    "items": [
+      "Polar coordinates and area",
+      "Parametric curves and arc length",
+      "Vector‑valued functions: velocity & acceleration",
+      "Line integrals and work"
+    ]
+  },
+  {
+    "type": "citation",
+    "id": "block-6",
+    "title": "Polar Area – Paul’s Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/PolarArea.aspx",
+    "relevance": "Provides the derivation of the polar area formula A = ½∫ r² dθ and several worked examples."
+  },
+  {
+    "type": "citation",
+    "id": "block-7",
+    "title": "Arc Length with Parametric Equations – Paul’s Online Math Notes",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/paraarclength.aspx",
+    "relevance": "Derives L = ∫√((dx/dt)²+(dy/dt)²) dt and includes practice problems."
+  },
+  {
+    "type": "citation",
+    "id": "block-8",
+    "title": "Motion in Space – OpenStax Calculus Volume 3",
+    "url": "https://openstax.org/books/calculus-volume-3/pages/3-4-motion-in-space",
+    "relevance": "Defines vector‑valued position, velocity, acceleration, and speed with clear geometric interpretation."
+  },
+  {
+    "type": "citation",
+    "id": "block-9",
+    "title": "Line Integrals – OpenStax Calculus Volume 3",
+    "url": "https://openstax.org/books/calculus-volume-3/pages/6-2-line-integrals",
+    "relevance": "Explains scalar and vector line integrals and shows how to compute work ∫ F·dr."
+  },
+  {
+    "type": "iframe",
+    "id": "block-10",
+    "url": "https://www.youtube.com/embed/H-Sp3dXBTCU",
+    "title": "Animation Along a Parametric Path – Desmos",
+    "caption": "A short tutorial on creating animated parametric curves in Desmos."
+  },
+  {
+    "type": "desmos",
+    "id": "block-11",
+    "title": "Parametric Curve Animation",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Use the sliders to explore how the shape changes with the parameter t."
+  },
+  {
+    "type": "quiz",
+    "id": "block-12",
+    "heading": "Quick Check",
+    "questions": [
+      {
+        "q": "Which integral gives the area of a region bounded by r = f(θ) from θ = α to β?",
+        "options": [
+          "∫ f(θ) dθ",
+          "½∫ f(θ)² dθ",
+          "∫ √(f(θ)² + f'(θ)²) dθ",
+          "∫ f(θ)² dθ"
+        ],
+        "answer": 1,
+        "explanation": "The polar area formula is A = ½∫_{α}^{β} r² dθ."
+      },
+      {
+        "q": "For a parametric curve x(t), y(t), the arc length from t = a to b is:",
+        "options": [
+          "∫ (dx/dt + dy/dt) dt",
+          "∫ √[(dx/dt)² + (dy/dt)²] dt",
+          "½∫ (dx/dt)² dt",
+          "∫ (x' y'') dt"
+        ],
+        "answer": 1,
+        "explanation": "Arc length L = ∫_{a}^{b} √[(x'(t))² + (y'(t))²] dt."
+      },
+      {
+        "q": "If r(t) = ⟨t, t², t³⟩, what is the velocity vector v(t)?",
+        "options": [
+          "⟨1, 2t, 3t²⟩",
+          "⟨t, t², t³⟩",
+          "⟨0, 1, 2t⟩",
+          "⟨1, t, t²⟩"
+        ],
+        "answer": 0,
+        "explanation": "Velocity is the derivative: v(t) = r'(t) = ⟨1, 2t, 3t²⟩."
+      },
+      {
+        "q": "The work done by a force field F along a curve C is computed by:",
+        "options": [
+          "∫_C |F| ds",
+          "∫_C F·dr",
+          "∫_C F×dr",
+          "½∫_C F·dr"
+        ],
+        "answer": 1,
+        "explanation": "Work is the line integral of the dot product: W = ∫_C F·dr."
+      }
+    ]
+  },
+  {
+    "type": "subpage",
+    "id": "block-13",
+    "title": "Lesson 3.1: Polar Coordinates and Area",
+    "description": "Convert Cartesian regions to polar form, apply A = ½∫ r² dθ, and compare the efficiency of each method.",
+    "auto_prompt": "Create a detailed subpage that includes:\n1. A concise explanation of polar coordinates with conversion formulas.\n2. Step‑by‑step derivation of the polar area formula.\n3. Two worked examples (one circle, one rose curve) with full calculations.\n4. A comparison table showing Cartesian vs. polar integration effort.\n5. A quiz (3 questions) testing conversion and area computation.\n6. A Desmos embed that shades the region for each example.\n7. A chatbot tutor block where an engineering mathematician links the area to physics (e.g., moment of inertia)."
+  },
+  {
+    "type": "subpage",
+    "id": "block-14",
+    "title": "Lesson 3.2: Parametric Curves and Arc Length",
+    "description": "Learn to describe motion with x(t), y(t), compute derivatives, and find the length of curves using the parametric arc‑length formula.",
+    "auto_prompt": "Develop a subpage containing:\n- Definition of parametric representation and derivative formulas.\n- Derivation of L = ∫ √[(dx/dt)²+(dy/dt)²] dt.\n- Example: length of one loop of the cycloid.\n- A table contrasting direct Cartesian integration vs. parametric integration for the same shape.\n- A 4‑question quiz on arc‑length calculations and parameter limits.\n- A Desmos animation of the cycloid with a slider for t.\n- A chatbot tutor (engineering mathematician) explaining how arc length relates to material usage in engineering."
+  },
+  {
+    "type": "subpage",
+    "id": "block-15",
+    "title": "Lesson 3.3: Vector Functions – Velocity and Acceleration",
+    "description": "Explore position vectors r(t), compute velocity v(t) and acceleration a(t), and interpret speed and curvature.",
+    "auto_prompt": "Produce a subpage that includes:\n- Formal definitions of r(t), v(t)=r'(t), a(t)=r''(t).\n- Example: projectile motion in 3‑D with gravity.\n- Calculation of speed |v(t)| and unit tangent.\n- Quiz (3 items) on differentiating vector functions and finding speed.\n- Desmos graph of a helix with sliders for parameters.\n- Chatbot tutor (engineering mathematician) linking velocity/acceleration to kinematics in robotics."
+  },
+  {
+    "type": "subpage",
+    "id": "block-16",
+    "title": "Lesson 3.4: Line Integrals and Work",
+    "description": "Apply scalar and vector line integrals to compute work done by a force field along a path.",
+    "auto_prompt": "Construct a subpage featuring:\n- Definitions of scalar line integral ∫ f ds and vector line integral ∫ F·dr.\n- Derivation of work = ∫_C F·dr with a sample force field.\n- Example: work done moving a charge in an electric field along a semicircular path.\n- Comparison of using parametrization vs. direct evaluation.\n- A 4‑question quiz on setting up and evaluating line integrals.\n- Desmos visualization of the path with the vector field arrows.\n- Chatbot tutor (engineering mathematician) discussing work in mechanical systems."
+  }
+]

@@ -1,0 +1,129 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Trigonometric Substitutions Overview"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "Trigonometric substitution turns algebraic radicals into trigonometric expressions, while power‑reduction identities rewrite high powers of sine and cosine as sums of lower‑order functions. Both techniques exploit fundamental identities such as \\(\\sin^2\\theta+\\cos^2\\theta=1\\) and \\(\\cos2\\theta=2\\cos^2\\theta-1\\). Choosing the right tool depends on the structure of the integrand."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-3",
+    "text": "Common Substitution Patterns"
+  },
+  {
+    "type": "bulleted_list",
+    "id": "block-4",
+    "items": [
+      "\\(\\sqrt{a^2-x^2}\\) → set \\(x = a\\sin\\theta\\), \\(dx = a\\cos\\theta\\,d\\theta\\)",
+      "\\(\\sqrt{a^2+x^2}\\) → set \\(x = a\\tan\\theta\\), \\(dx = a\\sec^2\\theta\\,d\\theta\\)",
+      "\\(\\sqrt{x^2-a^2}\\) → set \\(x = a\\sec\\theta\\), \\(dx = a\\sec\\theta\\tan\\theta\\,d\\theta\\)",
+      "Integrals containing \\(\\sec^m x\\tan^n x\\) often use \\(u=\\sec x\\) when \\(m\\) is odd, or \\(u=\\tan x\\) when \\(n\\) is odd."
+    ]
+  },
+  {
+    "type": "heading_3",
+    "id": "block-5",
+    "text": "Power‑Reduction vs Trig‑Substitution"
+  },
+  {
+    "type": "text",
+    "id": "block-6",
+    "body": "For \\(\\int \\sin^4 x\\,dx\\), power‑reduction quickly yields the answer: use \\(\\sin^2 x = \\tfrac{1-\\cos2x}{2}\\) twice, turning the integral into a sum of constants and \\(\\cos4x\\). A trig‑substitution approach would require setting \\(u=\\cos x\\) or a half‑angle substitution, adding unnecessary steps. Hence, when the integrand is a pure power of a trig function, power‑reduction is usually more efficient; trig substitution shines when radicals of the form \\(\\sqrt{a^2-x^2}\\) appear."
+  },
+  {
+    "type": "callout",
+    "id": "block-7",
+    "text": "💡 Choose power‑reduction for pure sine/cosine powers; reserve trig substitution for algebraic radicals or mixed sec‑tan forms.",
+    "icon": "💡"
+  },
+  {
+    "type": "quiz",
+    "id": "block-8",
+    "heading": "Select the Correct Trigonometric Substitution",
+    "questions": [
+      {
+        "q": "Which substitution is appropriate for \\(\\int \\frac{dx}{\\sqrt{9-x^2}}\\)?",
+        "options": [
+          "x = 3\\sin\\theta",
+          "x = 3\\tan\\theta",
+          "x = 3\\sec\\theta",
+          "x = 3\\cot\\theta"
+        ],
+        "answer": 0,
+        "explanation": "The radicand is of the form \\(a^2-x^2\\); use \\(x = a\\sin\\theta\\)."
+      },
+      {
+        "q": "To evaluate \\(\\int \\sqrt{x^2+4}\\,dx\\), which substitution should you use?",
+        "options": [
+          "x = 2\\sin\\theta",
+          "x = 2\\tan\\theta",
+          "x = 2\\sec\\theta",
+          "x = 2\\cot\\theta"
+        ],
+        "answer": 1,
+        "explanation": "The form \\(x^2+a^2\\) calls for \\(x = a\\tan\\theta\\)."
+      },
+      {
+        "q": "For \\(\\int \\frac{\\sec^3 x}{\\tan x}\\,dx\\), the most convenient u‑substitution is:",
+        "options": [
+          "u = \\sec x",
+          "u = \\tan x",
+          "u = \\sin x",
+          "u = \\cos x"
+        ],
+        "answer": 0,
+        "explanation": "When the exponent of \\(\\sec\\) is odd, let \\(u = \\sec x\\) so that \\(du = \\sec x\\tan x\\,dx\\)."
+      },
+      {
+        "q": "When integrating \\(\\int \\sin^4 x\\,dx\\), which method generally yields the shortest solution?",
+        "options": [
+          "Power‑reduction identities",
+          "Trigonometric substitution",
+          "Integration by parts",
+          "Partial fractions"
+        ],
+        "answer": 0,
+        "explanation": "Power‑reduction directly lowers the exponent, avoiding extra substitutions."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-9",
+    "title": "Geometry of the Substitution \\(x = a\\sin\\theta\\)",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "A right‑triangle illustrating the relationship \\(x = a\\sin\\theta\\) and \\(\\sqrt{a^2-x^2}=a\\cos\\theta\\)."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-10",
+    "title": "Ask the Tutor",
+    "persona": "Senior Math Professor",
+    "greeting": "Hello! I'm Professor Aurelia, here to guide you through trigonometric substitutions. Ask me for hints on choosing the right substitution or simplifying powers of sine and cosine."
+  },
+  {
+    "type": "citation",
+    "id": "block-11",
+    "title": "LibreTexts – Trigonometric Substitution",
+    "url": "https://math.libretexts.org/Bookshelves/Calculus/Calculus_(OpenStax)/07:_Techniques_of_Integration/7.03:_Trigonometric_Substitution",
+    "relevance": "Provides the standard substitution patterns for \\(\\sqrt{a^2\\pm x^2}\\) and \\(\\sqrt{x^2-a^2}\\) used in blocks 3–4."
+  },
+  {
+    "type": "citation",
+    "id": "block-12",
+    "title": "Khan Academy – Integrating \\(\\sin^4 x\\)",
+    "url": "https://www.khanacademy.org/math/integral-calculus/ic-integration/ic-integration-with-trig-identities/v/trig-identies-for-trig-integral",
+    "relevance": "Demonstrates the power‑reduction technique for \\(\\int \\sin^4 x\\,dx\\) referenced in the analysis block."
+  },
+  {
+    "type": "citation",
+    "id": "block-13",
+    "title": "Stewart Calculus – Trigonometric Integrals PDF",
+    "url": "https://www.stewartcalculus.com/data/CALCULUS%20Concepts%20and%20Contexts/upfiles/3c3-TrigonometIntegrals_Stu.pdf",
+    "relevance": "Offers additional examples of power‑reduction and sec‑tan integrals, supporting the comparative discussion."
+  }
+]

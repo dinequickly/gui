@@ -1,0 +1,113 @@
+[
+  {
+    "type": "heading_1",
+    "id": "block-1",
+    "text": "Integration by Parts Mastery"
+  },
+  {
+    "type": "text",
+    "id": "block-2",
+    "body": "Integration by parts is the reverse of the product rule, allowing us to transform an integral of a product into a simpler one. Mastery hinges on a systematic choice of *u* and *dv*, followed by disciplined algebraic manipulation. This lesson unpacks the selection strategies, step‑by‑step execution, and the power of repeated application."
+  },
+  {
+    "type": "callout",
+    "id": "block-3",
+    "text": "Key Takeaway: Use the LIATE (Logarithmic, Inverse trig, Algebraic, Trig, Exponential) hierarchy to pick *u* first; *dv* is whatever remains.",
+    "icon": "💡"
+  },
+  {
+    "type": "citation",
+    "id": "block-4",
+    "title": "Paul's Online Math Notes – Integration by Parts",
+    "url": "https://tutorial.math.lamar.edu/classes/calcii/integrationbyparts.aspx",
+    "relevance": "Provides the formal statement of the IBP formula, detailed examples, and guidance on choosing *u* and *dv*."
+  },
+  {
+    "type": "citation",
+    "id": "block-5",
+    "title": "Krista King Math – How to Pick *u* and *dv* (LIATE/LIPET)",
+    "url": "https://www.kristakingmath.com/integration-by-parts",
+    "relevance": "Explains the LIATE/LIPET rule with practical tips and common pitfalls when selecting *u*."
+  },
+  {
+    "type": "heading_2",
+    "id": "block-6",
+    "text": "Step‑by‑Step Guidelines"
+  },
+  {
+    "type": "numbered_list",
+    "id": "block-7",
+    "items": [
+      "Identify the integrand as a product *f(x)·g(x)* that resists direct integration.",
+      "Apply the LIATE (or LIPET) rule to choose *u* – the factor that simplifies when differentiated.",
+      "Set *dv* to the remaining factor; integrate it to obtain *v*.",
+      "Differentiate *u* to get *du* and substitute into the IBP formula ∫u dv = uv – ∫v du.",
+      "Simplify the resulting integral; if it still contains a product, repeat the process.",
+      "Combine like terms and add the constant of integration."
+    ]
+  },
+  {
+    "type": "heading_2",
+    "id": "block-8",
+    "text": "Comparative Exercise"
+  },
+  {
+    "type": "text",
+    "id": "block-9",
+    "body": "Solve the integral ∫x e^x dx in two ways: (a) using integration by parts as outlined above, and (b) by recognizing it as the derivative of x e^x – e^x and integrating directly. Compare the algebraic effort and insight each method provides."
+  },
+  {
+    "type": "quiz",
+    "id": "block-10",
+    "heading": "Procedural Quiz",
+    "questions": [
+      {
+        "q": "For the integral ∫ln(x) dx, which choice follows the LIATE rule?",
+        "options": [
+          "u = ln(x), dv = dx",
+          "u = dx, dv = ln(x)",
+          "u = x, dv = ln(x) dx",
+          "u = 1, dv = ln(x) dx"
+        ],
+        "answer": 0,
+        "explanation": "Logarithmic functions rank highest in LIATE, so u = ln(x) and dv = dx."
+      },
+      {
+        "q": "After choosing u = x and dv = e^x dx, what is v?",
+        "options": [
+          "e^x",
+          "x e^x",
+          "e^{x^2}/2",
+          "x"
+        ],
+        "answer": 0,
+        "explanation": "Integrating dv = e^x dx yields v = e^x."
+      },
+      {
+        "q": "When the resulting integral after one IBP still contains a product, what should you do?",
+        "options": [
+          "Apply substitution instead",
+          "Repeat integration by parts",
+          "Stop and add a constant",
+          "Differentiate instead of integrate"
+        ],
+        "answer": 1,
+        "explanation": "Repeated application of IBP is the standard strategy for nested products."
+      }
+    ]
+  },
+  {
+    "type": "desmos",
+    "id": "block-11",
+    "title": "Area Swapping Visualization",
+    "graphUrl": "https://www.desmos.com/calculator",
+    "caption": "Interactive demo showing how the area under u·dv is transformed into uv minus the area under v·du, illustrating the geometric intuition behind integration by parts."
+  },
+  {
+    "type": "chatbot",
+    "id": "block-12",
+    "title": "Ask the Tutor",
+    "persona": "Senior Math Professor",
+    "greeting": "Hello! I'm Professor Alvarez. Need a hint on picking *u* or simplifying the resulting integral? Ask me anything about integration by parts."
+  }
+]
