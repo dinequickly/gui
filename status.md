@@ -1,0 +1,43 @@
+# Status
+
+## 2026-03-12
+
+- Began implementation of a page-runtime upgrade for blocks.
+- Current saved page format is a plain block array; upgrading to a backward-compatible page document with `layout`, `stateMachine`, `memory`, and `blocks`.
+- Completed runtime additions:
+  - page-level layouts: `single-column`, `content-plus-dock`, `dashboard-grid`
+  - block output bindings with circular-dependency detection and fallbacks
+  - event bus for `assessment:completed`, `state:transition`, and `binding:updated`
+  - persisted page state machine with localStorage + document persistence
+  - richer assessment modes
+  - contextual memory and glossary support
+  - agent blocks
+  - block-level validation, unknown-type placeholders, and error boundaries
+- No Desktop `vibes` folder was present, so project notes are being kept in the repo root for now.
+- Page documents are now normalized on both client and server. Old array-only saved pages still load automatically.
+- New page document shape centers on:
+  - `layout`
+  - `blocks`
+  - `stateMachine`
+  - `memory`
+- New/expanded block types in the renderer:
+  - `assessment`
+  - `glossary`
+  - `agent`
+  - `button`
+  - `progress`
+- `quiz` remains supported as a backward-compatible alias for multiple-choice assessments.
+- Memory persistence prefers Supabase via `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` against a `course_memory` table with a unique key on `(scope, term)`.
+- If Supabase is not configured or unavailable, memory falls back to a local JSON store under `server/data/memory-store.json` so the feature still works during development.
+- Verification completed:
+  - `npm run build`
+  - `node --check server/index.js`
+- Added a dedicated hard-coded showcase route at `/demo/runtime`.
+- Home now includes a visible “Open demo” banner so the runtime demo is easy to find.
+- The demo page intentionally exercises:
+  - layout switching between all three page layout modes
+  - intro/practice/review state transitions
+  - bindings from progress + agent outputs into text blocks
+  - all four assessment modes
+  - glossary memory writes and hover tooltips
+  - docked progress / glossary / agent blocks

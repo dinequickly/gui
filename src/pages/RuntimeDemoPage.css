@@ -1,0 +1,42 @@
+.demo-page__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1d4ed8;
+  background: #dbeafe;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+}
+
+.demo-page__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.demo-page__label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.demo-page__chip {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.demo-page__chip--ghost {
+  color: #1d4ed8;
+  border-color: #93c5fd;
+  background: #eff6ff;
+}

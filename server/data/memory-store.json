@@ -1,0 +1,29 @@
+[
+  {
+    "scope": "demo:bayes-runtime-suite",
+    "term": "prior",
+    "definition": "Your starting belief before seeing new evidence.",
+    "metadata": {
+      "blockType": "text"
+    },
+    "source_block_id": "intro-text"
+  },
+  {
+    "scope": "demo:bayes-runtime-suite",
+    "term": "likelihood",
+    "definition": "How probable the observed evidence is under a specific hypothesis.",
+    "metadata": {
+      "blockType": "text"
+    },
+    "source_block_id": "intro-text"
+  },
+  {
+    "scope": "demo:bayes-runtime-suite",
+    "term": "posterior",
+    "definition": "Your updated belief after combining the prior and the evidence.",
+    "metadata": {
+      "blockType": "text"
+    },
+    "source_block_id": "intro-text"
+  }
+]

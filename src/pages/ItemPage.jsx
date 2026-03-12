@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { fetchItem, updateStatus, fetchBlocks, saveBlocks, enrichContent } from '../api.js';
+import { fetchItem, updateStatus, fetchPageDocument, savePageDocument, enrichContent } from '../api.js';
 import BlockCanvas from '../components/BlockCanvas.jsx';
 import PageChat from '../components/PageChat.jsx';
+import { normalizePageDocument, serializePageDocument } from '../lib/pageDocument.js';
+import { PageRuntimeProvider } from '../runtime/PageRuntime.jsx';
 import './ItemPage.css';
 
 const STATUSES = ['Unread', 'Read', 'Starred', 'Archived'];
@@ -19,7 +21,7 @@ export default function ItemPage() {
   const [itemLoading, setItemLoading] = useState(true);
   const [itemError, setItemError] = useState(null);
 
-  const [blocks, setBlocks] = useState(null); // null = not yet loaded
+  const [pageDocument, setPageDocument] = useState(null);
   const [enriching, setEnriching] = useState(false);
   const [enrichError, setEnrichError] = useState(null);
 
@@ -34,12 +36,14 @@ export default function ItemPage() {
 
   // Load persisted blocks
   useEffect(() => {
-    fetchBlocks(id).then(setBlocks).catch(() => setBlocks([]));
+    fetchPageDocument(id)
+      .then(data => setPageDocument(normalizePageDocument(data, { pageId: id, pageType: 'item' })))
+      .catch(() => setPageDocument(normalizePageDocument([], { pageId: id, pageType: 'item' })));
   }, [id]);
 
 
   async function runEnrich(mode) {
-    if (!item || enriching) return;
+    if (!item || enriching || !pageDocument) return;
     setEnriching(true);
     setEnrichError(null);
     try {
@@ -49,13 +53,18 @@ export default function ItemPage() {
         snippet: item.snippet,
         tags: item.tags,
         sourceName: item.sourceName,
-        existingBlocks: blocks ?? [],
+        existingBlocks: pageDocument.blocks ?? [],
       });
       const newBlocks = mode === 'initial'
         ? data.blocks
-        : [...(blocks ?? []), ...data.blocks];
-      setBlocks(newBlocks);
-      await saveBlocks(id, newBlocks);
+        : [...(pageDocument.blocks ?? []), ...data.blocks];
+      const nextDocument = serializePageDocument({
+        ...pageDocument,
+        title: item.title,
+        blocks: newBlocks,
+      });
+      setPageDocument(nextDocument);
+      await savePageDocument(id, nextDocument);
     } catch (err) {
       setEnrichError(err.message);
     } finally {
@@ -64,8 +73,26 @@ export default function ItemPage() {
   }
 
   async function handleBlocksChange(newBlocks) {
-    setBlocks(newBlocks);
-    await saveBlocks(id, newBlocks).catch(console.error);
+    const nextDocument = serializePageDocument({
+      ...(pageDocument || normalizePageDocument([], { pageId: id, pageType: 'item' })),
+      title: item?.title || '',
+      blocks: newBlocks,
+    });
+    setPageDocument(nextDocument);
+    await savePageDocument(id, nextDocument).catch(console.error);
+  }
+
+  async function handleStatePersist(nextState) {
+    const nextDocument = serializePageDocument({
+      ...pageDocument,
+      title: item?.title || '',
+      stateMachine: {
+        ...pageDocument.stateMachine,
+        current: nextState,
+      },
+    });
+    setPageDocument(nextDocument);
+    await savePageDocument(id, nextDocument).catch(console.error);
   }
 
   async function handleStatusChange(e) {
@@ -147,19 +174,27 @@ export default function ItemPage() {
 
       {/* Block canvas */}
       <section className="ip-canvas-section">
-        {enriching && blocks?.length === 0 && (
+        {enriching && pageDocument?.blocks?.length === 0 && (
           <div className="ip-enriching">
             <span className="ip-spinner" />
             Enriching…
           </div>
         )}
 
-        {blocks !== null && blocks.length > 0 && (
-          <BlockCanvas
-            blocks={blocks}
-            onBlocksChange={handleBlocksChange}
-            parentContext={item.title}
-          />
+        {pageDocument && (
+          <PageRuntimeProvider
+            document={pageDocument}
+            pageId={id}
+            onPersistState={handleStatePersist}
+          >
+            <BlockCanvas
+              blocks={pageDocument.blocks}
+              layout={pageDocument.layout}
+              onBlocksChange={handleBlocksChange}
+              parentContext={item.title}
+              pageMeta={{ memoryScope: pageDocument.memory.scope }}
+            />
+          </PageRuntimeProvider>
         )}
 
         {enrichError && (
@@ -171,9 +206,15 @@ export default function ItemPage() {
       <div style={{ height: 48 }} />
 
       <PageChat
-        blocks={blocks ?? []}
-        onBlocksChange={setBlocks}
-        saveBlocks={newBlocks => saveBlocks(id, newBlocks).catch(console.error)}
+        blocks={pageDocument?.blocks ?? []}
+        onBlocksChange={newBlocks => {
+          setPageDocument(prev => serializePageDocument({
+            ...(prev || normalizePageDocument([], { pageId: id, pageType: 'item' })),
+            title: item?.title || '',
+            blocks: newBlocks,
+          }));
+        }}
+        saveBlocks={newBlocks => handleBlocksChange(newBlocks).catch(console.error)}
         pageContext={{
           title:      item.title,
           snippet:    item.snippet,

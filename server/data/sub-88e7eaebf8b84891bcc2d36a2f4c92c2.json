@@ -1,0 +1,193 @@
+{
+  "version": 2,
+  "id": "88e7eaeb-f8b8-4891-bcc2-d36a2f4c92c2",
+  "pageType": "subpage",
+  "title": "Unit 1: Mole Concept",
+  "layout": {
+    "mode": "single-column",
+    "dockBlockIds": [],
+    "columns": 12
+  },
+  "blocks": [
+    {
+      "type": "heading_1",
+      "id": "block-1",
+      "text": "Mole Concept Overview"
+    },
+    {
+      "type": "text",
+      "id": "block-2",
+      "body": "The mole is a fundamental unit in chemistry that links the macroscopic world of grams to the microscopic world of atoms and molecules. Understanding the mole, Avogadro's number, and the conversion relationships is essential for stoichiometry and quantitative analysis."
+    },
+    {
+      "type": "heading_2",
+      "id": "block-3",
+      "text": "What is a Mole?"
+    },
+    {
+      "type": "text",
+      "id": "block-4",
+      "body": "A mole (symbol: mol) is defined as the amount of substance that contains exactly 6.022 140 76 × 10²³ elementary entities (atoms, molecules, ions, etc.). This definition makes the mole the bridge between measurable mass and the count of particles."
+    },
+    {
+      "type": "citation",
+      "id": "block-5",
+      "title": "Avogadro constant – Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Avogadro_constant",
+      "relevance": "Provides the official definition of the mole and the exact value of Avogadro's constant."
+    },
+    {
+      "type": "callout",
+      "id": "block-6",
+      "text": "One mole = 6.022 140 76 × 10²³ particles (exact by definition).",
+      "icon": "💡"
+    },
+    {
+      "type": "heading_2",
+      "id": "block-7",
+      "text": "Avogadro's Number"
+    },
+    {
+      "type": "text",
+      "id": "block-8",
+      "body": "Avogadro's number (Nₐ) is the numerical value of the mole: 6.022 140 76 × 10²³ mol⁻¹. It is a conversion factor that lets you translate between the amount of substance (in moles) and the number of particles."
+    },
+    {
+      "type": "citation",
+      "id": "block-9",
+      "title": "Avogadro constant – Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Avogadro_constant",
+      "relevance": "Details the exact numerical value and its role as a conversion constant."
+    },
+    {
+      "type": "callout",
+      "id": "block-10",
+      "text": "Nₐ = 6.022 140 76 × 10²³ particles · mol⁻¹ (exact by definition).",
+      "icon": "💡"
+    },
+    {
+      "type": "heading_2",
+      "id": "block-11",
+      "text": "Converting Between Moles, Particles, and Mass"
+    },
+    {
+      "type": "numbered_list",
+      "id": "block-12",
+      "items": [
+        "To find particles from moles: multiply the number of moles by Avogadro's number (particles = moles × Nₐ).",
+        "To find moles from particles: divide the particle count by Avogadro's number (moles = particles ÷ Nₐ).",
+        "To convert grams to moles: divide the mass by the substance’s molar mass (moles = mass ÷ M).",
+        "To convert moles to grams: multiply the number of moles by the molar mass (mass = moles × M)."
+      ]
+    },
+    {
+      "type": "citation",
+      "id": "block-13",
+      "title": "Moles ↔ Particles Calculator – Pearson",
+      "url": "https://www.pearson.com/channels/calculators/moles-particles-calculator",
+      "relevance": "Shows the formula linking moles and particles and provides a practical calculator."
+    },
+    {
+      "type": "citation",
+      "id": "block-14",
+      "title": "Avogadro's Number, The Mole, Grams, Atoms, Molar Mass Calculations – LibreTexts",
+      "url": "https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Chemistry_for_Changing_Times_(Hill_and_McCreary)/05:_Chemical_Accounting/5.03:_Avogadro's_Number_and_the_Mole",
+      "relevance": "Explains step‑by‑step conversions and includes example problems."
+    },
+    {
+      "type": "iframe",
+      "id": "block-15",
+      "url": "https://www.youtube.com/embed/74-X94OP2XI",
+      "title": "Avogadro's Number, The Mole, Grams, Atoms, Molar Mass Calculations",
+      "caption": "A concise video tutorial that walks through converting between moles, particles, and grams."
+    },
+    {
+      "type": "toggle_list",
+      "id": "block-16",
+      "title": "Common Pitfalls",
+      "body": "• Forgetting to use the correct molar mass for the substance.\n• Mixing up particles (atoms vs. molecules) when applying Nₐ.\n• Ignoring scientific notation when dealing with very large or very small numbers."
+    },
+    {
+      "type": "todo_list",
+      "id": "block-17",
+      "items": [
+        {
+          "text": "Calculate the number of atoms in 2.5 g of carbon (C, M = 12.01 g mol⁻¹).",
+          "checked": false
+        },
+        {
+          "text": "Convert 3.0 × 10²⁴ molecules of water to moles.",
+          "checked": false
+        },
+        {
+          "text": "Find the mass corresponding to 0.75 mol of NaCl (M = 58.44 g mol⁻¹).",
+          "checked": false
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "id": "block-18",
+      "heading": "Test Your Understanding",
+      "questions": [
+        {
+          "q": "One mole of any substance contains how many particles?",
+          "options": [
+            "6.022 × 10²³",
+            "1.0 × 10³",
+            "3.141 × 10⁰",
+            "9.81 × 10⁻³"
+          ],
+          "answer": 0,
+          "explanation": "Avogadro's number is exactly 6.022 140 76 × 10²³ particles per mole."
+        },
+        {
+          "q": "How many moles are in 1.20 × 10²⁴ atoms of helium?",
+          "options": [
+            "0.20 mol",
+            "2.00 mol",
+            "0.02 mol",
+            "20 mol"
+          ],
+          "answer": 0,
+          "explanation": "Moles = particles ÷ Nₐ = 1.20 × 10²⁴ ÷ 6.022 × 10²³ ≈ 2.0 mol."
+        },
+        {
+          "q": "What is the mass of 0.5 mol of glucose (C₆H₁₂O₆, M = 180.16 g mol⁻¹)?",
+          "options": [
+            "90.08 g",
+            "360.32 g",
+            "45.04 g",
+            "180.16 g"
+          ],
+          "answer": 0,
+          "explanation": "Mass = moles × M = 0.5 mol × 180.16 g mol⁻¹ = 90.08 g."
+        },
+        {
+          "q": "If you have 3.0 g of H₂ (M = 2.02 g mol⁻¹), how many molecules do you have?",
+          "options": [
+            "8.94 × 10²³",
+            "3.00 × 10²³",
+            "1.00 × 10²³",
+            "6.02 × 10²³"
+          ],
+          "answer": 0,
+          "explanation": "Moles = 3.0 g ÷ 2.02 g mol⁻¹ ≈ 1.49 mol; molecules = 1.49 mol × 6.022 × 10²³ ≈ 8.94 × 10²³."
+        }
+      ]
+    }
+  ],
+  "stateMachine": {
+    "initial": "default",
+    "current": "default",
+    "states": {
+      "default": {
+        "visibleBlocks": [],
+        "transitions": []
+      }
+    }
+  },
+  "memory": {
+    "scope": "page:88e7eaeb-f8b8-4891-bcc2-d36a2f4c92c2"
+  }
+}

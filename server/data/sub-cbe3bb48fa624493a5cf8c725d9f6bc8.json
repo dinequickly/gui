@@ -1,0 +1,111 @@
+{
+  "version": 2,
+  "id": "cbe3bb48-fa62-4493-a5cf-8c725d9f6bc8",
+  "pageType": "subpage",
+  "title": "Unit 2: Balancing Equations",
+  "layout": {
+    "mode": "single-column",
+    "dockBlockIds": [],
+    "columns": 12
+  },
+  "blocks": [
+    {
+      "type": "heading_1",
+      "id": "block-1",
+      "text": "Balancing Chemical Equations Overview"
+    },
+    {
+      "type": "text",
+      "id": "block-2",
+      "body": "Balancing chemical equations ensures that the law of conservation of mass is obeyed—atoms are neither created nor destroyed during a reaction. By adjusting only the coefficients (the numbers in front of formulas) we make the number of each type of atom identical on both reactant and product sides."
+    },
+    {
+      "type": "numbered_list",
+      "id": "block-3",
+      "items": [
+        "Write the correct formulas for all reactants and products.",
+        "List the number of atoms of each element on both sides of the equation.",
+        "Start with the most complex molecule and balance elements that appear in only one reactant and one product.",
+        "Balance polyatomic ions as whole units if they appear unchanged on both sides.",
+        "Finally, balance hydrogen and oxygen, and simplify coefficients to the smallest whole-number ratio."
+      ]
+    },
+    {
+      "type": "callout",
+      "id": "block-4",
+      "text": "⚠️ Only change coefficients, never subscripts. Altering subscripts creates a different compound and invalidates the reaction.",
+      "icon": "💡"
+    },
+    {
+      "type": "citation",
+      "id": "block-5",
+      "title": "Balancing Chemical Equations – LibreTexts",
+      "url": "https://chem.libretexts.org/Courses/Anoka-Ramsey_Community_College/Introduction_to_Chemistry/07:_Chemical_Reactions/7.04:_Balancing_Chemical_Equations",
+      "relevance": "Provides a clear, step‑by‑step guide and explains the principle of using coefficients to balance equations."
+    },
+    {
+      "type": "quiz",
+      "id": "block-6",
+      "heading": "Test Your Understanding",
+      "questions": [
+        {
+          "q": "Which of the following can be altered when balancing a chemical equation?",
+          "options": [
+            "Subscripts",
+            "Coefficients",
+            "Atomic numbers",
+            "Molar masses"
+          ],
+          "answer": 1,
+          "explanation": "Only coefficients (the numbers in front of formulas) may be changed; subscripts define the identity of the compound."
+        },
+        {
+          "q": "In the unbalanced equation Fe + O₂ → Fe₂O₃, what is the smallest set of whole‑number coefficients that balances the equation?",
+          "options": [
+            "1, 1, 1",
+            "2, 3, 1",
+            "4, 3, 2",
+            "2, 1, 2"
+          ],
+          "answer": 2,
+          "explanation": "Multiplying Fe by 4, O₂ by 3, and Fe₂O₃ by 2 gives 4 Fe + 3 O₂ → 2 Fe₂O₃, which balances Fe (4 atoms) and O (6 atoms)."
+        },
+        {
+          "q": "When a polyatomic ion appears unchanged on both sides of the equation, the most efficient way to balance it is to:",
+          "options": [
+            "Split it into individual atoms",
+            "Balance it as a whole unit",
+            "Ignore it",
+            "Change its subscript"
+          ],
+          "answer": 1,
+          "explanation": "Treating the ion as a single entity avoids unnecessary work and reduces errors."
+        },
+        {
+          "q": "Why must coefficients be reduced to the smallest whole‑number ratio after balancing?",
+          "options": [
+            "To match the molar masses of reactants",
+            "To reflect the simplest stoichiometric relationship",
+            "To satisfy the periodic table",
+            "To make the equation look neat"
+          ],
+          "answer": 1,
+          "explanation": "The smallest whole‑number ratio represents the true stoichiometric proportions of the reactants and products."
+        }
+      ]
+    }
+  ],
+  "stateMachine": {
+    "initial": "default",
+    "current": "default",
+    "states": {
+      "default": {
+        "visibleBlocks": [],
+        "transitions": []
+      }
+    }
+  },
+  "memory": {
+    "scope": "page:cbe3bb48-fa62-4493-a5cf-8c725d9f6bc8"
+  }
+}

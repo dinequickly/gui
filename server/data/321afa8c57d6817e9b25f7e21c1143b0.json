@@ -1,0 +1,81 @@
+{
+  "version": 2,
+  "id": "321afa8c-57d6-817e-9b25-f7e21c1143b0",
+  "pageType": "item",
+  "title": "Duolingo",
+  "layout": {
+    "mode": "single-column",
+    "dockBlockIds": [],
+    "columns": 12
+  },
+  "blocks": [
+    {
+      "label": "Stoichiometry Mastery",
+      "total": 5,
+      "type": "progress",
+      "id": "b3f630c1-60d6-4b50-8751-b244f24d3830"
+    },
+    {
+      "heading": "Stoichiometry Glossary",
+      "type": "glossary",
+      "id": "d9aa9d60-5f27-4a03-9a1c-67f7277bfbfe"
+    },
+    {
+      "greeting": "Hi! I'm your lab partner. Ask me anything about stoichiometry.",
+      "persona": "You are a friendly chemistry lab assistant who helps students with stoichiometry problems, offering hints, explanations, and step-by-step guidance.",
+      "title": "Lab Partner AI",
+      "type": "chatbot",
+      "id": "d79da25d-3d62-4911-9ae2-4992f2c09cb2"
+    },
+    {
+      "heading": "Stoichiometry Quick Check",
+      "questions": [
+        {
+          "answer": "2 moles",
+          "explanation": "The balanced equation is 2 H₂ + O₂ → 2 H₂O. Two moles of H₂ produce two moles of H₂O.",
+          "options": [
+            "1 mole",
+            "2 moles",
+            "3 moles",
+            "4 moles"
+          ],
+          "q": "If 2 moles of H₂ react with O₂ to form H₂O, how many moles of water are produced?"
+        }
+      ],
+      "type": "quiz",
+      "id": "1e48627b-eda1-46a0-a89e-ba9c26c9a924"
+    },
+    {
+      "eventName": "startLesson",
+      "label": "Start Learning",
+      "targetState": "lessonIntro",
+      "type": "button",
+      "id": "a613e935-0346-4286-a901-62def796e49a"
+    },
+    {
+      "description": "Learn the definition of a mole, Avogadro's number, and how to convert between moles, particles, and mass.",
+      "title": "Unit 1: Mole Concept",
+      "type": "subpage",
+      "id": "88e7eaeb-f8b8-4891-bcc2-d36a2f4c92c2"
+    },
+    {
+      "description": "Master the skill of balancing chemical equations, essential for stoichiometric calculations.",
+      "title": "Unit 2: Balancing Equations",
+      "type": "subpage",
+      "id": "cbe3bb48-fa62-4493-a5cf-8c725d9f6bc8"
+    }
+  ],
+  "stateMachine": {
+    "initial": "default",
+    "current": "default",
+    "states": {
+      "default": {
+        "visibleBlocks": [],
+        "transitions": []
+      }
+    }
+  },
+  "memory": {
+    "scope": "page:321afa8c-57d6-817e-9b25-f7e21c1143b0"
+  }
+}

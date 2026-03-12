@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { fetchSubpageBlocks, saveSubpageBlocks, enrichContent, fetchSubpageStatus } from '../api.js';
+import { fetchSubpageDocument, saveSubpageDocument, fetchSubpageStatus } from '../api.js';
 import BlockCanvas from '../components/BlockCanvas.jsx';
 import PageChat from '../components/PageChat.jsx';
+import { normalizePageDocument, serializePageDocument } from '../lib/pageDocument.js';
+import { PageRuntimeProvider } from '../runtime/PageRuntime.jsx';
 import './SubPage.css';
 
 export default function SubPage() {
@@ -13,8 +15,9 @@ export default function SubPage() {
   const title = state?.title ?? 'Sub-page';
   const description = state?.description ?? '';
   const parentContext = state?.parentContext ?? '';
+  const inheritedMemoryScope = state?.memoryScope ?? `page:${blockId}`;
 
-  const [blocks, setBlocks] = useState(null);
+  const [pageDocument, setPageDocument] = useState(null);
   const [autoStatus, setAutoStatus] = useState(null); // 'pending' | 'done' | 'error' | 'idle'
   const [enriching, setEnriching] = useState(false);
   const [enrichError, setEnrichError] = useState(null);
@@ -22,14 +25,22 @@ export default function SubPage() {
 
   // Load persisted blocks
   useEffect(() => {
-    fetchSubpageBlocks(blockId)
-      .then(setBlocks)
-      .catch(() => setBlocks([]));
-  }, [blockId]);
+    fetchSubpageDocument(blockId)
+      .then(data => setPageDocument(normalizePageDocument({
+        ...data,
+        title,
+        memory: resolveMemoryScope(data?.memory, inheritedMemoryScope, blockId),
+      }, { pageId: blockId, pageType: 'subpage' })))
+      .catch(() => setPageDocument(normalizePageDocument({
+        title,
+        memory: { scope: inheritedMemoryScope },
+        blocks: [],
+      }, { pageId: blockId, pageType: 'subpage' })));
+  }, [blockId, inheritedMemoryScope, title]);
 
   // Poll status when blocks are empty (background enrichment may be running)
   useEffect(() => {
-    if (blocks === null || blocks.length > 0) {
+    if (pageDocument === null || pageDocument.blocks.length > 0) {
       clearTimeout(pollRef.current);
       return;
     }
@@ -40,8 +51,15 @@ export default function SubPage() {
 
       if (status === 'done') {
         // Blocks were written — reload them
-        const fresh = await fetchSubpageBlocks(blockId).catch(() => []);
-        if (fresh.length > 0) { setBlocks(fresh); return; }
+        const fresh = await fetchSubpageDocument(blockId).catch(() => ({ blocks: [] }));
+        if ((fresh.blocks || []).length > 0) {
+          setPageDocument(normalizePageDocument({
+            ...fresh,
+            title,
+            memory: resolveMemoryScope(fresh?.memory, inheritedMemoryScope, blockId),
+          }, { pageId: blockId, pageType: 'subpage' }));
+          return;
+        }
       }
 
       if (status === 'pending') {
@@ -51,11 +69,31 @@ export default function SubPage() {
 
     check();
     return () => clearTimeout(pollRef.current);
-  }, [blockId, blocks]);
+  }, [blockId, inheritedMemoryScope, pageDocument, title]);
 
   async function handleBlocksChange(newBlocks) {
-    setBlocks(newBlocks);
-    await saveSubpageBlocks(blockId, newBlocks).catch(console.error);
+    const nextDocument = serializePageDocument({
+      ...(pageDocument || normalizePageDocument([], { pageId: blockId, pageType: 'subpage' })),
+      title,
+      memory: pageDocument?.memory || { scope: inheritedMemoryScope },
+      blocks: newBlocks,
+    });
+    setPageDocument(nextDocument);
+    await saveSubpageDocument(blockId, nextDocument).catch(console.error);
+  }
+
+  async function handleStatePersist(nextState) {
+    const nextDocument = serializePageDocument({
+      ...pageDocument,
+      title,
+      memory: pageDocument?.memory || { scope: inheritedMemoryScope },
+      stateMachine: {
+        ...pageDocument.stateMachine,
+        current: nextState,
+      },
+    });
+    setPageDocument(nextDocument);
+    await saveSubpageDocument(blockId, nextDocument).catch(console.error);
   }
 
   return (
@@ -77,7 +115,7 @@ export default function SubPage() {
       <div className="sp-divider" />
 
       <section className="sp-canvas-section">
-        {blocks !== null && blocks.length === 0 && (
+        {pageDocument !== null && pageDocument.blocks.length === 0 && (
           <div className="sp-empty">
             {autoStatus === 'pending' && (
               <div className="sp-generating">
@@ -103,12 +141,20 @@ export default function SubPage() {
           </div>
         )}
 
-        {blocks !== null && blocks.length > 0 && (
-          <BlockCanvas
-            blocks={blocks}
-            onBlocksChange={handleBlocksChange}
-            parentContext={`${title} — ${parentContext}`}
-          />
+        {pageDocument && (
+          <PageRuntimeProvider
+            document={pageDocument}
+            pageId={blockId}
+            onPersistState={handleStatePersist}
+          >
+            <BlockCanvas
+              blocks={pageDocument.blocks}
+              layout={pageDocument.layout}
+              onBlocksChange={handleBlocksChange}
+              parentContext={`${title} — ${parentContext}`}
+              pageMeta={{ memoryScope: pageDocument.memory.scope }}
+            />
+          </PageRuntimeProvider>
         )}
 
         {enrichError && (
@@ -119,9 +165,16 @@ export default function SubPage() {
       <div style={{ height: 48 }} />
 
       <PageChat
-        blocks={blocks ?? []}
-        onBlocksChange={setBlocks}
-        saveBlocks={newBlocks => saveSubpageBlocks(blockId, newBlocks).catch(console.error)}
+        blocks={pageDocument?.blocks ?? []}
+        onBlocksChange={newBlocks => {
+          setPageDocument(prev => serializePageDocument({
+            ...(prev || normalizePageDocument([], { pageId: blockId, pageType: 'subpage' })),
+            title,
+            memory: prev?.memory || { scope: inheritedMemoryScope },
+            blocks: newBlocks,
+          }));
+        }}
+        saveBlocks={newBlocks => handleBlocksChange(newBlocks).catch(console.error)}
         pageContext={{
           title,
           snippet:    description,
@@ -131,4 +184,15 @@ export default function SubPage() {
       />
     </div>
   );
+}
+
+function resolveMemoryScope(memory, inheritedMemoryScope, blockId) {
+  const defaultScope = `page:${blockId}`;
+  if (!memory?.scope) {
+    return { scope: inheritedMemoryScope };
+  }
+  if (memory.scope === defaultScope && inheritedMemoryScope !== defaultScope) {
+    return { scope: inheritedMemoryScope };
+  }
+  return memory;
 }

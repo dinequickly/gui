@@ -11,9 +11,13 @@ import { randomUUID } from 'crypto';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = join(__dirname, 'data');
 if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR);
+const MEMORY_FALLBACK_PATH = join(DATA_DIR, 'memory-store.json');
 
 // In-memory tracking of background enrichment tasks
 const enrichStatus = new Map(); // blockId → 'pending' | 'done' | 'error'
+
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const app = express();
 app.use(cors({
@@ -97,6 +101,135 @@ function readJSON(filePath) {
 
 function writeJSON(filePath, data) {
   writeFileSync(filePath, JSON.stringify(data, null, 2));
+}
+
+function normalizePageDocument(data, { pageId, pageType = 'page' } = {}) {
+  const raw = Array.isArray(data) ? { blocks: data } : (data || {});
+  const blocks = Array.isArray(raw.blocks) ? raw.blocks : [];
+  const stateKeys = Object.keys(raw.stateMachine?.states || {});
+  const initial = raw.stateMachine?.initial || stateKeys[0] || 'default';
+
+  return {
+    version: 2,
+    id: raw.id || pageId || null,
+    pageType: raw.pageType || pageType,
+    title: raw.title || '',
+    layout: typeof raw.layout === 'string'
+      ? { mode: raw.layout, dockBlockIds: [], columns: 12 }
+      : {
+          mode: raw.layout?.mode || 'single-column',
+          dockBlockIds: Array.isArray(raw.layout?.dockBlockIds) ? raw.layout.dockBlockIds : [],
+          columns: raw.layout?.columns || 12,
+        },
+    blocks,
+    stateMachine: {
+      initial,
+      current: raw.stateMachine?.current || initial,
+      states: stateKeys.length > 0
+        ? raw.stateMachine.states
+        : {
+            default: {
+              visibleBlocks: [],
+              transitions: [],
+            },
+          },
+    },
+    memory: {
+      scope: raw.memory?.scope || `page:${pageId || 'unknown'}`,
+    },
+  };
+}
+
+function readPageDocument(filePath, options) {
+  return normalizePageDocument(readJSON(filePath), options);
+}
+
+function writePageDocument(filePath, document, options) {
+  const normalized = normalizePageDocument(document, options);
+  writeJSON(filePath, normalized);
+  return normalized;
+}
+
+function readLocalMemoryStore() {
+  if (!existsSync(MEMORY_FALLBACK_PATH)) return [];
+  try { return JSON.parse(readFileSync(MEMORY_FALLBACK_PATH, 'utf-8')); } catch { return []; }
+}
+
+function writeLocalMemoryStore(entries) {
+  writeJSON(MEMORY_FALLBACK_PATH, entries);
+}
+
+async function fetchSupabase(path, init = {}) {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error('Supabase is not configured');
+  }
+
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: SUPABASE_SERVICE_ROLE_KEY,
+      Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      ...(init.headers || {}),
+    },
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Supabase error ${response.status}: ${text}`);
+  }
+
+  return response.json();
+}
+
+async function listMemoryEntries(scope) {
+  try {
+    const query = `course_memory?select=scope,term,definition,metadata,source_block_id,updated_at&scope=eq.${encodeURIComponent(scope)}&order=term.asc`;
+    return await fetchSupabase(query, { method: 'GET' });
+  } catch (error) {
+    const entries = readLocalMemoryStore()
+      .filter(entry => entry.scope === scope)
+      .sort((a, b) => a.term.localeCompare(b.term));
+    return entries;
+  }
+}
+
+async function upsertMemoryEntries(scope, entries) {
+  const payload = entries.map(entry => ({
+    scope,
+    term: entry.term,
+    definition: entry.definition,
+    metadata: entry.metadata || {},
+    source_block_id: entry.sourceBlockId || null,
+  }));
+
+  try {
+    await fetchSupabase('course_memory?on_conflict=scope,term', {
+      method: 'POST',
+      headers: {
+        Prefer: 'resolution=merge-duplicates,return=representation',
+      },
+      body: JSON.stringify(payload),
+    });
+    return await listMemoryEntries(scope);
+  } catch (error) {
+    const current = readLocalMemoryStore();
+    for (const entry of payload) {
+      const index = current.findIndex(item => (
+        item.scope === entry.scope &&
+        item.term.toLowerCase() === entry.term.toLowerCase()
+      ));
+      if (index === -1) {
+        current.push(entry);
+      } else {
+        current[index] = { ...current[index], ...entry };
+      }
+    }
+    writeLocalMemoryStore(current);
+    return current
+      .filter(entry => entry.scope === scope)
+      .sort((a, b) => a.term.localeCompare(b.term));
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -312,7 +445,11 @@ async function enrichSubpageBackground(block, parentContext, currentDepth = 0, m
     if (block.auto_prompt) systemPrompt += `\n\nAdditional instructions: ${block.auto_prompt}`;
 
     const generatedBlocks = await runEnrichWithSearch(systemPrompt);
-    writeJSON(subpagePath(block.id), generatedBlocks);
+    writePageDocument(subpagePath(block.id), {
+      title: block.title || '',
+      blocks: generatedBlocks,
+      memory: { scope: `page:${block.id}` },
+    }, { pageId: block.id, pageType: 'subpage' });
     enrichStatus.set(block.id, 'done');
     console.log(`[enrich] done ${block.id} (depth ${currentDepth}) — ${generatedBlocks.length} blocks`);
 
@@ -486,25 +623,56 @@ app.patch('/api/items/:id', async (req, res) => {
 // --- Block storage ---
 
 app.get('/api/items/:id/blocks', (req, res) => {
-  res.json(readJSON(blocksPath(req.params.id)));
+  res.json(readPageDocument(blocksPath(req.params.id), {
+    pageId: req.params.id,
+    pageType: 'item',
+  }));
 });
 
 app.put('/api/items/:id/blocks', (req, res) => {
-  const { blocks } = req.body;
-  if (!Array.isArray(blocks)) return res.status(400).json({ error: 'blocks must be an array' });
-  writeJSON(blocksPath(req.params.id), blocks);
+  const document = req.body.document || req.body.blocks || req.body;
+  const normalized = writePageDocument(blocksPath(req.params.id), document, {
+    pageId: req.params.id,
+    pageType: 'item',
+  });
+  if (!Array.isArray(normalized.blocks)) return res.status(400).json({ error: 'blocks must be an array' });
   res.json({ ok: true });
 });
 
 app.get('/api/subpage/:blockId/blocks', (req, res) => {
-  res.json(readJSON(subpagePath(req.params.blockId)));
+  res.json(readPageDocument(subpagePath(req.params.blockId), {
+    pageId: req.params.blockId,
+    pageType: 'subpage',
+  }));
 });
 
 app.put('/api/subpage/:blockId/blocks', (req, res) => {
-  const { blocks } = req.body;
-  if (!Array.isArray(blocks)) return res.status(400).json({ error: 'blocks must be an array' });
-  writeJSON(subpagePath(req.params.blockId), blocks);
+  const document = req.body.document || req.body.blocks || req.body;
+  const normalized = writePageDocument(subpagePath(req.params.blockId), document, {
+    pageId: req.params.blockId,
+    pageType: 'subpage',
+  });
+  if (!Array.isArray(normalized.blocks)) return res.status(400).json({ error: 'blocks must be an array' });
   res.json({ ok: true });
+});
+
+app.get('/api/memory/:scope', async (req, res) => {
+  try {
+    const entries = await listMemoryEntries(req.params.scope);
+    res.json({ entries });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/memory/:scope', async (req, res) => {
+  try {
+    const entries = Array.isArray(req.body.entries) ? req.body.entries : [];
+    const stored = await upsertMemoryEntries(req.params.scope, entries);
+    res.json({ ok: true, entries: stored });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // --- Search routes (also used by agent tools internally) ---
@@ -543,6 +711,37 @@ app.post('/api/enrich', async (req, res) => {
     res.json({ blocks });
   } catch (err) {
     console.error('POST /api/enrich error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/agent-block', async (req, res) => {
+  const { prompt, systemPrompt, context = {}, trigger = {} } = req.body;
+  if (!prompt) return res.status(400).json({ error: 'prompt is required' });
+
+  try {
+    const response = await groq.chat.completions.create({
+      model: 'openai/gpt-oss-120b',
+      messages: [
+        {
+          role: 'system',
+          content: systemPrompt || 'You are a focused in-page teaching agent. Respond clearly, structurally, and concisely.',
+        },
+        {
+          role: 'user',
+          content: `${prompt}\n\nContext:\n${JSON.stringify(context, null, 2)}\n\nTrigger:\n${JSON.stringify(trigger, null, 2)}`,
+        },
+      ],
+      temperature: 0.6,
+      max_completion_tokens: 2048,
+      stream: false,
+    });
+
+    res.json({
+      content: response.choices[0]?.message?.content || '',
+    });
+  } catch (err) {
+    console.error('POST /api/agent-block error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -642,10 +841,12 @@ const PAGE_TOOLS = [
         type: 'object',
         required: ['type'],
         properties: {
-          type:        { type: 'string', enum: ['text', 'heading_1', 'heading_2', 'heading_3', 'bulleted_list', 'numbered_list', 'todo_list', 'toggle_list', 'callout', 'code', 'citation', 'iframe', 'subpage', 'quiz', 'desmos', 'chatbot'] },
+          type:        { type: 'string', enum: ['text', 'heading_1', 'heading_2', 'heading_3', 'bulleted_list', 'numbered_list', 'todo_list', 'toggle_list', 'callout', 'code', 'citation', 'iframe', 'subpage', 'quiz', 'assessment', 'desmos', 'chatbot', 'glossary', 'agent', 'button', 'progress'] },
           text:        { type: 'string', description: 'Heading text, callout body, or citation title' },
           body:        { type: 'string', description: 'Paragraph body or toggle content' },
           title:       { type: 'string', description: 'Title for subpage, toggle, or desmos' },
+          heading:     { type: 'string', description: 'Heading for text, assessment, or button blocks' },
+          label:       { type: 'string', description: 'Button label' },
           url:         { type: 'string', description: 'URL for citation or iframe' },
           items:       { type: 'array',  description: 'List items (strings for bulleted/numbered, {text, checked} for todo)' },
           icon:        { type: 'string', description: 'Callout emoji icon' },
@@ -653,6 +854,9 @@ const PAGE_TOOLS = [
           code:        { type: 'string', description: 'Source code content' },
           description: { type: 'string', description: 'Required for subpage' },
           auto_prompt: { type: 'string', description: 'Subpage instructions' },
+          prompt:      { type: 'string', description: 'Agent or assessment prompt' },
+          mode:        { type: 'string', description: 'Assessment mode' },
+          buttonLabel: { type: 'string', description: 'Agent button label' },
           position:    { type: 'integer', description: 'Index to insert at' },
         },
       },
@@ -916,8 +1120,13 @@ Block types you can add:
 - subpage   { type, title, description, auto_prompt } — opens a deep-dive page; description and auto_prompt REQUIRED
 - text      { type, heading, body }              — written analysis
 - quiz      { type, heading, questions: [{q, options, answer, explanation}] } — interactive quiz
+- assessment { type, mode, ... }                 — richer assessments
 - desmos    { type, title, graphUrl, caption }   — Desmos calculator embed
 - chatbot   { type, title, persona, greeting }   — embedded AI tutor
+- glossary  { type, heading }                    — searchable glossary from shared memory
+- agent     { type, title, prompt, buttonLabel } — on-demand AI block
+- button    { type, label, eventName, targetState } — action button
+- progress  { type, label, total }               — progress bar driven by assessment events
 
 Special tools:
 - orchestrate — builds a full multi-level course/guide from a single goal; use when asked to "teach me X" or "build a course on X"

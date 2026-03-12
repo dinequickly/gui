@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchItems, updateStatus } from '../api.js';
 import ContextMenu from '../components/ContextMenu.jsx';
 import TopBar from '../components/TopBar.jsx';
@@ -137,6 +137,14 @@ export default function Home() {
 
   return (
     <div className="home">
+      <div className="home-demo-banner">
+        <div>
+          <strong>Runtime demo</strong>
+          <span> Open a hard-coded page that shows layouts, bindings, state transitions, assessments, glossary memory, and agent blocks.</span>
+        </div>
+        <Link to="/demo/runtime" className="home-demo-banner__link">Open demo</Link>
+      </div>
+
       <TopBar
         statusFilter={statusFilter}
         setStatusFilter={setStatusFilter}

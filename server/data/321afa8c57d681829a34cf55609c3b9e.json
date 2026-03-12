@@ -1,0 +1,105 @@
+{
+  "version": 2,
+  "id": "321afa8c-57d6-8182-9a34-cf55609c3b9e",
+  "pageType": "item",
+  "title": "Bayes",
+  "layout": {
+    "mode": "single-column",
+    "dockBlockIds": [],
+    "columns": 12
+  },
+  "blocks": [
+    {
+      "body": "Welcome to the **Learn Bayes’ Rule in 7 minutes** mini‑course! In this short interactive session you’ll see what Bayes’ Rule is, work through a concrete example, and test your understanding with a few quick activities. Let’s get started.",
+      "heading": "Intro",
+      "type": "text",
+      "id": "e52e7755-1f84-4387-9af5-f98e8e1c8295"
+    },
+    {
+      "body": "Suppose a disease affects **1 %** of the population (the *prior* probability). A test for the disease is **99 %** accurate: it correctly identifies a diseased person (true positive) 99 % of the time (the *likelihood*), and it correctly identifies a healthy person (true negative) 99 % of the time. If a randomly selected person tests positive, what is the probability they actually have the disease? Use Bayes’ Rule:\n\n$$\\text{Posterior}=\\frac{\\text{Likelihood}\\times\\text{Prior}}{\\text{Evidence}}$$\n\nCalculate step‑by‑step and you’ll see the *posterior* is much lower than the test’s accuracy suggests.",
+      "heading": "Worked Example: Medical Test",
+      "type": "text",
+      "id": "25c7ffab-7dda-40fc-9dbd-8645847c4e3a"
+    },
+    {
+      "heading": "Check Your Understanding (Multiple Choice)",
+      "questions": [
+        {
+          "answer": "0.5 %",
+          "explanation": "Posterior = (0.99 × 0.01) / [(0.99 × 0.01)+(0.01 × 0.99)] ≈ 0.5 %.",
+          "options": [
+            "0.5 %",
+            "1 %",
+            "50 %",
+            "99 %"
+          ],
+          "q": "If the disease prevalence (prior) is 1 % and the test’s true‑positive rate (likelihood) is 99 %, what is the posterior probability of disease after a positive test?"
+        }
+      ],
+      "type": "quiz",
+      "id": "4cc778c9-6b92-46b5-bef0-2490519faa6b"
+    },
+    {
+      "heading": "Free‑Response Explanation",
+      "mode": "free_response",
+      "prompt": "Explain in your own words why the posterior probability is much lower than the test’s 99 % accuracy, even though the test is highly reliable.",
+      "type": "assessment",
+      "id": "cc6186a9-66c4-4709-b457-bf70929a306d"
+    },
+    {
+      "heading": "Slider Question: Adjust the Prior",
+      "mode": "slider",
+      "prompt": "Slide to set the prior probability of the disease (0 % – 10 %). How does changing the prior affect the posterior after a positive test?",
+      "type": "assessment",
+      "id": "f41889e0-3922-47ce-8407-e9f611a796c1"
+    },
+    {
+      "heading": "Drag‑Sort: Order the Reasoning Steps",
+      "mode": "drag_sort",
+      "prompt": "Arrange the following steps in the correct order to compute the posterior using Bayes’ Rule.",
+      "questions": [
+        {
+          "answer": [
+            "Identify the prior probability of the disease.",
+            "Calculate the likelihood (true‑positive rate).",
+            "Compute the evidence (total probability of a positive test).",
+            "Apply Bayes’ Rule to obtain the posterior."
+          ],
+          "options": [
+            "Identify the prior probability of the disease.",
+            "Calculate the likelihood (true‑positive rate).",
+            "Compute the evidence (total probability of a positive test).",
+            "Apply Bayes’ Rule to obtain the posterior."
+          ],
+          "q": "Order the steps"
+        }
+      ],
+      "type": "assessment",
+      "id": "13549302-b3c3-41db-8651-b7473806927b"
+    },
+    {
+      "label": "Course Progress",
+      "total": 5,
+      "type": "progress",
+      "id": "779cd233-b04a-4b70-b617-0ce791197238"
+    },
+    {
+      "heading": "Key Terms",
+      "type": "glossary",
+      "id": "d03cb88d-fe4f-4c79-8ab9-cd1f6c6d36f2"
+    }
+  ],
+  "stateMachine": {
+    "initial": "default",
+    "current": "default",
+    "states": {
+      "default": {
+        "visibleBlocks": [],
+        "transitions": []
+      }
+    }
+  },
+  "memory": {
+    "scope": "page:321afa8c-57d6-8182-9a34-cf55609c3b9e"
+  }
+}
